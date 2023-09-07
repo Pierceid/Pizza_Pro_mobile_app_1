@@ -3,37 +3,30 @@ package com.example.pizza_pro.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
-import com.example.pizza_pro.databinding.FragmentMainBinding
+import com.example.pizza_pro.databinding.FragmentIntroBinding
 
-class MainFragment : Fragment(), OnClickListener {
+class IntroFragment : Fragment() {
 
-    private lateinit var binding: FragmentMainBinding
+    private lateinit var binding: FragmentIntroBinding
     private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMainBinding.inflate(layoutInflater)
+        binding = FragmentIntroBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
-        binding.btnStart.setOnClickListener(this)
-    }
-
-    override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.btn_start -> {
-                navController.navigate(R.id.action_mainFragment_to_accountFragment)
-            }
+        binding.btnStart.setOnClickListener {
+            navController.navigate(R.id.action_introFragment_to_accountFragment)
         }
     }
 }

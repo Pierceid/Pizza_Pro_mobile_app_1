@@ -20,54 +20,53 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_cart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@raw/blue_background">
 
-        <ImageView
-            android:id="@+id/iv_background"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/topAppBarLayout"
+            style="@style/Theme.Pizza_Pro.AppBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.5"
-            android:contentDescription="@string/background"
-            android:scaleType="fitXY"
-            android:src="@drawable/light_blue_background" />
-
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/topAppBar"
+                style="@style/Widget.Pizza_Pro.Toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:navigationIcon="@drawable/ic_menu"
+                app:title="@string/check_your_cart" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topAppBarLayout">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:gravity="center"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/my_cart"
-                    android:textColor="@color/purple"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_orderedPizzas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     app:layoutManager="LinearLayoutManager" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/white_rectangle"
                     android:orientation="vertical"
                     android:padding="10dp">
@@ -78,22 +77,19 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tv_itemsTotal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginEnd="5dp"
                             android:text="@string/items_total"
-                            android:textSize="18sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tv_itemsTotalCost"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text='@{itemsCost}'
                             android:textAlignment="textEnd"
-                            android:textSize="18sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -104,27 +100,23 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tv_deliveryServices"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginEnd="5dp"
                             android:text="@string/delivery_services"
-                            android:textSize="18sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tv_deliveryServicesCost"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text='@{deliveryCost}'
                             android:textAlignment="textEnd"
-                            android:textSize="18sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <View
-                        android:id="@+id/view"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="5dp"
@@ -137,72 +129,62 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tv_total"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginEnd="5dp"
                             android:text="@string/total"
                             android:textColor="@color/black"
-                            android:textSize="28sp"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tv_totalCost"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text='@{totalCost}'
                             android:textAlignment="textEnd"
                             android:textColor="@color/black"
-                            android:textSize="28sp"
+                            android:textSize="30sp"
                             android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="10dp">
 
                     <Button
                         android:id="@+id/btn_apply"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
+                        android:layout_width="110dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentStart="true"
                         android:text="@string/apply"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="15sp" />
 
                     <Button
                         android:id="@+id/btn_order"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
+                        android:layout_width="110dp"
+                        android:layout_height="60dp"
+                        android:layout_alignParentEnd="true"
                         android:text="@string/order"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:textSize="15sp" />
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/app_bar"
+                android:id="@+id/bottomAppBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:backgroundTint="@color/white"
-                android:paddingEnd="15dp"
                 tools:ignore="RtlSymmetry,VisualLintBottomAppBar">
 
                 <LinearLayout
@@ -212,65 +194,73 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/btn_profile"
-                        android:layout_width="0dp"
+                        android:id="@+id/btn_shop"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/profile_picture"
-                            app:srcCompat="@drawable/ic_profile" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/profile"
-                            android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/btn_shop"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:padding="2dp">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:contentDescription="@string/shop_icon"
+                            android:contentDescription="@string/shop"
+                            android:paddingEnd="15dp"
                             app:srcCompat="@drawable/ic_shop"
                             tools:ignore="NestedWeights" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:paddingEnd="15dp"
                             android:text="@string/shop"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="12sp" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btn_cart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.9"
+                        android:background="@color/ashen"
+                        android:orientation="vertical"
+                        android:padding="2dp"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/cart"
+                            app:srcCompat="@drawable/ic_cart"
+                            tools:ignore="NestedWeights" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/cart"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/btn_feedback"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="0.9"
                         android:orientation="vertical"
+                        android:padding="2dp"
                         android:visibility="visible">
 
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:contentDescription="@string/feedback_icon"
+                            android:contentDescription="@string/feedback"
                             app:srcCompat="@drawable/ic_feedback"
                             tools:ignore="NestedWeights" />
 
@@ -279,44 +269,20 @@
                             android:layout_height="wrap_content"
                             android:text="@string/feedback"
                             android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/btn_settings"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:contentDescription="@string/settings_icon"
-                            app:srcCompat="@drawable/ic_settings"
-                            tools:ignore="NestedWeights" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/settings"
-                            android:textAlignment="center"
-                            android:textColor="@color/gray"
-                            android:textSize="12sp" />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.bottomappbar.BottomAppBar>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <FrameLayout
-            android:id="@+id/detailFragmentContainer"
+            android:id="@+id/fragmentContainer"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/topAppBarLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

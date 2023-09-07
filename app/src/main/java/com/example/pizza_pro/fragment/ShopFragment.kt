@@ -1,60 +1,139 @@
 package com.example.pizza_pro.fragment
 
 import android.os.Bundle
+import android.os.Parcelable
+import android.view.*
+import android.view.View.OnClickListener
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.pizza_pro.R
+import com.example.pizza_pro.adapter.PizzaAdapter
+import com.example.pizza_pro.data.DataSource
+import com.example.pizza_pro.databinding.FragmentShopBinding
+import com.example.pizza_pro.item.Pizza
+import com.example.pizza_pro.options.Gender
+import com.example.pizza_pro.utils.Util
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@Suppress("DEPRECATION")
+class ShopFragment : Fragment(), OnClickListener {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ShopFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ShopFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentShopBinding
+    private lateinit var navController: NavController
+    private lateinit var pizzas: MutableList<Pizza>
+    private lateinit var adapter: PizzaAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        adapter = PizzaAdapter(childFragmentManager, DataSource().loadData())
+        pizzas = adapter.getPizzas()
+        val changedPizzas =
+            (requireArguments().getParcelableArrayList<Pizza>("orderedItems") as? MutableList<Pizza>)
+                ?: mutableListOf()
+        Util.updatePizzas(pizzas, changedPizzas)
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop2, container, false)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentShopBinding.inflate(layoutInflater)
+        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShopFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ShopFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+        binding.btnHome.setOnClickListener(this)
+        binding.btnCart.setOnClickListener(this)
+        binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) updateShop()
+        }
+        updateShop()
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_settings, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.mi_profile -> {
+                val bundle = bundleOf(
+                    "name" to requireArguments().getString("name").toString(),
+                    "email" to requireArguments().getString("email").toString(),
+                    "password" to requireArguments().getString("password").toString(),
+                    "location" to requireArguments().getString("location").toString(),
+                    "gender" to requireArguments().getSerializable("gender") as Gender
+                )
+                Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
+                true
             }
+            R.id.mi_aboutApp -> {
+                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
+                true
+            }
+            R.id.mi_logOut -> {
+                navController.navigate(R.id.action_shopFragment_to_introFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    // saves data in case of rotating screen or exiting app
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArrayList("list", pizzas as ArrayList<out Parcelable>)
+    }
+
+    // restores data from the saved state
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            val savedPizzas =
+                savedInstanceState.getParcelableArrayList<Pizza>("list") as MutableList<Pizza>
+            adapter.initPizzas(savedPizzas)
+            updateShop()
+        }
+    }
+
+    // handles on click methods
+    override fun onClick(v: View?) {
+        val bundle = bundleOf(
+            "name" to requireArguments().getString("name").toString(),
+            "email" to requireArguments().getString("email").toString(),
+            "password" to requireArguments().getString("password").toString(),
+            "location" to requireArguments().getString("location").toString(),
+            "gender" to requireArguments().getSerializable("gender") as Gender,
+            "selectedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>
+        )
+        when (v!!.id) {
+            R.id.btn_home -> navController.navigate(R.id.action_shopFragment_to_introFragment)
+            R.id.btn_cart -> navController.navigate(
+                R.id.action_shopFragment_to_cartFragment, bundle
+            )
+        }
+    }
+
+    // updates shop fragment
+    private fun updateShop() {
+        adapter = PizzaAdapter(childFragmentManager, pizzas)
+
+        val regex = binding.etSearchBar.text.toString()
+        if (regex.isNotEmpty()) {
+            val filteredPizzas = adapter.getFilteredPizzas(regex)
+            Util.updatePizzas(pizzas, filteredPizzas)
+            adapter = PizzaAdapter(childFragmentManager, filteredPizzas)
+        }
+
+        binding.rvPizzas.adapter = adapter
     }
 }

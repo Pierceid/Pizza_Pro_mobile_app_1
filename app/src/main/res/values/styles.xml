@@ -1,3 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="NoUnderlineEditText">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="PopUpMenuStyle" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/white</item>
+        <item name="android:popupElevation">10dp</item>
+    </style>
+
+    <style name="Theme.Pizza_Pro.AppBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/purple</item>
+        <item name="colorAccent">@color/teal</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="Widget.Pizza_Pro.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/blue</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
 </resources>

@@ -1,28 +1,25 @@
 package com.example.pizza_pro.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
-interface PizzaDatabaseDao {
-    @Insert
-    fun insert(pizzaOrder: PizzaOrder)
+interface PizzaOrderDatabaseDao {
+    @Upsert
+    suspend fun upsert(pizzaOrder: PizzaOrder)
 
-    @Update
-    fun update(pizzaOrder: PizzaOrder)
+    @Delete
+    suspend fun delete(pizzaOrder: PizzaOrder)
 
-    @Query("SELECT * from pizza_order_table WHERE orderID = :key")
-    fun get(key: Long): PizzaOrder?
+    @Query("SELECT * from pizza_order_table WHERE id = :key")
+    suspend fun get(key: Long): PizzaOrder?
+
+    @Query("SELECT * from pizza_order_table ORDER BY id DESC LIMIT 1")
+    suspend fun getRecent(): PizzaOrder?
 
     @Query("DELETE from pizza_order_table")
-    fun clear()
+    suspend fun clear()
 
-    @Query("SELECT * from pizza_order_table ORDER BY orderID DESC LIMIT 1")
-    fun getRecentOrder(): PizzaOrder?
-
-    @Query("SELECT * FROM pizza_order_table ORDER BY orderID DESC")
-    fun getAllOrders(): LiveData<List<PizzaOrder>>
+    @Query("SELECT * FROM pizza_order_table ORDER BY id ASC")
+    fun getAll(): LiveData<List<PizzaOrder>>
 }

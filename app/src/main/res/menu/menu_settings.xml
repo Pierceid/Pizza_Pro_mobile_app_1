@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-  
+
+    <item android:title="@string/basic">
+        <menu>
+            <item
+                android:id="@+id/mi_profile"
+                android:icon="@drawable/baseline_person_24"
+                android:title="@string/profile" />
+
+            <item
+                android:id="@+id/mi_aboutApp"
+                android:icon="@drawable/baseline_info_24"
+                android:title="@string/about_app" />
+        </menu>
+    </item>
+
+
+    <item android:title="@string/account">
+        <menu>
+            <item
+                android:id="@+id/mi_logOut"
+                android:icon="@drawable/baseline_logout_24"
+                android:title="@string/log_out" />
+        </menu>
+    </item>
 </menu>

@@ -17,19 +17,26 @@
         <variable
             name="password"
             type="String" />
+
+        <variable
+            name="location"
+            type="String" />
+
+        <variable
+            name="gender"
+            type="String" />
     </data>
 
     <ScrollView
-        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gray_background">
+        android:background="@raw/gray_background"
+        android:padding="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="200dp"
@@ -38,16 +45,16 @@
                 android:layout_margin="20dp"
                 android:background="@drawable/profile_pic_holder"
                 android:orientation="vertical"
-                android:padding="2dp">
+                android:padding="3dp">
 
                 <ImageView
                     android:id="@+id/iv_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center"
                     android:contentDescription="@string/profile_picture"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/profile_other" />
+                    app:srcCompat="@raw/profile_other" />
             </LinearLayout>
 
             <LinearLayout
@@ -59,11 +66,9 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/tv_profile_name"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
-                    android:gravity="start"
                     android:text="@string/name"
                     android:textColor="@color/purple"
                     android:textSize="20sp"
@@ -90,11 +95,9 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/tv_profile_email"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
-                    android:gravity="start"
                     android:text="@string/email"
                     android:textColor="@color/purple"
                     android:textSize="20sp"
@@ -121,11 +124,9 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/tv_profile_password"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
-                    android:gravity="start"
                     android:text="@string/password"
                     android:textColor="@color/purple"
                     android:textSize="20sp"
@@ -146,58 +147,69 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+                android:layout_margin="5dp"
+                android:background="@drawable/white_rectangle"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <RadioGroup
-                    android:id="@+id/rg_genderOptions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/white_rectangle"
-                    android:orientation="horizontal"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:text="@string/location"
+                    android:textColor="@color/purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <RadioButton
-                        android:id="@+id/rb_male"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="@string/male"
-                        android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tv_location"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:gravity="end"
+                    android:text='@{location}'
+                    android:textColor="@color/blue"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-                    <RadioButton
-                        android:id="@+id/rb_female"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="@string/female"
-                        android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/white_rectangle"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                    <RadioButton
-                        android:id="@+id/rb_other"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:padding="5dp"
-                        android:text="@string/other"
-                        android:textSize="16sp" />
-                </RadioGroup>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:text="@string/gender"
+                    android:textColor="@color/purple"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btn_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:text="@string/save" />
+                <TextView
+                    android:id="@+id/tv_gender"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7"
+                    android:gravity="end"
+                    android:text='@{gender}'
+                    android:textColor="@color/blue"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/btn_exit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/btn_close"
+                android:layout_width="110dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_margin="30dp"
-                android:text="@string/exit" />
+                android:layout_marginTop="10dp"
+                android:text="@string/close"
+                android:textSize="15sp" />
         </LinearLayout>
     </ScrollView>
 </layout>
