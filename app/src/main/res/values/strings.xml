@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Pizza Pro</string>
+    <string name="example">example</string>
+    <string name="background">background</string>
+    <!-- Top app bar -->
+    <string name="basic">Basic</string>
+    <string name="profile">Profile</string>
+    <string name="about_app">About app</string>
+    <string name="account">Account</string>
+    <string name="log_out">Log out</string>
+    <!-- Buttons -->
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="apply">Apply</string>
+    <string name="close">Close</string>
+    <string name="order">Order</string>
+    <string name="send">Send</string>
+    <string name="discard">Discard</string>
+    <string name="ok">OK</string>
+    <!-- Bottom app bar -->
+    <string name="home">Home</string>
+    <string name="shop">Shop</string>
+    <string name="cart">Cart</string>
+    <string name="feedback">Feedback</string>
+    <!-- Intro -->
+    <string name="pizza_pro">Pizza Pro</string>
+    <string name="lets_get_started">Lets get started</string>
+    <string name="hot_fresh_and_always_on_time">Hot, fresh and always on time</string>
+    <string name="logo">Logo</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Account -->
+    <string name="log_in_or_register">Log in or register</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="location">Location</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_location">Not a valid location</string>
+    <string name="change_visibility">Change visibility</string>
+    <!-- Shop -->
+    <string name="welcome_to_shop">Welcome to shop</string>
+    <string name="search">Search</string>
+    <string name="banner">Banner</string>
+    <string name="search_your_favorite_pizza">Search your favorite pizza</string>
+    <!-- Cart -->
+    <string name="check_your_cart">Check your cart</string>
+    <string name="items_total">Items total:</string>
+    <string name="delivery_services">Delivery services:</string>
+    <string name="total">Total:</string>
+    <!-- Feedback -->
+    <string name="give_us_feedback">Give us feedback</string>
+    <string name="what_do_you_think_of_the_app">What do you think of the app?</string>
+    <string name="great">Great</string>
+    <string name="good">Good</string>
+    <string name="decent">Decent</string>
+    <string name="bad">Bad</string>
+    <string name="do_you_have_any_thoughts_you_d_like_to_share">Do you have any thoughts you\'d like to share?</string>
+    <string name="write_your_thoughts">Write your thoughts</string>
+    <string name="may_we_follow_you_up_on_your_feedback">May we follow you up on your feedback?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <!-- Detail -->
+    <string name="star">Star</string>
+    <string name="chronometer">Chronometer</string>
+    <string name="flame">Flame</string>
+    <string name="description">Description:</string>
+    <!-- Profile -->
+    <string name="profile_picture">Profile picture</string>
+    <string name="gender">Gender</string>
+    <!-- Item pizza -->
+    <string name="pizza_picture">Pizza picture</string>
+    <string name="plus">+</string>
+    <string name="zero">0</string>
+    <string name="minus">-</string>
+    <!-- Pop up window -->
+    <string name="processing">Processing…</string>
+    <string name="ordered_successfully">Ordered successfully!</string>
+    <string name="sent_successfully">Sent successfully!</string>
+    <string name="check">Check</string>
+</resources>
