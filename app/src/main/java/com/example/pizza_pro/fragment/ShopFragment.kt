@@ -24,7 +24,7 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var navController: NavController
     private lateinit var pizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
-    private lateinit var data: String
+    private var data: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +35,7 @@ class ShopFragment : Fragment(), OnClickListener {
                 ?: mutableListOf()
         Util.updatePizzas(pizzas, changedPizzas)
         data = (requireArguments().getString("data")) ?: ""
+
         setHasOptionsMenu(true)
     }
 

@@ -140,13 +140,9 @@ class CartFragment : Fragment(), OnClickListener {
                 GlobalScope.launch {
                     val dao = PizzaOrderDatabase.getInstance(requireContext()).pizzaOrderDao
                     dao.insertOrder(pizzaOrder)
-
-                    val id = dao.getRecent()?.id
-                    val name = dao.getRecent()?.name
-                    val items = dao.getRecent()?.items
-                    val cost = dao.getRecent()?.cost
-
-                    data += "$id. $name - $items items - $cost\n\n"
+                    data += "${dao.getRecentOrder()?.id}. ${dao.getRecentOrder()?.name}\n" +
+                            "Items: ${dao.getRecentOrder()?.items}\n" +
+                            "Cost: ${dao.getRecentOrder()?.cost}\n\n"
                 }
 
                 val runnable = {

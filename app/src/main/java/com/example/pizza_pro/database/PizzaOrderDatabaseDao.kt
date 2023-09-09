@@ -11,11 +11,11 @@ interface PizzaOrderDatabaseDao {
     suspend fun deleteOrder(pizzaOrder: PizzaOrder)
 
     @Query("SELECT * from pizza_order_table WHERE id = :key")
-    suspend fun get(key: Long): PizzaOrder?
+    fun getOrder(key: Long): PizzaOrder?
 
     @Query("SELECT * from pizza_order_table ORDER BY id DESC LIMIT 1")
-    suspend fun getRecent(): PizzaOrder?
+    fun getRecentOrder(): PizzaOrder?
 
     @Query("SELECT * FROM pizza_order_table ORDER BY id ASC")
-    suspend fun getAll(): List<PizzaOrder>
+    fun getAllOrders(): MutableList<PizzaOrder>
 }
