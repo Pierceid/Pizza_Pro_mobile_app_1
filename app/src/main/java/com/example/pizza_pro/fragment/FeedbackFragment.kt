@@ -21,12 +21,14 @@ class FeedbackFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentFeedbackBinding
     private lateinit var navController: NavController
+    private lateinit var data: String
     private lateinit var satisfaction: Satisfaction
     private lateinit var thoughts: String
     private var followUp: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        data = (requireArguments().getString("data")) ?: ""
         setHasOptionsMenu(true)
     }
 
@@ -64,6 +66,10 @@ class FeedbackFragment : Fragment(), OnClickListener {
                     "gender" to requireArguments().getSerializable("gender") as Gender
                 )
                 Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
+                true
+            }
+            R.id.mi_history -> {
+                Util.navigateToFragment(requireFragmentManager(), HistoryFragment(data))
                 true
             }
             R.id.mi_aboutApp -> {

@@ -5,6 +5,7 @@
     <!-- Top app bar -->
     <string name="basic">Basic</string>
     <string name="profile">Profile</string>
+    <string name="history">History</string>
     <string name="about_app">About app</string>
     <string name="account">Account</string>
     <string name="log_out">Log out</string>

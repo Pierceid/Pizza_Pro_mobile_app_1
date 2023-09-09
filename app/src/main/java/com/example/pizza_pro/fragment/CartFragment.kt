@@ -18,6 +18,9 @@ import com.example.pizza_pro.databinding.FragmentCartBinding
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 
 @Suppress("DEPRECATION")
@@ -27,13 +30,16 @@ class CartFragment : Fragment(), OnClickListener {
     private lateinit var navController: NavController
     private lateinit var orderedPizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
+    private lateinit var data: String
+    private var itemCount: Int = 0
+    private var totalCost: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         orderedPizzas =
             requireArguments().getParcelableArrayList<Pizza>("selectedItems") as MutableList<Pizza>
         adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
-
+        data = (requireArguments().getString("data")) ?: ""
         setHasOptionsMenu(true)
     }
 
@@ -80,6 +86,10 @@ class CartFragment : Fragment(), OnClickListener {
                 Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
                 true
             }
+            R.id.mi_history -> {
+                Util.navigateToFragment(requireFragmentManager(), HistoryFragment(data))
+                true
+            }
             R.id.mi_logOut -> {
                 navController.navigate(R.id.action_cartFragment_to_introFragment)
                 true
@@ -99,6 +109,7 @@ class CartFragment : Fragment(), OnClickListener {
     }
 
     // handles on click methods
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onClick(v: View?) {
         val bundle = bundleOf(
             "name" to requireArguments().getString("name").toString(),
@@ -106,7 +117,8 @@ class CartFragment : Fragment(), OnClickListener {
             "password" to requireArguments().getString("password").toString(),
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
-            "orderedItems" to orderedPizzas as ArrayList<out Parcelable>
+            "orderedItems" to orderedPizzas as ArrayList<out Parcelable>,
+            "data" to data
         )
         when (v!!.id) {
             R.id.btn_apply -> updateCart()
@@ -117,6 +129,26 @@ class CartFragment : Fragment(), OnClickListener {
                 Util.createPopUpWindow(
                     getString(R.string.ordered_successfully), layoutInflater, binding.clCart
                 )
+
+                val pizzaOrder = PizzaOrder(
+                    name = requireArguments().getString("name").toString(),
+                    email = requireArguments().getString("email").toString(),
+                    items = itemCount,
+                    cost = NumberFormat.getCurrencyInstance().format(totalCost)
+                )
+
+                GlobalScope.launch {
+                    val dao = PizzaOrderDatabase.getInstance(requireContext()).pizzaOrderDao
+                    dao.insertOrder(pizzaOrder)
+
+                    val id = dao.getRecent()?.id
+                    val name = dao.getRecent()?.name
+                    val items = dao.getRecent()?.items
+                    val cost = dao.getRecent()?.cost
+
+                    data += "$id. $name - $items items - $cost\n\n"
+                }
+
                 val runnable = {
                     orderedPizzas.clear()
                     adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
@@ -155,11 +187,13 @@ class CartFragment : Fragment(), OnClickListener {
     // calculates and updates costs of ordered items, services and total cost
     private fun calculateCosts() {
         var itemsCost = 0.0
+        itemCount = 0
         for (pizza in orderedPizzas) {
             itemsCost += (pizza.cost * pizza.count)
+            itemCount += pizza.count
         }
         val deliveryCost = orderedPizzas.takeIf { it.isEmpty() }?.let { 0.0 } ?: 5.0
-        val totalCost = itemsCost + deliveryCost
+        totalCost = itemsCost + deliveryCost
 
         binding.itemsCost = NumberFormat.getCurrencyInstance().format(itemsCost)
         binding.deliveryCost = NumberFormat.getCurrencyInstance().format(deliveryCost)

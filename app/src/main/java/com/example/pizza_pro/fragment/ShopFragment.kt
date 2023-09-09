@@ -24,6 +24,7 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var navController: NavController
     private lateinit var pizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
+    private lateinit var data: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,7 @@ class ShopFragment : Fragment(), OnClickListener {
             (requireArguments().getParcelableArrayList<Pizza>("orderedItems") as? MutableList<Pizza>)
                 ?: mutableListOf()
         Util.updatePizzas(pizzas, changedPizzas)
-
+        data = (requireArguments().getString("data")) ?: ""
         setHasOptionsMenu(true)
     }
 
@@ -76,6 +77,10 @@ class ShopFragment : Fragment(), OnClickListener {
                 Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
                 true
             }
+            R.id.mi_history -> {
+                Util.navigateToFragment(requireFragmentManager(), HistoryFragment(data))
+                true
+            }
             R.id.mi_aboutApp -> {
                 Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
                 true
@@ -113,7 +118,8 @@ class ShopFragment : Fragment(), OnClickListener {
             "password" to requireArguments().getString("password").toString(),
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
-            "selectedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>
+            "selectedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>,
+            "data" to data
         )
         when (v!!.id) {
             R.id.btn_home -> navController.navigate(R.id.action_shopFragment_to_introFragment)

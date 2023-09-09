@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [PizzaOrder::class], version = 1, exportSchema = false)
 abstract class PizzaOrderDatabase : RoomDatabase() {
 
-    abstract val pizzaOrderDatabaseDao: PizzaOrderDatabaseDao
+    abstract val pizzaOrderDao: PizzaOrderDatabaseDao
 
     companion object {
 
@@ -18,15 +18,12 @@ abstract class PizzaOrderDatabase : RoomDatabase() {
         fun getInstance(context: Context): PizzaOrderDatabase {
             synchronized(this) {
                 var instance = INSTANCE
-
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         PizzaOrderDatabase::class.java,
                         "pizza_order_history_database"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
+                    ).fallbackToDestructiveMigration().build()
                     INSTANCE = instance
                 }
                 return instance
