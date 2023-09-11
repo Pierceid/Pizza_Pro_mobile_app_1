@@ -24,7 +24,6 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var navController: NavController
     private lateinit var pizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
-    private var data: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +33,6 @@ class ShopFragment : Fragment(), OnClickListener {
             (requireArguments().getParcelableArrayList<Pizza>("orderedItems") as? MutableList<Pizza>)
                 ?: mutableListOf()
         Util.updatePizzas(pizzas, changedPizzas)
-        data = (requireArguments().getString("data")) ?: ""
 
         setHasOptionsMenu(true)
     }
@@ -43,19 +41,20 @@ class ShopFragment : Fragment(), OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentShopBinding.inflate(layoutInflater)
-        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
+        updateShop()
+
         binding.btnHome.setOnClickListener(this)
         binding.btnCart.setOnClickListener(this)
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) updateShop()
         }
-        updateShop()
     }
 
     @Deprecated("Deprecated in Java")
@@ -79,7 +78,7 @@ class ShopFragment : Fragment(), OnClickListener {
                 true
             }
             R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment(data))
+                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
                 true
             }
             R.id.mi_aboutApp -> {
@@ -120,7 +119,6 @@ class ShopFragment : Fragment(), OnClickListener {
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
             "selectedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>,
-            "data" to data
         )
         when (v!!.id) {
             R.id.btn_home -> navController.navigate(R.id.action_shopFragment_to_introFragment)

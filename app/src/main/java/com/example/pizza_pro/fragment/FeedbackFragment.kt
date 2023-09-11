@@ -21,14 +21,12 @@ class FeedbackFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentFeedbackBinding
     private lateinit var navController: NavController
-    private lateinit var data: String
     private lateinit var satisfaction: Satisfaction
     private lateinit var thoughts: String
     private var followUp: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        data = (requireArguments().getString("data")) ?: ""
         setHasOptionsMenu(true)
     }
 
@@ -36,13 +34,14 @@ class FeedbackFragment : Fragment(), OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentFeedbackBinding.inflate(layoutInflater)
-        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
+
         binding.btnSend.setOnClickListener(this)
         binding.btnDiscard.setOnClickListener(this)
         binding.btnCart.setOnClickListener(this)
@@ -69,7 +68,7 @@ class FeedbackFragment : Fragment(), OnClickListener {
                 true
             }
             R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment(data))
+                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
                 true
             }
             R.id.mi_aboutApp -> {
@@ -121,16 +120,21 @@ class FeedbackFragment : Fragment(), OnClickListener {
         when (v!!.id) {
             R.id.btn_send -> {
                 onAttach(requireContext())
-                Util.createPopUpWindow(
-                    getString(R.string.sent_successfully), layoutInflater, binding.clFeedback
-                )
-                val runnable = { clearInput() }
-                Util.getHandler(runnable)
+                createSendPopUpWindow()
                 onDetach()
             }
             R.id.btn_discard -> clearInput()
             R.id.btn_cart -> requireActivity().onBackPressed()
         }
+    }
+
+    // creates pop up window for "send" action
+    private fun createSendPopUpWindow() {
+        Util.createPopUpWindow(
+            getString(R.string.sent_successfully), layoutInflater, binding.clFeedback
+        )
+        val runnable = { clearInput() }
+        Util.getHandler(runnable)
     }
 
     // updates feedback fragment

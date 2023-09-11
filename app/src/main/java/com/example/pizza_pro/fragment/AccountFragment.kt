@@ -35,12 +35,12 @@ class AccountFragment : Fragment(), OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentAccountBinding.inflate(layoutInflater)
-        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
         binding.btnEye.setOnClickListener(this)
         binding.rbMale.setOnClickListener(this)

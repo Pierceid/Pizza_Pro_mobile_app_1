@@ -18,6 +18,7 @@
     <string name="send">Send</string>
     <string name="discard">Discard</string>
     <string name="ok">OK</string>
+    <string name="clear">Clear</string>
     <!-- Bottom app bar -->
     <string name="home">Home</string>
     <string name="shop">Shop</string>
@@ -83,4 +84,5 @@
     <string name="ordered_successfully">Ordered successfully!</string>
     <string name="sent_successfully">Sent successfully!</string>
     <string name="check">Check</string>
+    <string name="database_has_been_cleared">Database has been cleared!</string>
 </resources>

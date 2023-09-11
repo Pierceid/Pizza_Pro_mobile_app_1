@@ -9,6 +9,7 @@ import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
@@ -18,9 +19,6 @@ import com.example.pizza_pro.databinding.FragmentCartBinding
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.Util
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.text.NumberFormat
 
 @Suppress("DEPRECATION")
@@ -28,9 +26,9 @@ class CartFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var navController: NavController
+    private lateinit var orderViewModel: OrderViewModel
     private lateinit var orderedPizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
-    private lateinit var data: String
     private var itemCount: Int = 0
     private var totalCost: Double = 0.0
 
@@ -39,7 +37,6 @@ class CartFragment : Fragment(), OnClickListener {
         orderedPizzas =
             requireArguments().getParcelableArrayList<Pizza>("selectedItems") as MutableList<Pizza>
         adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
-        data = (requireArguments().getString("data")) ?: ""
         setHasOptionsMenu(true)
     }
 
@@ -47,17 +44,19 @@ class CartFragment : Fragment(), OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentCartBinding.inflate(layoutInflater)
-        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = Navigation.findNavController(view)
         binding.btnApply.setOnClickListener(this)
         binding.btnOrder.setOnClickListener(this)
         binding.btnShop.setOnClickListener(this)
         binding.btnFeedback.setOnClickListener(this)
+
+        (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
+        navController = Navigation.findNavController(view)
+        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
         binding.rvOrderedPizzas.adapter = adapter
         calculateCosts()
     }
@@ -87,7 +86,7 @@ class CartFragment : Fragment(), OnClickListener {
                 true
             }
             R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment(data))
+                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
                 true
             }
             R.id.mi_logOut -> {
@@ -109,7 +108,6 @@ class CartFragment : Fragment(), OnClickListener {
     }
 
     // handles on click methods
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onClick(v: View?) {
         val bundle = bundleOf(
             "name" to requireArguments().getString("name").toString(),
@@ -118,7 +116,6 @@ class CartFragment : Fragment(), OnClickListener {
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
             "orderedItems" to orderedPizzas as ArrayList<out Parcelable>,
-            "data" to data
         )
         when (v!!.id) {
             R.id.btn_apply -> updateCart()
@@ -126,32 +123,7 @@ class CartFragment : Fragment(), OnClickListener {
                 updateCart()
                 if (orderedPizzas.size == 0) return
                 onAttach(requireContext())
-                Util.createPopUpWindow(
-                    getString(R.string.ordered_successfully), layoutInflater, binding.clCart
-                )
-
-                val pizzaOrder = PizzaOrder(
-                    name = requireArguments().getString("name").toString(),
-                    email = requireArguments().getString("email").toString(),
-                    items = itemCount,
-                    cost = NumberFormat.getCurrencyInstance().format(totalCost)
-                )
-
-                GlobalScope.launch {
-                    val dao = PizzaOrderDatabase.getInstance(requireContext()).pizzaOrderDao
-                    dao.insertOrder(pizzaOrder)
-                    data += "${dao.getRecentOrder()?.id}. ${dao.getRecentOrder()?.name}\n" +
-                            "Items: ${dao.getRecentOrder()?.items}\n" +
-                            "Cost: ${dao.getRecentOrder()?.cost}\n\n"
-                }
-
-                val runnable = {
-                    orderedPizzas.clear()
-                    adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
-                    binding.rvOrderedPizzas.adapter = adapter
-                    updateCart()
-                }
-                Util.getHandler(runnable)
+                createOrderPopUpWindow()
                 onDetach()
             }
             R.id.btn_shop -> navController.navigate(
@@ -161,6 +133,34 @@ class CartFragment : Fragment(), OnClickListener {
                 R.id.action_cartFragment_to_feedbackFragment, bundle
             )
         }
+    }
+
+    // creates pop up window for "order" action
+    private fun createOrderPopUpWindow() {
+        Util.createPopUpWindow(
+            getString(R.string.ordered_successfully), layoutInflater, binding.clCart
+        )
+
+        insertDataIntoDatabase()
+
+        val runnable = {
+            orderedPizzas.clear()
+            adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
+            binding.rvOrderedPizzas.adapter = adapter
+            updateCart()
+        }
+        Util.getHandler(runnable)
+    }
+
+    // inserts order into database
+    private fun insertDataIntoDatabase() {
+        val order = Order(
+            name = requireArguments().getString("name").toString(),
+            email = requireArguments().getString("email").toString(),
+            items = itemCount,
+            cost = NumberFormat.getCurrencyInstance().format(totalCost)
+        )
+        orderViewModel.addOrder(order)
     }
 
     // updates cart fragment
