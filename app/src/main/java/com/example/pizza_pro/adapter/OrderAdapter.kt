@@ -1,6 +1,5 @@
 package com.example.pizza_pro.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,12 +25,11 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
     }
 
     // binds data from orders to views
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
 
-        holder.header.text = "${order.id}. ${order.name}"
-        holder.body.text = "Items: ${order.items}\nCost: ${order.cost}"
+        holder.header.text = String.format("%d. %s", order.id, order.name)
+        holder.body.text = String.format("Items: %d\nCost: %s", order.items, order.cost)
     }
 
     // returns number of orders
