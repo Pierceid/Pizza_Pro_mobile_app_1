@@ -74,6 +74,8 @@
     <!-- Profile -->
     <string name="profile_picture">Profile picture</string>
     <string name="gender">Gender</string>
+    <!-- History -->
+    <string name="search_order_by_name">Search order by name</string>
     <!-- Item pizza -->
     <string name="pizza_picture">Pizza picture</string>
     <string name="plus">+</string>
@@ -85,5 +87,4 @@
     <string name="sent_successfully">Sent successfully!</string>
     <string name="database_has_been_cleared">Database has been cleared!</string>
     <string name="check">Check</string>
-    <string name="search_order_by_name">Search order by name</string>
 </resources>
