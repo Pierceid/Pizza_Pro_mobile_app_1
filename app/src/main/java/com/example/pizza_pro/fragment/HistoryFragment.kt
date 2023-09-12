@@ -34,12 +34,13 @@ class HistoryFragment : Fragment(), OnClickListener {
         adapter = OrderAdapter()
         binding.rvOrders.adapter = adapter
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        orderViewModel.allOrders.observe(viewLifecycleOwner) { newOrders ->
-            adapter.initOrders(newOrders)
-        }
+        updateHistory()
 
         binding.btnClose.setOnClickListener(this)
         binding.btnClear.setOnClickListener(this)
+        binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) updateHistory()
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -61,6 +62,16 @@ class HistoryFragment : Fragment(), OnClickListener {
                 createClearPopUpWindow()
                 onDetach()
             }
+        }
+    }
+
+    // updates history fragment
+    private fun updateHistory() {
+        val regex = binding.etSearchBar.text.toString()
+        orderViewModel.filterOrders(regex)
+
+        orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
+            adapter.initOrders(newOrders)
         }
     }
 

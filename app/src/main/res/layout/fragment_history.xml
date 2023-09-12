@@ -18,12 +18,39 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/search_bar"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3dp"
+                    android:contentDescription="@string/search"
+                    android:padding="7dp"
+                    app:srcCompat="@drawable/ic_search" />
+
+                <EditText
+                    android:id="@+id/et_searchBar"
+                    style="@style/NoUnderlineEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autofillHints="orderName"
+                    android:ems="10"
+                    android:hint="@string/search_order_by_name"
+                    android:inputType="textPersonName"
+                    android:textSize="20sp"
+                    tools:ignore="VisualLintTextFieldSize" />
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_orders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 app:layoutManager="LinearLayoutManager" />
-
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -10,12 +10,12 @@ import kotlinx.coroutines.launch
 class OrderViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: OrderRepository
-    val allOrders: LiveData<MutableList<Order>>
+    var orders: LiveData<MutableList<Order>>
 
     init {
         val dao = OrderDatabase.getDatabase(application).dao
         repository = OrderRepository(dao)
-        allOrders = repository.allOrders
+        orders = repository.allOrders
     }
 
     fun addOrder(order: Order) {
@@ -28,5 +28,10 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearAllOrders()
         }
+    }
+
+    fun filterOrders(regex: String) {
+        orders = if (regex.isNotEmpty()) repository.getFilteredOrders(regex)
+        else repository.allOrders
     }
 }

@@ -85,4 +85,5 @@
     <string name="sent_successfully">Sent successfully!</string>
     <string name="database_has_been_cleared">Database has been cleared!</string>
     <string name="check">Check</string>
+    <string name="search_order_by_name">Search order by name</string>
 </resources>
