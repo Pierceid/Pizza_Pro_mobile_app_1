@@ -1,7 +1,7 @@
 # Pizza_Pro
 Pizza order android app
 
-Pizza Pro - Version 1.0
+Pizza Pro - Version 1.0, 
 Copyright © 2023 Erik Mešina. All rights reserved.
 
 Welcome to Pizza Pro, the ultimate pizza ordering app designed to satisfy your cravings with convenience and flavor.
