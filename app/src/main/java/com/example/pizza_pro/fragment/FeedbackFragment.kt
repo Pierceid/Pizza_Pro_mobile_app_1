@@ -86,6 +86,7 @@ class FeedbackFragment : Fragment(), OnClickListener {
     // saves data in case of rotating screen or exiting app
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        binding = FragmentFeedbackBinding.inflate(layoutInflater)
         getInput()
         outState.putSerializable("satisfaction", satisfaction)
         outState.putString("thoughts", thoughts)

@@ -101,7 +101,7 @@ class Util {
                 if (previousTags.contains(currentTag)) fragmentManager.popBackStack()
             }
             fragment.arguments = bundle
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
+            fragmentManager.beginTransaction().replace(androidx.fragment.R.id.fragment_container_view_tag, fragment)
                 .addToBackStack(null).commit()
         }
 

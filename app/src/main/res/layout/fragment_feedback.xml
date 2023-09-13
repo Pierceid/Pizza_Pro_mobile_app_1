@@ -11,19 +11,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topAppBarLayout"
         style="@style/Theme.Pizza_Pro.AppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
             style="@style/Widget.Pizza_Pro.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="@string/give_us_feedback" />
+            app:title="@string/log_in_or_register" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -48,14 +43,11 @@
                 android:padding="6dp">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
                     android:padding="3dp"
                     android:text="@string/what_do_you_think_of_the_app"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <View
                     android:layout_width="match_parent"
@@ -72,42 +64,30 @@
 
                     <RadioButton
                         android:id="@+id/rb_great"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.RadioButton"
                         android:layout_weight="1"
-                        android:minHeight="48dp"
                         android:text="@string/great"
-                        android:textSize="20sp"
                         tools:ignore="VisualLintButtonSize" />
 
                     <RadioButton
                         android:id="@+id/rb_good"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.RadioButton"
                         android:layout_weight="1"
-                        android:minHeight="48dp"
                         android:text="@string/good"
-                        android:textSize="20sp"
                         tools:ignore="VisualLintButtonSize" />
 
                     <RadioButton
                         android:id="@+id/rb_decent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.RadioButton"
                         android:layout_weight="1"
-                        android:minHeight="48dp"
                         android:text="@string/decent"
-                        android:textSize="20sp"
                         tools:ignore="VisualLintButtonSize" />
 
                     <RadioButton
                         android:id="@+id/rb_bad"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.RadioButton"
                         android:layout_weight="1"
-                        android:minHeight="48dp"
                         android:text="@string/bad"
-                        android:textSize="20sp"
                         tools:ignore="VisualLintButtonSize" />
                 </RadioGroup>
 
@@ -158,14 +138,11 @@
                 android:padding="6dp">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
                     android:padding="3dp"
                     android:text="@string/do_you_have_any_thoughts_you_d_like_to_share"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <View
                     android:layout_width="match_parent"
@@ -197,14 +174,11 @@
                 android:padding="6dp">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
                     android:padding="3dp"
                     android:text="@string/may_we_follow_you_up_on_your_feedback"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <View
                     android:layout_width="match_parent"
@@ -219,12 +193,11 @@
                     android:padding="3dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.TextView"
                         android:padding="5dp"
                         android:text="@string/yes"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textStyle="normal" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_followUp"
@@ -236,12 +209,11 @@
                         android:rotation="180" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.TextView"
                         android:padding="5dp"
                         android:text="@string/no"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textStyle="normal" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -252,20 +224,15 @@
 
                 <Button
                     android:id="@+id/btn_send"
-                    android:layout_width="110dp"
-                    android:layout_height="60dp"
+                    style="@style/Widget.Pizza_Pro.Button"
                     android:layout_alignParentStart="true"
-                    android:text="@string/send"
-                    android:textSize="15sp"
-                    tools:ignore="ButtonStyle" />
+                    android:text="@string/send" />
 
                 <Button
                     android:id="@+id/btn_discard"
-                    android:layout_width="110dp"
-                    android:layout_height="60dp"
+                    style="@style/Widget.Pizza_Pro.Button"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/discard"
-                    android:textSize="15sp" />
+                    android:text="@string/discard" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -310,8 +277,7 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.TextView"
                         android:paddingEnd="15dp"
                         android:text="@string/cart"
                         android:textAlignment="center"
@@ -338,8 +304,7 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.TextView"
                         android:text="@string/feedback"
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -350,9 +315,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        style="@style/Widget.Pizza_Pro.FrameLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -11,19 +11,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topAppBarLayout"
         style="@style/Theme.Pizza_Pro.AppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
             style="@style/Widget.Pizza_Pro.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="@string/welcome_to_shop" />
+            app:title="@string/log_in_or_register" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -123,8 +118,7 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.TextView"
                         android:paddingEnd="15dp"
                         android:text="@string/home"
                         android:textAlignment="center"
@@ -150,8 +144,7 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.TextView"
                         android:text="@string/shop"
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -176,8 +169,7 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/Widget.Pizza_Pro.TextView"
                         android:text="@string/cart"
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -188,9 +180,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        style="@style/Widget.Pizza_Pro.FrameLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

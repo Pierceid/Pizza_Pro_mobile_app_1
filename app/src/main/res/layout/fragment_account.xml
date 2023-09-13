@@ -10,16 +10,12 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/topAppBarLayout"
         style="@style/Theme.Pizza_Pro.AppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
             style="@style/Widget.Pizza_Pro.Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_menu"
             app:title="@string/log_in_or_register" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -124,30 +120,21 @@
 
                 <RadioButton
                     android:id="@+id/rb_male"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/Widget.Pizza_Pro.RadioButton"
                     android:layout_marginEnd="10dp"
                     android:checked="true"
-                    android:padding="5dp"
-                    android:text="@string/male"
-                    android:textSize="20sp" />
+                    android:text="@string/male" />
 
                 <RadioButton
                     android:id="@+id/rb_female"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/Widget.Pizza_Pro.RadioButton"
                     android:layout_marginEnd="10dp"
-                    android:padding="5dp"
-                    android:text="@string/female"
-                    android:textSize="20sp" />
+                    android:text="@string/female" />
 
                 <RadioButton
                     android:id="@+id/rb_other"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/other"
-                    android:textSize="20sp" />
+                    style="@style/Widget.Pizza_Pro.RadioButton"
+                    android:text="@string/other" />
             </RadioGroup>
 
             <RelativeLayout
@@ -157,11 +144,9 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_next"
-                    android:layout_width="110dp"
-                    android:layout_height="60dp"
+                    style="@style/Widget.Pizza_Pro.Button"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/next"
-                    android:textSize="15sp" />
+                    android:text="@string/next" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_cancel"
@@ -177,9 +162,7 @@
     </ScrollView>
 
     <FrameLayout
-        android:id="@+id/fragmentContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        style="@style/Widget.Pizza_Pro.FrameLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

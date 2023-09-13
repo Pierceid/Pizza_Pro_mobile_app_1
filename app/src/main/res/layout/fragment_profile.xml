@@ -51,9 +51,9 @@
                     android:id="@+id/iv_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
                     android:layout_gravity="center"
                     android:contentDescription="@string/profile_picture"
+                    android:scaleType="fitXY"
                     app:srcCompat="@raw/profile_other" />
             </LinearLayout>
 
@@ -66,24 +66,18 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="2"
                     android:text="@string/name"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_name"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="1"
                     android:gravity="end"
                     android:text='@{name}'
-                    android:textColor="@color/blue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/blue" />
             </LinearLayout>
 
             <LinearLayout
@@ -95,24 +89,18 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="2"
                     android:text="@string/email"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_email"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="1"
                     android:gravity="end"
                     android:text='@{email}'
-                    android:textColor="@color/blue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/blue" />
             </LinearLayout>
 
             <LinearLayout
@@ -124,24 +112,18 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="2"
                     android:text="@string/password"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_password"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="1"
                     android:gravity="end"
                     android:text='@{password}'
-                    android:textColor="@color/blue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/blue" />
             </LinearLayout>
 
             <LinearLayout
@@ -153,24 +135,18 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="2"
                     android:text="@string/location"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_location"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="1"
                     android:gravity="end"
                     android:text='@{location}'
-                    android:textColor="@color/blue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/blue" />
             </LinearLayout>
 
             <LinearLayout
@@ -182,34 +158,26 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="2"
                     android:text="@string/gender"
-                    android:textColor="@color/purple"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_gender"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_weight="1"
                     android:gravity="end"
                     android:text='@{gender}'
-                    android:textColor="@color/blue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/blue" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_close"
-                android:layout_width="110dp"
-                android:layout_height="60dp"
+                style="@style/Widget.Pizza_Pro.Button"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/close"
-                android:textSize="15sp" />
+                android:text="@string/close" />
         </LinearLayout>
     </ScrollView>
 </layout>

@@ -60,18 +60,14 @@
 
                 <Button
                     android:id="@+id/btn_close"
-                    android:layout_width="110dp"
-                    android:layout_height="60dp"
-                    android:text="@string/close"
-                    android:textSize="15sp" />
+                    style="@style/Widget.Pizza_Pro.Button"
+                    android:text="@string/close" />
 
                 <Button
                     android:id="@+id/btn_clear"
-                    android:layout_width="110dp"
-                    android:layout_height="60dp"
+                    style="@style/Widget.Pizza_Pro.Button"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/clear"
-                    android:textSize="15sp" />
+                    android:text="@string/clear" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

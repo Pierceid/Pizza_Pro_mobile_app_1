@@ -5,12 +5,40 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="PopUpMenuStyle" parent="@style/Widget.AppCompat.PopupMenu">
+    <style name="Widget.Pizza_Pro.Button" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:layout_width">110dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="Widget.Pizza_Pro.TextView" parent="@style/Widget.MaterialComponents.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Pizza_Pro.RadioButton" parent="@style/Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Widget.Pizza_Pro.PopUpMenu" parent="@style/Widget.AppCompat.PopupMenu">
         <item name="android:popupBackground">@color/white</item>
         <item name="android:popupElevation">10dp</item>
     </style>
 
+    <style name="Widget.Pizza_Pro.FrameLayout" parent="@style/Widget.Design.ScrimInsetsFrameLayout">
+        <item name="android:id">@id/fragment_container_view_tag</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+    </style>
+
     <style name="Theme.Pizza_Pro.AppBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/purple</item>
         <item name="colorAccent">@color/teal</item>
@@ -18,6 +46,8 @@
     </style>
 
     <style name="Widget.Pizza_Pro.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/blue</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>

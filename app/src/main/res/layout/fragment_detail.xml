@@ -64,13 +64,11 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/Widget.Pizza_Pro.TextView"
                     android:text='@{name}'
                     android:textAlignment="center"
                     android:textColor="@color/purple"
-                    android:textSize="36sp"
-                    android:textStyle="bold" />
+                    android:textSize="36sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,53 +83,47 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="25dp"
+                    android:layout_marginEnd="30dp"
                     android:orientation="horizontal"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:id="@+id/iv_star"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginEnd="5dp"
                         android:contentDescription="@string/star"
                         app:srcCompat="@raw/star" />
 
                     <TextView
                         android:id="@+id/tv_rating"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
+                        style="@style/Widget.Pizza_Pro.TextView"
+                        android:layout_gravity="center"
                         android:text='@{rating}'
-                        android:textColor="@color/slate"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/slate" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="25dp"
+                    android:layout_marginEnd="30dp"
                     android:orientation="horizontal"
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:id="@+id/iv_chronometer"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginEnd="5dp"
                         android:contentDescription="@string/chronometer"
                         app:srcCompat="@raw/chronometer" />
 
                     <TextView
                         android:id="@+id/tv_time"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
+                        style="@style/Widget.Pizza_Pro.TextView"
+                        android:layout_gravity="center"
                         android:text='@{time}'
-                        android:textColor="@color/slate"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/slate" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -142,21 +134,18 @@
 
                     <ImageView
                         android:id="@+id/iv_flame"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_marginEnd="5dp"
                         android:contentDescription="@string/flame"
                         app:srcCompat="@raw/flame" />
 
                     <TextView
                         android:id="@+id/tv_calories"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
+                        style="@style/Widget.Pizza_Pro.TextView"
+                        android:layout_gravity="center"
                         android:text='@{calories}'
-                        android:textColor="@color/slate"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/slate" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -169,31 +158,24 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/Widget.Pizza_Pro.TextView"
                     android:text="@string/description"
                     android:textColor="@color/black"
-                    android:textSize="25sp"
-                    android:textStyle="bold" />
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    style="@style/Widget.Pizza_Pro.TextView"
                     android:text='@{description}'
-                    android:textColor="@color/slate"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/slate" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_close"
-                android:layout_width="110dp"
-                android:layout_height="60dp"
+                style="@style/Widget.Pizza_Pro.Button"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="@string/close"
-                android:textSize="15sp" />
+                android:text="@string/close" />
         </LinearLayout>
     </ScrollView>
 </layout>

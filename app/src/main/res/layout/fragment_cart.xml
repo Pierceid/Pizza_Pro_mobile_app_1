@@ -28,19 +28,14 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/topAppBarLayout"
             style="@style/Theme.Pizza_Pro.AppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/topAppBar"
                 style="@style/Widget.Pizza_Pro.Toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 app:navigationIcon="@drawable/ic_menu"
-                app:title="@string/check_your_cart" />
+                app:title="@string/log_in_or_register" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
@@ -77,20 +72,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
+                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
-                            android:text="@string/items_total"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:text="@string/items_total" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
+                            android:layout_weight="1"
                             android:text='@{itemsCost}'
-                            android:textAlignment="textEnd"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textAlignment="textEnd" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -100,20 +91,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
+                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
-                            android:text="@string/delivery_services"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:text="@string/delivery_services" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
+                            android:layout_weight="1"
                             android:text='@{deliveryCost}'
-                            android:textAlignment="textEnd"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                            android:textAlignment="textEnd" />
                     </LinearLayout>
 
                     <View
@@ -129,22 +116,20 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
+                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
                             android:text="@string/total"
                             android:textColor="@color/black"
-                            android:textSize="30sp"
-                            android:textStyle="bold" />
+                            android:textSize="30sp" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
+                            android:layout_weight="1"
                             android:text='@{totalCost}'
                             android:textAlignment="textEnd"
                             android:textColor="@color/black"
-                            android:textSize="30sp"
-                            android:textStyle="bold" />
+                            android:textSize="30sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -155,19 +140,15 @@
 
                     <Button
                         android:id="@+id/btn_apply"
-                        android:layout_width="110dp"
-                        android:layout_height="60dp"
+                        style="@style/Widget.Pizza_Pro.Button"
                         android:layout_alignParentStart="true"
-                        android:text="@string/apply"
-                        android:textSize="15sp" />
+                        android:text="@string/apply" />
 
                     <Button
                         android:id="@+id/btn_order"
-                        android:layout_width="110dp"
-                        android:layout_height="60dp"
+                        style="@style/Widget.Pizza_Pro.Button"
                         android:layout_alignParentEnd="true"
-                        android:text="@string/order"
-                        android:textSize="15sp" />
+                        android:text="@string/order" />
                 </RelativeLayout>
             </LinearLayout>
         </ScrollView>
@@ -211,8 +192,7 @@
                             tools:ignore="NestedWeights" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
                             android:paddingEnd="15dp"
                             android:text="@string/shop"
                             android:textAlignment="center"
@@ -239,8 +219,7 @@
                             tools:ignore="NestedWeights" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
                             android:text="@string/cart"
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -265,8 +244,7 @@
                             tools:ignore="NestedWeights" />
 
                         <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/Widget.Pizza_Pro.TextView"
                             android:text="@string/feedback"
                             android:textAlignment="center"
                             android:textColor="@color/black"
@@ -277,9 +255,7 @@
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <FrameLayout
-            android:id="@+id/fragmentContainer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            style="@style/Widget.Pizza_Pro.FrameLayout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
