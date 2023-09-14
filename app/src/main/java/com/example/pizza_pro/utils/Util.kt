@@ -91,8 +91,17 @@ class Util {
             }
         }
 
+        // removes the last fragment from backstack if its an additional fragment
+        fun removeAdditionalFragment(fragmentManager: FragmentManager) {
+            val lastTag = fragmentManager.fragments[fragmentManager.fragments.size - 1].tag
+            val containerTag = fragmentManager.findFragmentById(R.id.fragmentContainer)?.tag
+            if (lastTag == containerTag) fragmentManager.popBackStack()
+        }
+
         // navigates to a fragment
-        fun navigateToFragment(fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null) {
+        fun navigateToFragment(
+            fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null
+        ) {
             val size = fragmentManager.fragments.size
             if (size > 1) {
                 val currentTag = fragmentManager.fragments[size - 1].tag
@@ -101,7 +110,7 @@ class Util {
                 if (previousTags.contains(currentTag)) fragmentManager.popBackStack()
             }
             fragment.arguments = bundle
-            fragmentManager.beginTransaction().replace(androidx.fragment.R.id.fragment_container_view_tag, fragment)
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
                 .addToBackStack(null).commit()
         }
 

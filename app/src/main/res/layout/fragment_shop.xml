@@ -18,7 +18,7 @@
             android:id="@+id/topAppBar"
             style="@style/Widget.Pizza_Pro.Toolbar"
             app:navigationIcon="@drawable/ic_menu"
-            app:title="@string/log_in_or_register" />
+            app:title="@string/welcome_to_shop" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -180,6 +180,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
+        android:id="@+id/fragmentContainer"
         style="@style/Widget.Pizza_Pro.FrameLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

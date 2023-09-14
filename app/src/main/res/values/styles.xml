@@ -31,7 +31,6 @@
     </style>
 
     <style name="Widget.Pizza_Pro.FrameLayout" parent="@style/Widget.Design.ScrimInsetsFrameLayout">
-        <item name="android:id">@id/fragment_container_view_tag</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
     </style>

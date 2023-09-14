@@ -90,6 +90,7 @@ class CartFragment : Fragment(), OnClickListener {
                 true
             }
             R.id.mi_logOut -> {
+                Util.removeAdditionalFragment(requireFragmentManager())
                 navController.navigate(R.id.action_cartFragment_to_introFragment)
                 true
             }
