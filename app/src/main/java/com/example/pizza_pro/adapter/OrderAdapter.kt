@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pizza_pro.R
 import com.example.pizza_pro.database.Order
 
-class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
+class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private val orders: MutableList<Order> = mutableListOf()
 
@@ -29,7 +29,13 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
         val order = orders[position]
 
         holder.header.text = String.format("%d. %s", order.id, order.name)
-        holder.body.text = String.format("Items: %d\nCost: %s", order.items, order.cost)
+        holder.body.text = String.format(
+            "Time: %s\nPlace: %s\nItems: %d\nCost: %s",
+            order.time,
+            order.place,
+            order.items,
+            order.cost
+        )
     }
 
     // returns number of orders
@@ -43,6 +49,6 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>(){
         orders.addAll(newList)
 
         if (removedItems > 0) notifyItemRangeRemoved(0, removedItems)
-        if (insertedItems > 0)  notifyItemRangeInserted(0, insertedItems)
+        if (insertedItems > 0) notifyItemRangeInserted(0, insertedItems)
     }
 }

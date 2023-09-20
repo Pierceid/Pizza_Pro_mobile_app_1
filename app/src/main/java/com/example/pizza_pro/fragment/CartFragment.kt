@@ -1,5 +1,6 @@
 package com.example.pizza_pro.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -20,6 +21,9 @@ import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.Util
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
 class CartFragment : Fragment(), OnClickListener {
@@ -154,10 +158,12 @@ class CartFragment : Fragment(), OnClickListener {
     }
 
     // inserts order into database
+    @SuppressLint("SimpleDateFormat")
     private fun insertDataIntoDatabase() {
         val order = Order(
             name = requireArguments().getString("name").toString(),
-            email = requireArguments().getString("email").toString(),
+            time = SimpleDateFormat("d.M.yyyy (h:m a)").format(Date()),
+            place = requireArguments().getString("location").toString(),
             items = itemCount,
             cost = NumberFormat.getCurrencyInstance().format(totalCost)
         )
