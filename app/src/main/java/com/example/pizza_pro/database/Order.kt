@@ -10,6 +10,8 @@ data class Order(
 
     @ColumnInfo(name = "name") var name: String = "",
 
+    @ColumnInfo(name = "email") var email: String = "",
+
     @ColumnInfo(name = "time") var time: String = "",
 
     @ColumnInfo(name = "place") var place: String = "",

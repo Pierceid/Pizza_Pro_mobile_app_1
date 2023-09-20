@@ -162,6 +162,7 @@ class CartFragment : Fragment(), OnClickListener {
     private fun insertDataIntoDatabase() {
         val order = Order(
             name = requireArguments().getString("name").toString(),
+            email = requireArguments().getString("email").toString(),
             time = SimpleDateFormat("d.M.yyyy (h:m a)").format(Date()),
             place = requireArguments().getString("location").toString(),
             items = itemCount,
