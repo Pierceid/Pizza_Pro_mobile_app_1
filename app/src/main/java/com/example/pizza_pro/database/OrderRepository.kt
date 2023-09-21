@@ -10,5 +10,7 @@ class OrderRepository(private val dao: OrderDao) {
 
     suspend fun clearAllOrders() = dao.clearAllOrders()
 
+    suspend fun getOrder(email: String) = dao.getOrder(email)
+
     fun getFilteredOrders(regex: String) = dao.getFilteredOrders(regex)
 }

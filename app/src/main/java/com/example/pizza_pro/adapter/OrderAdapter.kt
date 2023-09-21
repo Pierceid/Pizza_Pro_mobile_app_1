@@ -28,10 +28,10 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
 
-        holder.header.text = String.format("%d. %s", order.id, order.name)
+        holder.header.text = String.format("%d. %s", order.id, order.userInfo.name)
         holder.body.text = String.format(
             "Email: %s\nTime: %s\nPlace: %s\nItems: %d\nCost: %s",
-            order.email,
+            order.userInfo.email,
             order.time,
             order.place,
             order.items,

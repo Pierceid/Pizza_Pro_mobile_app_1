@@ -11,11 +11,13 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: OrderRepository
     var orders: LiveData<MutableList<Order>>
+    var userOrder: Order?
 
     init {
         val dao = OrderDatabase.getDatabase(application).dao
         repository = OrderRepository(dao)
         orders = repository.allOrders
+        userOrder = null
     }
 
     fun addOrder(order: Order) {
@@ -27,6 +29,12 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
     fun clearAllOrders() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearAllOrders()
+        }
+    }
+
+    fun getUserOrder(email: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userOrder = if (email.isNotEmpty()) repository.getOrder(email) else null
         }
     }
 

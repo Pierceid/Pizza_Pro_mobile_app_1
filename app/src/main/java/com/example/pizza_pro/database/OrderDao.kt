@@ -11,8 +11,11 @@ interface OrderDao {
     @Delete
     suspend fun deleteOrder(order: Order)
 
-    @Query("DELETE from pizza_order_table")
+    @Query("DELETE FROM pizza_order_table")
     suspend fun clearAllOrders()
+
+    @Query("SELECT * FROM pizza_order_table WHERE email = :email LIMIT 1")
+    suspend fun getOrder(email: String): Order?
 
     @Query("SELECT * FROM pizza_order_table WHERE name LIKE '%' || :regex || '%' ORDER BY id DESC")
     fun getFilteredOrders(regex: String): LiveData<MutableList<Order>>

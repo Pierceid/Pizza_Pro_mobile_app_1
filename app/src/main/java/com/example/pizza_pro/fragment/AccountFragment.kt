@@ -7,24 +7,30 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
+import com.example.pizza_pro.database.Order
+import com.example.pizza_pro.database.OrderViewModel
 import com.example.pizza_pro.databinding.FragmentAccountBinding
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
 
 @Suppress("DEPRECATION")
 class AccountFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentAccountBinding
     private lateinit var navController: NavController
+    private lateinit var orderViewModel: OrderViewModel
     private lateinit var name: String
     private lateinit var email: String
     private lateinit var password: String
     private lateinit var location: String
     private lateinit var gender: Gender
     private var isPasswordVisible = false
+    private var isRegistering: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,17 +48,36 @@ class AccountFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
+        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        binding.btnSwap.setOnClickListener(this)
         binding.btnEye.setOnClickListener(this)
         binding.rbMale.setOnClickListener(this)
         binding.rbFemale.setOnClickListener(this)
         binding.rbOther.setOnClickListener(this)
         binding.btnCancel.setOnClickListener(this)
         binding.btnNext.setOnClickListener(this)
+
+        binding.inputName.setOnFocusChangeListener { _, _ ->
+            checkInput()
+        }
+        binding.inputEmail.setOnFocusChangeListener { _, _ ->
+            checkInput()
+        }
+        binding.inputPassword.setOnFocusChangeListener { _, _ ->
+            checkInput()
+        }
+        binding.inputLocation.setOnFocusChangeListener { _, _ ->
+            checkInput()
+        }
     }
 
     // handles on click methods
     override fun onClick(v: View?) {
         when (v!!.id) {
+            R.id.btn_swap -> {
+                isRegistering = !isRegistering
+                updateAccount(isChangedSelection = true)
+            }
             R.id.btn_eye -> {
                 isPasswordVisible = !isPasswordVisible
                 updateAccount()
@@ -86,6 +111,7 @@ class AccountFragment : Fragment(), OnClickListener {
         outState.putString("location", location)
         outState.putSerializable("gender", gender)
         outState.putBoolean("isPasswordVisible", isPasswordVisible)
+        outState.putBoolean("isRegistering", isRegistering)
     }
 
     // restores data from the saved state
@@ -98,7 +124,9 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.inputLocation.setText(savedInstanceState.getString("location").toString())
             updateAccount(
                 savedInstanceState.getBoolean("isPasswordVisible"),
-                savedInstanceState.getSerializable("gender") as Gender
+                savedInstanceState.getSerializable("gender") as Gender,
+                savedInstanceState.getBoolean("isRegistering"),
+                isChangedSelection = true
             )
         }
     }
@@ -106,25 +134,66 @@ class AccountFragment : Fragment(), OnClickListener {
     // updates account fragment
     private fun updateAccount(
         newIsPasswordVisible: Boolean = isPasswordVisible,
-        newGender: Gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions)
+        newGender: Gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions),
+        newIsRegistering: Boolean = isRegistering,
+        isChangedSelection: Boolean = false
     ) {
         isPasswordVisible = newIsPasswordVisible
         Util.changeVisibilityOfPassword(isPasswordVisible, binding.inputPassword, binding.btnEye)
         gender = newGender
         Util.checkGenderRadioButton(gender, binding.rgGenderOptions)
+        isRegistering = newIsRegistering
+        if (isChangedSelection) Util.changeVisibilityOfTextInputFields(
+            isRegistering,
+            binding.tvSelected,
+            binding.tvUnselected,
+            binding.inputNameLayout,
+            binding.rgGenderOptions
+        )
     }
 
     // validates user's input
     private fun checkInput(): Boolean {
         getInput()
-        binding.inputName.error = if (name.isEmpty()) getString(R.string.invalid_username) else null
-        binding.inputEmail.error = if (email.isEmpty()) getString(R.string.invalid_email) else null
-        binding.inputPassword.error =
-            if (password.length < 6) getString(R.string.invalid_password) else null
-        binding.inputLocation.error =
-            if (location.isEmpty()) getString(R.string.invalid_location) else null
+        if (email.isNotEmpty()) {
+            runBlocking { orderViewModel.getUserOrder(email) }
+        }
+        val order = orderViewModel.userOrder
 
-        return name.isNotEmpty() && email.isNotEmpty() && password.length > 5 && location.isNotEmpty()
+        return if (isRegistering) validateRegistration(order) else validateLogin(order)
+    }
+
+    // validates input when registering
+    private fun validateRegistration(order: Order?): Boolean {
+        val validEmail = (order == null && email.isNotEmpty())
+        val validName = name.isNotEmpty()
+        val validPassword = password.length > 5
+        val validLocation = location.isNotEmpty()
+
+        binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
+        binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
+        binding.inputPassword.error = if (!validPassword) getString(R.string.short_password) else null
+        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+
+        return validName && validEmail && validPassword && validLocation
+    }
+
+    // validates input when logging in
+    private fun validateLogin(order: Order?): Boolean {
+        val validEmail = (order != null && email == order.userInfo.email)
+        val validPassword = (order != null && password == order.userInfo.password)
+        val validLocation = location.isNotEmpty()
+
+        binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
+        binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
+        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+
+        if (order != null) {
+            name = order.userInfo.name
+            gender = order.userInfo.gender
+        }
+
+        return validEmail && validPassword && validLocation
     }
 
     // assigns values to attributes
@@ -136,8 +205,7 @@ class AccountFragment : Fragment(), OnClickListener {
         gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions)
         isPasswordVisible =
             (binding.btnEye.drawable.constantState?.hashCode() == ContextCompat.getDrawable(
-                requireContext(),
-                R.drawable.ic_show
+                requireContext(), R.drawable.ic_show
             )?.constantState?.hashCode())
     }
 }

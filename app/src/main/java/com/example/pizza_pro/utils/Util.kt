@@ -16,6 +16,7 @@ import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.options.Satisfaction
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 @Suppress("DEPRECATION")
 class Util {
@@ -28,6 +29,22 @@ class Util {
             imageView.setImageResource(if (isPasswordVisible) R.drawable.ic_show else R.drawable.ic_hide)
             textInputEditText.transformationMethod =
                 if (isPasswordVisible) null else PasswordTransformationMethod()
+        }
+
+        // changes visibility of name and gender field and swaps selected option (log in <-> register)
+        fun changeVisibilityOfTextInputFields(
+            isRegistering: Boolean,
+            selectedEditText: TextView,
+            unselectedEditText: TextView,
+            textInputLayout: TextInputLayout,
+            radioGroup: RadioGroup
+        ) {
+            val unselected = unselectedEditText.text
+            unselectedEditText.text = selectedEditText.text
+            selectedEditText.text = unselected
+
+            textInputLayout.visibility = if (isRegistering) View.VISIBLE else View.INVISIBLE
+            radioGroup.visibility = if (isRegistering) View.VISIBLE else View.INVISIBLE
         }
 
         // returns gender based on checked radio button

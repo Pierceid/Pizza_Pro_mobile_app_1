@@ -32,6 +32,10 @@
     <string name="title_activity_main">MainActivity</string>
     <!-- Account -->
     <string name="log_in_or_register">Log in or register</string>
+    <string name="register">Register</string>
+    <string name="log_in">Log in</string>
+    <string name="swap_button">swap button</string>
+    <string name="swap_icon">swap icon</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -41,7 +45,8 @@
     <string name="other">Other</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_email">Not a valid email</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="short_password">Password must be >5 characters</string>
+    <string name="invalid_password">Not a valid password</string>
     <string name="invalid_location">Not a valid location</string>
     <string name="change_visibility">Change visibility</string>
     <!-- Shop -->

@@ -23,7 +23,6 @@ import com.example.pizza_pro.utils.Util
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
 class CartFragment : Fragment(), OnClickListener {
@@ -161,9 +160,13 @@ class CartFragment : Fragment(), OnClickListener {
     @SuppressLint("SimpleDateFormat")
     private fun insertDataIntoDatabase() {
         val order = Order(
-            name = requireArguments().getString("name").toString(),
-            email = requireArguments().getString("email").toString(),
-            time = SimpleDateFormat("d.M.yyyy (h:m a)").format(Date()),
+            userInfo = UserInfo(
+                requireArguments().getString("name").toString(),
+                requireArguments().getString("email").toString(),
+                requireArguments().getString("password").toString(),
+                requireArguments().getSerializable("gender") as Gender
+            ),
+            time = SimpleDateFormat("d.M.yyyy (h:mm a)").format(Date()),
             place = requireArguments().getString("location").toString(),
             items = itemCount,
             cost = NumberFormat.getCurrencyInstance().format(totalCost)
