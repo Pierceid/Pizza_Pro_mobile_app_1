@@ -1,7 +1,5 @@
 package com.example.pizza_pro.fragment
 
-import android.content.Context
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.*
 import android.view.View.OnClickListener
@@ -12,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
 import com.example.pizza_pro.databinding.FragmentFeedbackBinding
+import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.options.Satisfaction
 import com.example.pizza_pro.utils.Util
@@ -105,36 +104,23 @@ class FeedbackFragment : Fragment(), OnClickListener {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
     // handles on click methods
     override fun onClick(v: View?) {
-        when (v!!.id) {
-            R.id.btn_send -> {
-                onAttach(requireContext())
-                createSendPopUpWindow()
-                onDetach()
-            }
-            R.id.btn_discard -> clearInput()
-            R.id.btn_cart -> requireActivity().onBackPressed()
-        }
-    }
-
-    // creates pop up window for "send" action
-    private fun createSendPopUpWindow() {
-        Util.createPopUpWindow(
-            getString(R.string.sent_successfully), layoutInflater, binding.clFeedback
+        val bundle = bundleOf(
+            "name" to requireArguments().getString("name").toString(),
+            "email" to requireArguments().getString("email").toString(),
+            "password" to requireArguments().getString("password").toString(),
+            "location" to requireArguments().getString("location").toString(),
+            "gender" to requireArguments().getSerializable("gender") as Gender,
+            "selectedItems" to requireArguments().getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
         )
-        val runnable = { clearInput() }
-        Util.getHandler(runnable)
+        when (v!!.id) {
+            R.id.btn_send -> createFeedbackAlertDialog()
+            R.id.btn_discard -> clearInput()
+            R.id.btn_cart -> navController.navigate(
+                R.id.action_feedbackFragment_to_cartFragment, bundle
+            )
+        }
     }
 
     // updates feedback fragment
@@ -157,5 +143,19 @@ class FeedbackFragment : Fragment(), OnClickListener {
         thoughts = ""
         followUp = false
         updateFeedback()
+    }
+
+    // creates an alert dialog for placing an order
+    private fun createFeedbackAlertDialog() {
+        val runnable = {
+            Util.createPopUpWindow(
+                requireActivity(),
+                getString(R.string.history_has_been_cleared),
+                layoutInflater,
+                binding.clFeedback
+            )
+            clearInput()
+        }
+        Util.createAlertDialog(requireActivity(), "history", runnable)
     }
 }

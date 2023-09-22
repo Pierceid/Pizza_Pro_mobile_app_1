@@ -1,7 +1,5 @@
 package com.example.pizza_pro.fragment
 
-import android.content.Context
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -58,25 +56,11 @@ class HistoryFragment : Fragment(), OnClickListener {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
     // handles on click methods
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.btn_close -> requireFragmentManager().popBackStack()
-            R.id.btn_clear -> {
-                onAttach(requireContext())
-                createClearPopUpWindow()
-                onDetach()
-            }
+            R.id.btn_clear -> createHistoryAlertDialog()
         }
     }
 
@@ -88,12 +72,17 @@ class HistoryFragment : Fragment(), OnClickListener {
         }
     }
 
-    // creates pop up window for "clear" action
-    private fun createClearPopUpWindow() {
-        Util.createPopUpWindow(
-            getString(R.string.database_has_been_cleared), layoutInflater, binding.clHistory
-        )
-        val runnable = { orderViewModel.clearAllOrders() }
-        Util.getHandler(runnable)
+    // creates an alert dialog for placing an order
+    private fun createHistoryAlertDialog() {
+        val runnable = {
+            Util.createPopUpWindow(
+                requireActivity(),
+                getString(R.string.history_has_been_cleared),
+                layoutInflater,
+                binding.clHistory
+            )
+            orderViewModel.clearAllOrders()
+        }
+        Util.createAlertDialog(requireActivity(), "history", runnable)
     }
 }

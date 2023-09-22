@@ -41,6 +41,8 @@
                     android:ems="10"
                     android:hint="@string/search_order_by_name"
                     android:inputType="textPersonName"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/slate"
                     android:textSize="20sp"
                     tools:ignore="VisualLintTextFieldSize" />
             </LinearLayout>

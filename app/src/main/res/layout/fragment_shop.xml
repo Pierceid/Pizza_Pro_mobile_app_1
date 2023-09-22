@@ -65,8 +65,10 @@
                     android:autofillHints="pizzaName"
                     android:ems="10"
                     android:hint="@string/search_your_favorite_pizza"
+                    android:textColorHint="@color/slate"
                     android:inputType="textPersonName"
                     android:textSize="20sp"
+                    android:textColor="@color/slate"
                     tools:ignore="VisualLintTextFieldSize" />
             </LinearLayout>
 

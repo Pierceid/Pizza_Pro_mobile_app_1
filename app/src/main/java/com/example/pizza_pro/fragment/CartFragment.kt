@@ -1,8 +1,6 @@
 package com.example.pizza_pro.fragment
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
@@ -101,16 +99,6 @@ class CartFragment : Fragment(), OnClickListener {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
-
     // handles on click methods
     override fun onClick(v: View?) {
         val bundle = bundleOf(
@@ -126,9 +114,7 @@ class CartFragment : Fragment(), OnClickListener {
             R.id.btn_order -> {
                 updateCart()
                 if (orderedPizzas.size == 0) return
-                onAttach(requireContext())
-                createOrderPopUpWindow()
-                onDetach()
+                createOrderAlertDialog()
             }
             R.id.btn_shop -> navController.navigate(
                 R.id.action_cartFragment_to_shopFragment, bundle
@@ -139,21 +125,22 @@ class CartFragment : Fragment(), OnClickListener {
         }
     }
 
-    // creates pop up window for "order" action
-    private fun createOrderPopUpWindow() {
-        Util.createPopUpWindow(
-            getString(R.string.ordered_successfully), layoutInflater, binding.clCart
-        )
-
-        insertDataIntoDatabase()
-
+    // creates an alert dialog for placing an order
+    private fun createOrderAlertDialog() {
         val runnable = {
+            insertDataIntoDatabase()
+            Util.createPopUpWindow(
+                requireActivity(),
+                getString(R.string.ordered_successfully),
+                layoutInflater,
+                binding.clCart
+            )
             orderedPizzas.clear()
             adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
             binding.rvOrderedPizzas.adapter = adapter
             updateCart()
         }
-        Util.getHandler(runnable)
+        Util.createAlertDialog(requireActivity(), "order", runnable)
     }
 
     // inserts order into database

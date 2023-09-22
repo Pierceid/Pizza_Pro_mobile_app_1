@@ -67,14 +67,14 @@
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="2"
+                    android:layout_weight="7"
                     android:text="@string/name"
                     android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_name"
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:gravity="end"
                     android:text='@{name}'
                     android:textColor="@color/blue" />
@@ -90,14 +90,14 @@
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="2"
+                    android:layout_weight="7"
                     android:text="@string/email"
                     android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_email"
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:gravity="end"
                     android:text='@{email}'
                     android:textColor="@color/blue" />
@@ -113,14 +113,14 @@
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="2"
+                    android:layout_weight="7"
                     android:text="@string/password"
                     android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_password"
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:gravity="end"
                     android:text='@{password}'
                     android:textColor="@color/blue" />
@@ -136,14 +136,14 @@
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="2"
+                    android:layout_weight="7"
                     android:text="@string/location"
                     android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_location"
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:gravity="end"
                     android:text='@{location}'
                     android:textColor="@color/blue" />
@@ -159,14 +159,14 @@
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="2"
+                    android:layout_weight="7"
                     android:text="@string/gender"
                     android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_gender"
                     style="@style/Widget.Pizza_Pro.TextView"
-                    android:layout_weight="1"
+                    android:layout_weight="3"
                     android:gravity="end"
                     android:text='@{gender}'
                     android:textColor="@color/blue" />

@@ -1,5 +1,8 @@
 package com.example.pizza_pro.utils
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.PasswordTransformationMethod
@@ -131,10 +134,54 @@ class Util {
                 .addToBackStack(null).commit()
         }
 
+        // creates an alert dialog
+        fun createAlertDialog(
+            activity: Activity,
+            type: String? = null,
+            runnable: Runnable? = null,
+            layoutInflater: LayoutInflater? = null,
+            parentView: ConstraintLayout? = null
+        ) {
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+            val builder = AlertDialog.Builder(activity)
+            val message = when (type) {
+                "order" -> "Would you like to place your order now?"
+                "feedback" -> "Would you like to share your feedback?"
+                "history" -> "Are you sure you want to clear the history?"
+                else -> "Are you sure you want to exit?"
+            }
+            builder.setMessage(message)
+            builder.setPositiveButton("Yes") { _ , _ ->
+                if (type == null) {
+                    activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    activity.finish()
+                } else {
+                    val text = when (type) {
+                        "order" -> activity.getString(R.string.ordered_successfully)
+                        "feedback" -> activity.getString(R.string.sent_successfully)
+                        "history" -> activity.getString(R.string.history_has_been_cleared)
+                        else -> ""
+                    }
+                    createPopUpWindow(activity, text, layoutInflater, parentView)
+                    runnable?.run()
+                }
+            }
+            builder.setNegativeButton("No") { dialog, _ ->
+                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                dialog.dismiss()
+            }
+            builder.show()
+        }
+
         // creates pop up window
         fun createPopUpWindow(
-            text: String, layoutInflater: LayoutInflater, parentView: ConstraintLayout
+            activity: Activity,
+            text: String,
+            layoutInflater: LayoutInflater?,
+            parentView: ConstraintLayout?
         ) {
+            if (layoutInflater == null || parentView == null) return
+
             val popupView = layoutInflater.inflate(R.layout.pop_up_window, parentView, false)
             val message = popupView.findViewById<TextView>(R.id.tv_message)
             val progressBar = popupView.findViewById<ProgressBar>(R.id.progressBar)
@@ -146,23 +193,19 @@ class Util {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 true
             )
-            // Delayed visibility changes
             val runnable = Runnable {
                 message.text = text
                 progressBar.visibility = View.GONE
                 check.visibility = View.VISIBLE
                 btnOk.visibility = View.VISIBLE
             }
-            getHandler(runnable)
+            Handler().postDelayed(runnable, 2500L)
+
             btnOk.setOnClickListener {
                 popupWindow.dismiss()
+                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
-        }
-
-        // delays tasks (runnable) by some time (delay)
-        fun getHandler(runnable: Runnable, delay: Long = 2000L) {
-            Handler().postDelayed(runnable, delay)
         }
     }
 }

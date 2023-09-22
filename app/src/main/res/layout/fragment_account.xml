@@ -113,7 +113,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#DFDFDF"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -169,18 +168,21 @@
                     style="@style/Widget.Pizza_Pro.RadioButton"
                     android:layout_marginEnd="10dp"
                     android:checked="true"
-                    android:text="@string/male" />
+                    android:text="@string/male"
+                    android:textColor="@color/black" />
 
                 <RadioButton
                     android:id="@+id/rb_female"
                     style="@style/Widget.Pizza_Pro.RadioButton"
                     android:layout_marginEnd="10dp"
-                    android:text="@string/female" />
+                    android:text="@string/female"
+                    android:textColor="@color/black" />
 
                 <RadioButton
                     android:id="@+id/rb_other"
                     style="@style/Widget.Pizza_Pro.RadioButton"
-                    android:text="@string/other" />
+                    android:text="@string/other"
+                    android:textColor="@color/black" />
             </RadioGroup>
 
             <RelativeLayout

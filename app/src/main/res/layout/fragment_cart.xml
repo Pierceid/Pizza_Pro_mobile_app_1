@@ -73,15 +73,17 @@
 
                         <TextView
                             style="@style/Widget.Pizza_Pro.TextView"
-                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
-                            android:text="@string/items_total" />
+                            android:layout_weight="1"
+                            android:text="@string/items_total"
+                            android:textColor="@color/slate" />
 
                         <TextView
                             style="@style/Widget.Pizza_Pro.TextView"
                             android:layout_weight="1"
                             android:text='@{itemsCost}'
-                            android:textAlignment="textEnd" />
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/slate" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -92,15 +94,17 @@
 
                         <TextView
                             style="@style/Widget.Pizza_Pro.TextView"
-                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
-                            android:text="@string/delivery_services" />
+                            android:layout_weight="1"
+                            android:text="@string/delivery_services"
+                            android:textColor="@color/slate" />
 
                         <TextView
                             style="@style/Widget.Pizza_Pro.TextView"
                             android:layout_weight="1"
                             android:text='@{deliveryCost}'
-                            android:textAlignment="textEnd" />
+                            android:textAlignment="textEnd"
+                            android:textColor="@color/slate" />
                     </LinearLayout>
 
                     <View
@@ -117,8 +121,8 @@
 
                         <TextView
                             style="@style/Widget.Pizza_Pro.TextView"
-                            android:layout_weight="1"
                             android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
                             android:text="@string/total"
                             android:textColor="@color/black"
                             android:textSize="30sp" />
