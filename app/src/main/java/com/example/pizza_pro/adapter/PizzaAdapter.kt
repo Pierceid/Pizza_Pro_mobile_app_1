@@ -75,8 +75,7 @@ class PizzaAdapter(
         holder.pizza.setImageResource(pizza.imageSource)
         holder.name.text = pizza.name
         holder.count.text = pizza.count.toString()
-        holder.cost.text =
-            String.format("Cost: %s", NumberFormat.getCurrencyInstance().format(pizza.cost))
+        holder.cost.text = String.format("Cost: %s", NumberFormat.getCurrencyInstance().format(pizza.cost))
     }
 
     // returns number of pizzas

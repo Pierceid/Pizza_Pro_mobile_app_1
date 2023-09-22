@@ -160,7 +160,7 @@ class Util {
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
         }
 
-        // delays 'runnable' by some time (delay)
+        // delays tasks (runnable) by some time (delay)
         fun getHandler(runnable: Runnable, delay: Long = 2000L) {
             Handler().postDelayed(runnable, delay)
         }
