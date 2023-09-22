@@ -161,7 +161,7 @@ class Util {
         }
 
         // delays 'runnable' by some time (delay)
-        fun getHandler(runnable: Runnable, delay: Long = 3000L) {
+        fun getHandler(runnable: Runnable, delay: Long = 2000L) {
             Handler().postDelayed(runnable, delay)
         }
     }
