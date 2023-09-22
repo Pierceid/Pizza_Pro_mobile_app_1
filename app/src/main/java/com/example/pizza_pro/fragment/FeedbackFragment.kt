@@ -42,9 +42,8 @@ class FeedbackFragment : Fragment(), OnClickListener {
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
 
-        binding.btnSend.setOnClickListener(this)
-        binding.btnDiscard.setOnClickListener(this)
-        binding.btnCart.setOnClickListener(this)
+        val buttons = listOf(binding.btnSend, binding.btnDiscard, binding.btnCart)
+        for (button in buttons) button.setOnClickListener(this)
     }
 
     @Deprecated("Deprecated in Java")
@@ -87,7 +86,6 @@ class FeedbackFragment : Fragment(), OnClickListener {
     // saves data in case of rotating screen or exiting app
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        binding = FragmentFeedbackBinding.inflate(layoutInflater)
         getInput()
         outState.putSerializable("satisfaction", satisfaction)
         outState.putString("thoughts", thoughts)

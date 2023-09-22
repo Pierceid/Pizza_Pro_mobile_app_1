@@ -50,8 +50,9 @@ class ShopFragment : Fragment(), OnClickListener {
         navController = Navigation.findNavController(view)
         updateShop()
 
-        binding.btnHome.setOnClickListener(this)
-        binding.btnCart.setOnClickListener(this)
+        val buttons = listOf(binding.btnHome, binding.btnCart)
+        for (button in buttons) button.setOnClickListener(this)
+
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) updateShop()
         }

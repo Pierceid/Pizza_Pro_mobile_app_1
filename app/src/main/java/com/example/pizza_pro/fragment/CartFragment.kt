@@ -52,16 +52,16 @@ class CartFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnApply.setOnClickListener(this)
-        binding.btnOrder.setOnClickListener(this)
-        binding.btnShop.setOnClickListener(this)
-        binding.btnFeedback.setOnClickListener(this)
-
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
         binding.rvOrderedPizzas.adapter = adapter
         calculateCosts()
+
+        val buttons = listOf(
+            binding.btnApply, binding.btnOrder, binding.btnShop, binding.btnFeedback
+        )
+        for (button in buttons) button.setOnClickListener(this)
     }
 
     @Deprecated("Deprecated in Java")

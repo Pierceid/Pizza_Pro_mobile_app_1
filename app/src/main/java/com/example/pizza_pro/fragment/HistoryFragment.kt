@@ -36,10 +36,25 @@ class HistoryFragment : Fragment(), OnClickListener {
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
         updateHistory()
 
-        binding.btnClose.setOnClickListener(this)
-        binding.btnClear.setOnClickListener(this)
+        val buttons = listOf(binding.btnClose, binding.btnClear)
+        for (button in buttons) button.setOnClickListener(this)
+
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) updateHistory()
+        }
+    }
+
+    // saves data in case of rotating screen or exiting app
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("regex", binding.etSearchBar.text.toString())
+    }
+
+    // restores data from the saved state
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            updateHistory(savedInstanceState.getString("regex").toString())
         }
     }
 
@@ -66,10 +81,8 @@ class HistoryFragment : Fragment(), OnClickListener {
     }
 
     // updates history fragment
-    private fun updateHistory() {
-        val regex = binding.etSearchBar.text.toString()
+    private fun updateHistory(regex: String = binding.etSearchBar.text.toString()) {
         orderViewModel.filterOrders(regex)
-
         orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
             adapter.initOrders(newOrders)
         }

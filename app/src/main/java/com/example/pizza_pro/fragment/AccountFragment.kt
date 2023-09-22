@@ -49,26 +49,22 @@ class AccountFragment : Fragment(), OnClickListener {
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        binding.btnSwap.setOnClickListener(this)
-        binding.btnEye.setOnClickListener(this)
-        binding.rbMale.setOnClickListener(this)
-        binding.rbFemale.setOnClickListener(this)
-        binding.rbOther.setOnClickListener(this)
-        binding.btnCancel.setOnClickListener(this)
-        binding.btnNext.setOnClickListener(this)
 
-        binding.inputName.setOnFocusChangeListener { _, _ ->
-            checkInput()
-        }
-        binding.inputEmail.setOnFocusChangeListener { _, _ ->
-            checkInput()
-        }
-        binding.inputPassword.setOnFocusChangeListener { _, _ ->
-            checkInput()
-        }
-        binding.inputLocation.setOnFocusChangeListener { _, _ ->
-            checkInput()
-        }
+        val buttons = listOf(
+            binding.btnSwap,
+            binding.btnEye,
+            binding.rbMale,
+            binding.rbFemale,
+            binding.rbOther,
+            binding.btnCancel,
+            binding.btnNext
+        )
+        for (button in buttons) button.setOnClickListener(this)
+
+        val inputs = listOf(
+            binding.inputName, binding.inputEmail, binding.inputPassword, binding.inputLocation
+        )
+        for (input in inputs) input.setOnFocusChangeListener { _, _ -> checkInput() }
     }
 
     // handles on click methods
@@ -92,9 +88,7 @@ class AccountFragment : Fragment(), OnClickListener {
                         "location" to location,
                         "gender" to gender
                     )
-                    navController.navigate(
-                        R.id.action_accountFragment_to_shopFragment, bundle
-                    )
+                    navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
                 }
             }
             R.id.btn_cancel -> requireActivity().onBackPressed()
