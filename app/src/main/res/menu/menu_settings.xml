@@ -8,27 +8,31 @@
         android:title=""
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/mi_profile"
-        android:actionLayout="@layout/item_menu"
-        android:icon="@drawable/baseline_person_24"
-        android:title="@string/profile" />
+    <item android:title="@string/basic">
+        <menu>
+            <item
+                android:id="@+id/mi_profile"
+                android:icon="@drawable/baseline_person_24"
+                android:title="@string/profile" />
 
-    <item
-        android:id="@+id/mi_history"
-        android:actionLayout="@layout/item_menu"
-        android:icon="@drawable/baseline_history_24"
-        android:title="@string/history" />
+            <item
+                android:id="@+id/mi_history"
+                android:icon="@drawable/baseline_history_24"
+                android:title="@string/history" />
 
-    <item
-        android:id="@+id/mi_aboutApp"
-        android:actionLayout="@layout/item_menu"
-        android:icon="@drawable/baseline_info_24"
-        android:title="@string/about_app" />
+            <item
+                android:id="@+id/mi_aboutApp"
+                android:icon="@drawable/baseline_info_24"
+                android:title="@string/about_app" />
+        </menu>
+    </item>
 
-    <item
-        android:id="@+id/mi_logOut"
-        android:actionLayout="@layout/item_menu"
-        android:icon="@drawable/baseline_logout_24"
-        android:title="@string/log_out" />
+    <item android:title="@string/account">
+        <menu>
+            <item
+                android:id="@+id/mi_logOut"
+                android:icon="@drawable/baseline_logout_24"
+                android:title="@string/log_out" />
+        </menu>
+    </item>
 </menu>
