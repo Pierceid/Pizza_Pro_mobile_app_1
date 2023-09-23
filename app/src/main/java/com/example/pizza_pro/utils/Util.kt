@@ -135,7 +135,7 @@ class Util {
             if (lastTag == containerTag) fragmentManager.popBackStack()
         }
 
-        // navigates to a child fragment
+        // navigates to an additional fragment
         fun navigateToFragment(
             fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null
         ) {
