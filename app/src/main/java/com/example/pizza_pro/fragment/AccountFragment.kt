@@ -70,6 +70,11 @@ class AccountFragment : Fragment(), OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.btn_swap -> {
+                val inputs = listOf(
+                    binding.inputName, binding.inputEmail, binding.inputPassword, binding.inputLocation
+                )
+                for (input in inputs) input.clearFocus()
+
                 isRegistering = !isRegistering
                 updateAccount(newIsRegistering = isRegistering, swapSelection = true)
             }
@@ -164,10 +169,8 @@ class AccountFragment : Fragment(), OnClickListener {
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
-        binding.inputPassword.error =
-            if (!validPassword) getString(R.string.short_password) else null
-        binding.inputLocation.error =
-            if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error = if (!validPassword) getString(R.string.short_password) else null
+        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
 
         return validName && validEmail && validPassword && validLocation
     }
@@ -179,10 +182,8 @@ class AccountFragment : Fragment(), OnClickListener {
         val validLocation = location.isNotEmpty()
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
-        binding.inputPassword.error =
-            if (!validPassword) getString(R.string.invalid_password) else null
-        binding.inputLocation.error =
-            if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
+        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
 
         if (order != null) {
             name = order.userInfo.name
