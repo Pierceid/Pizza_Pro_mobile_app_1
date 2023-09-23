@@ -1,6 +1,7 @@
 package com.example.pizza_pro.fragment
 
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
@@ -35,10 +36,14 @@ class CartFragment : Fragment(), OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
         orderedPizzas =
             requireArguments().getParcelableArrayList<Pizza>("selectedItems") as MutableList<Pizza>
         adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
-        setHasOptionsMenu(true)
+
+        if (requireArguments().getBoolean("isLocked"))
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 
     override fun onCreateView(
@@ -71,7 +76,15 @@ class CartFragment : Fragment(), OnClickListener {
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.mi_mode -> {
+            R.id.mi_lock -> {
+                val willBeLocked =
+                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+
+                Util.createToast(requireActivity(), !willBeLocked)
+                requireActivity().requestedOrientation =
+                    if (willBeLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
                 true
             }
             R.id.mi_profile -> {
@@ -95,6 +108,7 @@ class CartFragment : Fragment(), OnClickListener {
             }
             R.id.mi_logOut -> {
                 Util.removeAdditionalFragment(requireFragmentManager())
+                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 navController.navigate(R.id.action_cartFragment_to_introFragment)
                 true
             }
@@ -111,6 +125,7 @@ class CartFragment : Fragment(), OnClickListener {
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
             "orderedItems" to orderedPizzas as ArrayList<out Parcelable>,
+            "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {
             R.id.btn_apply -> updateCart()
@@ -119,12 +134,12 @@ class CartFragment : Fragment(), OnClickListener {
                 if (orderedPizzas.size == 0) return
                 createOrderAlertDialog()
             }
-            R.id.btn_shop -> navController.navigate(
-                R.id.action_cartFragment_to_shopFragment, bundle
-            )
-            R.id.btn_feedback -> navController.navigate(
-                R.id.action_cartFragment_to_feedbackFragment, bundle
-            )
+            R.id.btn_shop -> {
+                navController.navigate(R.id.action_cartFragment_to_shopFragment, bundle)
+            }
+            R.id.btn_feedback -> {
+                navController.navigate(R.id.action_cartFragment_to_feedbackFragment, bundle)
+            }
         }
     }
 

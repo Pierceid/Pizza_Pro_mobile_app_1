@@ -65,10 +65,10 @@
                     android:autofillHints="pizzaName"
                     android:ems="10"
                     android:hint="@string/search_your_favorite_pizza"
-                    android:textColorHint="@color/slate"
                     android:inputType="textPersonName"
-                    android:textSize="20sp"
                     android:textColor="@color/slate"
+                    android:textColorHint="@color/slate"
+                    android:textSize="20sp"
                     tools:ignore="VisualLintTextFieldSize" />
             </LinearLayout>
 
@@ -111,21 +111,17 @@
                     android:padding="2dp">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        style="@style/Theme.Pizza_Pro.ImageView"
                         android:layout_weight="1"
                         android:contentDescription="@string/home"
-                        android:paddingEnd="15dp"
+                        android:paddingEnd="20dp"
                         app:srcCompat="@drawable/ic_home"
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        style="@style/Widget.Pizza_Pro.TextView"
-                        android:paddingEnd="15dp"
-                        android:text="@string/home"
-                        android:textAlignment="center"
-                        android:textColor="@color/slate"
-                        android:textSize="15sp" />
+                        style="@style/Theme.Pizza_Pro.TextView"
+                        android:paddingEnd="20dp"
+                        android:text="@string/home" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -133,9 +129,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.9"
-                    android:background="@color/ashen"
+                    android:background="@color/gray"
                     android:orientation="vertical"
-                    android:padding="2dp">
+                    android:padding="2dp"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -146,11 +143,9 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        style="@style/Widget.Pizza_Pro.TextView"
+                        style="@style/Theme.Pizza_Pro.TextView"
                         android:text="@string/shop"
-                        android:textAlignment="center"
-                        android:textColor="@color/slate"
-                        android:textSize="15sp" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -163,19 +158,15 @@
                     android:visibility="visible">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        style="@style/Theme.Pizza_Pro.ImageView"
                         android:layout_weight="1"
                         android:contentDescription="@string/cart"
                         app:srcCompat="@drawable/ic_cart"
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        style="@style/Widget.Pizza_Pro.TextView"
-                        android:text="@string/cart"
-                        android:textAlignment="center"
-                        android:textColor="@color/slate"
-                        android:textSize="15sp" />
+                        style="@style/Theme.Pizza_Pro.TextView"
+                        android:text="@string/cart" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>

@@ -151,21 +151,24 @@ class Util {
         fun createAlertDialog(
             activity: Activity,
             type: String? = null,
-            runnable: Runnable? = null,
+            runnable: Runnable = Runnable {  },
             layoutInflater: LayoutInflater? = null,
             parentView: ConstraintLayout? = null
         ) {
+            createToast(activity, true)
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
             val builder = AlertDialog.Builder(activity)
             val message = when (type) {
-                "order" -> "Would you like to place your order now?"
-                "feedback" -> "Would you like to share your feedback?"
-                "history" -> "Are you sure you want to clear the history?"
-                else -> "Are you sure you want to exit?"
+                "order" -> activity.getString(R.string.place_order)
+                "feedback" -> activity.getString(R.string.share_feedback)
+                "history" -> activity.getString(R.string.clear_history)
+                else -> activity.getString(R.string.exit_app)
             }
             builder.setMessage(message)
             builder.setPositiveButton("Yes") { _, _ ->
                 if (type == null) {
+                    createToast(activity, false)
                     activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                     activity.finish()
                 } else {
@@ -176,10 +179,11 @@ class Util {
                         else -> ""
                     }
                     createPopUpWindow(activity, text, layoutInflater, parentView)
-                    runnable?.run()
+                    runnable.run()
                 }
             }
             builder.setNegativeButton("No") { dialog, _ ->
+                createToast(activity, false)
                 activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 dialog.dismiss()
             }
@@ -212,13 +216,27 @@ class Util {
                 check.visibility = View.VISIBLE
                 btnOk.visibility = View.VISIBLE
             }
-            Handler().postDelayed(runnable, 2500L)
+            getHandler(runnable)
 
             btnOk.setOnClickListener {
                 popupWindow.dismiss()
+                createToast(activity, false)
                 activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+        }
+
+        // creates toast message
+        fun createToast(activity: Activity, willBeLocked: Boolean) {
+            val message =
+                if (willBeLocked) activity.getString(R.string.locked)
+                else activity.getString(R.string.unlocked)
+            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
+        }
+
+        // delays tasks by some time
+        private fun getHandler(runnable: Runnable = Runnable { }, delay: Long = 2500L) {
+            Handler().postDelayed(runnable, delay)
         }
     }
 }

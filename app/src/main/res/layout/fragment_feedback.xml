@@ -274,21 +274,18 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        style="@style/Theme.Pizza_Pro.ImageView"
                         android:layout_weight="1"
                         android:contentDescription="@string/cart"
-                        android:paddingEnd="15dp"
+                        android:paddingEnd="20dp"
                         app:srcCompat="@drawable/ic_cart"
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        style="@style/Widget.Pizza_Pro.TextView"
-                        android:paddingEnd="15dp"
+                        style="@style/Theme.Pizza_Pro.TextView"
+                        android:paddingEnd="20dp"
                         android:text="@string/cart"
-                        android:textAlignment="center"
-                        android:textColor="@color/slate"
-                        android:textSize="15sp" />
+                        android:textAlignment="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -296,7 +293,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.9"
-                    android:background="@color/ashen"
+                    android:background="@color/gray"
                     android:orientation="vertical"
                     android:padding="2dp"
                     android:visibility="visible">
@@ -310,11 +307,9 @@
                         tools:ignore="NestedWeights" />
 
                     <TextView
-                        style="@style/Widget.Pizza_Pro.TextView"
+                        style="@style/Theme.Pizza_Pro.TextView"
                         android:text="@string/feedback"
-                        android:textAlignment="center"
-                        android:textColor="@color/slate"
-                        android:textSize="15sp" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.bottomappbar.BottomAppBar>

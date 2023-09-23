@@ -1,5 +1,6 @@
 package com.example.pizza_pro.fragment
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.*
 import android.view.View.OnClickListener
@@ -27,6 +28,9 @@ class FeedbackFragment : Fragment(), OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        if (requireArguments().getBoolean("isLocked"))
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 
     override fun onCreateView(
@@ -54,6 +58,17 @@ class FeedbackFragment : Fragment(), OnClickListener {
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.mi_lock -> {
+                val willBeLocked =
+                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+
+                Util.createToast(requireActivity(), !willBeLocked)
+                requireActivity().requestedOrientation =
+                    if (willBeLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
+                true
+            }
             R.id.mi_profile -> {
                 val bundle = bundleOf(
                     "name" to requireArguments().getString("name").toString(),
@@ -75,6 +90,7 @@ class FeedbackFragment : Fragment(), OnClickListener {
             }
             R.id.mi_logOut -> {
                 Util.removeAdditionalFragment(requireFragmentManager())
+                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 navController.navigate(R.id.action_feedbackFragment_to_introFragment)
                 true
             }
@@ -112,7 +128,8 @@ class FeedbackFragment : Fragment(), OnClickListener {
             "password" to requireArguments().getString("password").toString(),
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
-            "selectedItems" to requireArguments().getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
+            "selectedItems" to requireArguments().getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>,
+            "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {
             R.id.btn_send -> createFeedbackAlertDialog()

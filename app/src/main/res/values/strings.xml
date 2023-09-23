@@ -93,4 +93,12 @@
     <string name="history_has_been_cleared">History has been cleared!</string>
     <string name="check">Check</string>
     <string name="menu_icon">menu icon</string>
+    <!-- Alert Dialog -->
+    <string name="place_order">Would you like to place your order now?</string>
+    <string name="share_feedback">Would you like to share your feedback?</string>
+    <string name="clear_history">SAre you sure you want to clear the history?</string>
+    <string name="exit_app">Are you sure you want to exit?</string>
+    <!-- Toast -->
+    <string name="locked">Screen rotation is locked.</string>
+    <string name="unlocked">Screen rotation is unlocked.</string>
 </resources>

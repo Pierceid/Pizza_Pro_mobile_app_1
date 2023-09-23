@@ -1,5 +1,6 @@
 package com.example.pizza_pro.fragment
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.*
 import android.view.View.OnClickListener
@@ -34,6 +35,10 @@ class AccountFragment : Fragment(), OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        val isLocked = arguments?.getBoolean("isLocked")
+        if (isLocked == true)
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 
     override fun onCreateView(
@@ -66,12 +71,65 @@ class AccountFragment : Fragment(), OnClickListener {
         for (input in inputs) input.setOnFocusChangeListener { _, _ -> checkInput() }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_settings, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.mi_lock -> {
+                val willBeLocked =
+                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+
+                Util.createToast(requireActivity(), !willBeLocked)
+                requireActivity().requestedOrientation =
+                    if (willBeLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
+                true
+            }
+            R.id.mi_profile -> {
+                getInput()
+                val bundle = bundleOf(
+                    "name" to name,
+                    "email" to email,
+                    "password" to password,
+                    "location" to location,
+                    "gender" to gender
+                )
+                Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
+                true
+            }
+            R.id.mi_aboutApp -> {
+                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
+                true
+            }
+            R.id.mi_history -> {
+                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
+                true
+            }
+            R.id.mi_logOut -> {
+                Util.removeAdditionalFragment(requireFragmentManager())
+                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                navController.navigate(R.id.action_accountFragment_to_introFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     // handles on click methods
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.btn_swap -> {
                 val inputs = listOf(
-                    binding.inputName, binding.inputEmail, binding.inputPassword, binding.inputLocation
+                    binding.inputName,
+                    binding.inputEmail,
+                    binding.inputPassword,
+                    binding.inputLocation
                 )
                 for (input in inputs) input.clearFocus()
 
@@ -90,12 +148,16 @@ class AccountFragment : Fragment(), OnClickListener {
                         "email" to email,
                         "password" to password,
                         "location" to location,
-                        "gender" to gender
+                        "gender" to gender,
+                        "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
                     )
                     navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
                 }
             }
-            R.id.btn_cancel -> navController.navigate(R.id.action_accountFragment_to_introFragment)
+            R.id.btn_cancel -> {
+                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                navController.navigate(R.id.action_accountFragment_to_introFragment)
+            }
         }
     }
 
@@ -130,7 +192,10 @@ class AccountFragment : Fragment(), OnClickListener {
 
     // updates account fragment
     private fun updateAccount(
-        newIsPasswordVisible: Boolean = Util.getVisibilityOfPassword(binding.btnEye, requireContext()),
+        newIsPasswordVisible: Boolean = Util.getVisibilityOfPassword(
+            binding.btnEye,
+            requireContext()
+        ),
         newGender: Gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions),
         newIsRegistering: Boolean = Util.getIsRegistering(binding.tvSelected, requireActivity()),
         swapSelection: Boolean = false
@@ -169,8 +234,10 @@ class AccountFragment : Fragment(), OnClickListener {
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.short_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.short_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
 
         return validName && validEmail && validPassword && validLocation
     }
@@ -182,8 +249,10 @@ class AccountFragment : Fragment(), OnClickListener {
         val validLocation = location.isNotEmpty()
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.invalid_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
 
         if (order != null) {
             name = order.userInfo.name
