@@ -140,12 +140,12 @@ class ShopFragment : Fragment(), OnClickListener {
             "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {
-            R.id.btn_home -> navController.navigate(
-                R.id.action_shopFragment_to_accountFragment, bundle
-            )
-            R.id.btn_cart -> navController.navigate(
-                R.id.action_shopFragment_to_cartFragment, bundle
-            )
+            R.id.btn_home -> {
+                navController.navigate(R.id.action_shopFragment_to_accountFragment, bundle)
+            }
+            R.id.btn_cart -> {
+                navController.navigate(R.id.action_shopFragment_to_cartFragment, bundle)
+            }
         }
     }
 

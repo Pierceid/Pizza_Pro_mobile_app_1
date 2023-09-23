@@ -134,9 +134,9 @@ class FeedbackFragment : Fragment(), OnClickListener {
         when (v!!.id) {
             R.id.btn_send -> createFeedbackAlertDialog()
             R.id.btn_discard -> clearInput()
-            R.id.btn_cart -> navController.navigate(
-                R.id.action_feedbackFragment_to_cartFragment, bundle
-            )
+            R.id.btn_cart -> {
+                navController.navigate(R.id.action_feedbackFragment_to_cartFragment, bundle)
+            }
         }
     }
 
