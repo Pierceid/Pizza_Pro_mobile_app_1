@@ -92,4 +92,5 @@
     <string name="sent_successfully">Sent successfully!</string>
     <string name="history_has_been_cleared">History has been cleared!</string>
     <string name="check">Check</string>
+    <string name="menu_icon">menu icon</string>
 </resources>

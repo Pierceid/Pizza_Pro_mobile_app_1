@@ -2,6 +2,8 @@ package com.example.pizza_pro.utils
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.UiModeManager
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.pizza_pro.R
@@ -25,6 +28,18 @@ import com.google.android.material.textfield.TextInputLayout
 class Util {
     companion object {
 
+        // returns whether the user is registering or not
+        fun getIsRegistering(textView: TextView, activity: Activity): Boolean {
+            return textView.text == activity.getString(R.string.register)
+        }
+
+        // returns whether the password is visible or not
+        fun getVisibilityOfPassword(imageView: ImageView, context: Context): Boolean {
+            return (imageView.drawable.constantState?.hashCode() == ContextCompat.getDrawable(
+                context, R.drawable.ic_show
+            )?.constantState?.hashCode())
+        }
+
         // changes visibility of password
         fun changeVisibilityOfPassword(
             isPasswordVisible: Boolean, textInputEditText: TextInputEditText, imageView: ImageView
@@ -34,20 +49,19 @@ class Util {
                 if (isPasswordVisible) null else PasswordTransformationMethod()
         }
 
-        // changes visibility of name and gender field and swaps selected option (log in <-> register)
-        fun changeVisibilityOfTextInputFields(
-            isRegistering: Boolean,
-            selectedEditText: TextView,
-            unselectedEditText: TextView,
-            textInputLayout: TextInputLayout,
-            radioGroup: RadioGroup
+        // changes visibility of a text input layout and radio group
+        fun changeVisibilityOfAccountFields(
+            isRegistering: Boolean, textInputLayout: TextInputLayout, radioGroup: RadioGroup
         ) {
-            val unselected = unselectedEditText.text
-            unselectedEditText.text = selectedEditText.text
-            selectedEditText.text = unselected
-
             textInputLayout.visibility = if (isRegistering) View.VISIBLE else View.INVISIBLE
             radioGroup.visibility = if (isRegistering) View.VISIBLE else View.INVISIBLE
+        }
+
+        // swaps texts of 2 text views
+        fun swapTextViews(textView1: TextView, textView2: TextView) {
+            val temp = textView2.text
+            textView2.text = textView1.text
+            textView1.text = temp
         }
 
         // returns gender based on checked radio button
@@ -151,7 +165,7 @@ class Util {
                 else -> "Are you sure you want to exit?"
             }
             builder.setMessage(message)
-            builder.setPositiveButton("Yes") { _ , _ ->
+            builder.setPositiveButton("Yes") { _, _ ->
                 if (type == null) {
                     activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                     activity.finish()
@@ -206,6 +220,12 @@ class Util {
                 activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
+        }
+
+        // check whether the user has dark mode or not
+        fun isDarkModeEnabled(context: Context): Boolean {
+            val uiModeManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+            return uiModeManager.nightMode == UiModeManager.MODE_NIGHT_YES
         }
     }
 }

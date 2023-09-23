@@ -200,7 +200,7 @@
                             android:paddingEnd="15dp"
                             android:text="@string/shop"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="@color/slate"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -226,7 +226,7 @@
                             style="@style/Widget.Pizza_Pro.TextView"
                             android:text="@string/cart"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="@color/slate"
                             android:textSize="15sp" />
                     </LinearLayout>
 
@@ -251,7 +251,7 @@
                             style="@style/Widget.Pizza_Pro.TextView"
                             android:text="@string/feedback"
                             android:textAlignment="center"
-                            android:textColor="@color/black"
+                            android:textColor="@color/slate"
                             android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>

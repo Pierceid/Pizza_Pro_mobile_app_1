@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -72,11 +71,11 @@ class AccountFragment : Fragment(), OnClickListener {
         when (v!!.id) {
             R.id.btn_swap -> {
                 isRegistering = !isRegistering
-                updateAccount(isChangedSelection = true)
+                updateAccount(newIsRegistering = isRegistering, swapSelection = true)
             }
             R.id.btn_eye -> {
                 isPasswordVisible = !isPasswordVisible
-                updateAccount()
+                updateAccount(newIsPasswordVisible = isPasswordVisible)
             }
             R.id.rb_male, R.id.rb_female, R.id.rb_other -> updateAccount()
             R.id.btn_next -> {
@@ -91,7 +90,7 @@ class AccountFragment : Fragment(), OnClickListener {
                     navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
                 }
             }
-            R.id.btn_cancel -> requireActivity().onBackPressed()
+            R.id.btn_cancel -> navController.navigate(R.id.action_accountFragment_to_introFragment)
         }
     }
 
@@ -119,31 +118,30 @@ class AccountFragment : Fragment(), OnClickListener {
             updateAccount(
                 savedInstanceState.getBoolean("isPasswordVisible"),
                 savedInstanceState.getSerializable("gender") as Gender,
-                savedInstanceState.getBoolean("isRegistering"),
-                isChangedSelection = true
+                savedInstanceState.getBoolean("isRegistering")
             )
         }
     }
 
     // updates account fragment
     private fun updateAccount(
-        newIsPasswordVisible: Boolean = isPasswordVisible,
+        newIsPasswordVisible: Boolean = Util.getVisibilityOfPassword(binding.btnEye, requireContext()),
         newGender: Gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions),
-        newIsRegistering: Boolean = isRegistering,
-        isChangedSelection: Boolean = false
+        newIsRegistering: Boolean = Util.getIsRegistering(binding.tvSelected, requireActivity()),
+        swapSelection: Boolean = false
     ) {
         isPasswordVisible = newIsPasswordVisible
         Util.changeVisibilityOfPassword(isPasswordVisible, binding.inputPassword, binding.btnEye)
         gender = newGender
         Util.checkGenderRadioButton(gender, binding.rgGenderOptions)
         isRegistering = newIsRegistering
-        if (isChangedSelection) Util.changeVisibilityOfTextInputFields(
-            isRegistering,
-            binding.tvSelected,
-            binding.tvUnselected,
-            binding.inputNameLayout,
-            binding.rgGenderOptions
-        )
+
+        if (swapSelection) {
+            Util.changeVisibilityOfAccountFields(
+                isRegistering, binding.inputNameLayout, binding.rgGenderOptions
+            )
+            Util.swapTextViews(binding.tvSelected, binding.tvUnselected)
+        }
     }
 
     // validates user's input
@@ -166,8 +164,10 @@ class AccountFragment : Fragment(), OnClickListener {
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.short_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.short_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
 
         return validName && validEmail && validPassword && validLocation
     }
@@ -179,8 +179,10 @@ class AccountFragment : Fragment(), OnClickListener {
         val validLocation = location.isNotEmpty()
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.invalid_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
 
         if (order != null) {
             name = order.userInfo.name
@@ -197,9 +199,7 @@ class AccountFragment : Fragment(), OnClickListener {
         password = binding.inputPassword.text.toString()
         location = binding.inputLocation.text.toString()
         gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions)
-        isPasswordVisible =
-            (binding.btnEye.drawable.constantState?.hashCode() == ContextCompat.getDrawable(
-                requireContext(), R.drawable.ic_show
-            )?.constantState?.hashCode())
+        isPasswordVisible = Util.getVisibilityOfPassword(binding.btnEye, requireContext())
+        isRegistering = Util.getIsRegistering(binding.tvSelected, requireActivity())
     }
 }

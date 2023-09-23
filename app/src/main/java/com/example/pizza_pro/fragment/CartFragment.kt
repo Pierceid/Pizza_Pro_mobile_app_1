@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.*
 import android.view.View.OnClickListener
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -66,11 +69,32 @@ class CartFragment : Fragment(), OnClickListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_settings, menu)
         super.onCreateOptionsMenu(menu, inflater)
+
+        val textColor =
+            if (Util.isDarkModeEnabled(requireContext())) ContextCompat.getColor(
+                requireContext(), R.color.white
+            )
+            else ContextCompat.getColor(requireContext(), R.color.black)
+
+        val menuItems = listOf(
+            R.id.mi_mode, R.id.mi_profile, R.id.mi_history, R.id.mi_aboutApp, R.id.mi_logOut
+        )
+
+        for (itemId in menuItems) {
+            val menuItem = menu.findItem(itemId)
+            val actionView = menuItem?.actionView as? LinearLayout
+            val textView = actionView?.findViewById<TextView>(R.id.tv_text)
+
+            if (actionView != null && textView != null) textView.setTextColor(textColor)
+        }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.mi_mode -> {
+                true
+            }
             R.id.mi_profile -> {
                 val bundle = bundleOf(
                     "name" to requireArguments().getString("name").toString(),
