@@ -22,6 +22,10 @@ import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.options.Satisfaction
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import nl.dionsegijn.konfetti.core.Party
+import nl.dionsegijn.konfetti.core.emitter.Emitter
+import nl.dionsegijn.konfetti.xml.KonfettiView
+import java.util.concurrent.TimeUnit
 
 @Suppress("DEPRECATION")
 class Util {
@@ -131,7 +135,7 @@ class Util {
             if (lastTag == containerTag) fragmentManager.popBackStack()
         }
 
-        // navigates to a fragment
+        // navigates to a child fragment
         fun navigateToFragment(
             fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null
         ) {
@@ -147,11 +151,12 @@ class Util {
                 .addToBackStack(null).commit()
         }
 
+
         // creates an alert dialog
         fun createAlertDialog(
             activity: Activity,
             type: String? = null,
-            runnable: Runnable = Runnable {  },
+            runnable: Runnable = Runnable { },
             layoutInflater: LayoutInflater? = null,
             parentView: ConstraintLayout? = null
         ) {
@@ -178,13 +183,12 @@ class Util {
                         "history" -> activity.getString(R.string.history_has_been_cleared)
                         else -> ""
                     }
-                    createPopUpWindow(activity, text, layoutInflater, parentView)
+                    createPopUpWindow(text, layoutInflater, parentView)
                     runnable.run()
                 }
             }
             builder.setNegativeButton("No") { dialog, _ ->
                 createToast(activity, false)
-                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 dialog.dismiss()
             }
             builder.show()
@@ -192,10 +196,10 @@ class Util {
 
         // creates pop up window
         fun createPopUpWindow(
-            activity: Activity,
             text: String,
             layoutInflater: LayoutInflater?,
-            parentView: ConstraintLayout?
+            parentView: ConstraintLayout?,
+            konfettiView: KonfettiView? = null
         ) {
             if (layoutInflater == null || parentView == null) return
 
@@ -220,8 +224,8 @@ class Util {
 
             btnOk.setOnClickListener {
                 popupWindow.dismiss()
-                createToast(activity, false)
-                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                val party = Party(emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(50))
+                konfettiView?.start(party)
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
         }

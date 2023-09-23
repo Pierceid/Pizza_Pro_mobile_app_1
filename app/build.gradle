@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.example.pizza_pro'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.pizza_pro"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -60,4 +60,7 @@ dependencies {
 
     implementation 'androidx.room:room-ktx:2.5.0'
     kapt 'androidx.room:room-compiler:2.5.0'
+
+    implementation 'nl.dionsegijn:konfetti-compose:2.0.3'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.3'
 }

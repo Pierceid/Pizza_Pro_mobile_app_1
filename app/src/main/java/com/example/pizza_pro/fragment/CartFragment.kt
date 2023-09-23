@@ -148,10 +148,10 @@ class CartFragment : Fragment(), OnClickListener {
         val runnable = {
             insertDataIntoDatabase()
             Util.createPopUpWindow(
-                requireActivity(),
                 getString(R.string.ordered_successfully),
                 layoutInflater,
-                binding.clCart
+                binding.clCart,
+                binding.konfettiView
             )
             orderedPizzas.clear()
             adapter = PizzaAdapter(childFragmentManager, orderedPizzas)

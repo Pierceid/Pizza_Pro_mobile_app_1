@@ -166,10 +166,10 @@ class FeedbackFragment : Fragment(), OnClickListener {
     private fun createFeedbackAlertDialog() {
         val runnable = {
             Util.createPopUpWindow(
-                requireActivity(),
                 getString(R.string.sent_successfully),
                 layoutInflater,
-                binding.clFeedback
+                binding.clFeedback,
+                binding.konfettiView
             )
             clearInput()
         }

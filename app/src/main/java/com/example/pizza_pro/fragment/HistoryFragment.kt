@@ -76,7 +76,6 @@ class HistoryFragment : Fragment(), OnClickListener {
     private fun createHistoryAlertDialog() {
         val runnable = {
             Util.createPopUpWindow(
-                requireActivity(),
                 getString(R.string.history_has_been_cleared),
                 layoutInflater,
                 binding.clHistory
