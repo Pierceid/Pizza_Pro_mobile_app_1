@@ -2,7 +2,6 @@ package com.example.pizza_pro.utils
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.UiModeManager
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
@@ -220,12 +219,6 @@ class Util {
                 activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
-        }
-
-        // check whether the user has dark mode or not
-        fun isDarkModeEnabled(context: Context): Boolean {
-            val uiModeManager = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
-            return uiModeManager.nightMode == UiModeManager.MODE_NIGHT_YES
         }
     }
 }
