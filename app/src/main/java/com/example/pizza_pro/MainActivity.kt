@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    @Deprecated(
-        "Deprecated in Java",
+
+    @Deprecated("Deprecated in Java",
         ReplaceWith("Util.createAlertDialog(this)", "com.example.pizza_pro.utils.Util")
     )
     override fun onBackPressed() {
