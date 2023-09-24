@@ -27,10 +27,10 @@
         <action
             android:id="@+id/action_accountFragment_to_introFragment"
             app:destination="@id/introFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/accountFragment"
             app:popUpToInclusive="true" />
         <action
@@ -117,10 +117,10 @@
         <action
             android:id="@+id/action_feedbackFragment_to_cartFragment"
             app:destination="@id/cartFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/feedbackFragment"
             app:popUpToInclusive="true" />
     </fragment>
