@@ -16,7 +16,9 @@ import com.example.pizza_pro.database.OrderViewModel
 import com.example.pizza_pro.databinding.FragmentAccountBinding
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.Util
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.runBlocking
+import java.util.*
 
 @Suppress("DEPRECATION")
 class AccountFragment : Fragment(), OnClickListener {
@@ -30,7 +32,8 @@ class AccountFragment : Fragment(), OnClickListener {
     private lateinit var location: String
     private lateinit var gender: Gender
     private var isPasswordVisible = false
-    private var isRegistering: Boolean = true
+    private var isRegistering = true
+    private var inputFields = listOf<TextInputEditText>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +57,7 @@ class AccountFragment : Fragment(), OnClickListener {
         navController = Navigation.findNavController(view)
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
 
-        val buttons = listOf(
+        listOf(
             binding.btnSwap,
             binding.btnEye,
             binding.rbMale,
@@ -62,13 +65,12 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.rbOther,
             binding.btnCancel,
             binding.btnNext
-        )
-        for (button in buttons) button.setOnClickListener(this)
+        ).forEach { it.setOnClickListener(this) }
 
-        val inputs = listOf(
+        inputFields = listOf(
             binding.inputName, binding.inputEmail, binding.inputPassword, binding.inputLocation
         )
-        for (input in inputs) input.setOnFocusChangeListener { _, _ -> checkInput() }
+        inputFields.forEach { it.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) checkInput() } }
     }
 
     @Deprecated("Deprecated in Java")
@@ -125,24 +127,21 @@ class AccountFragment : Fragment(), OnClickListener {
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.btn_swap -> {
-                val inputs = listOf(
-                    binding.inputName,
-                    binding.inputEmail,
-                    binding.inputPassword,
-                    binding.inputLocation
-                )
-                for (input in inputs) input.clearFocus()
-
+                clearInputsFocus()
                 isRegistering = !isRegistering
                 updateAccount(newIsRegistering = isRegistering, swapSelection = true)
             }
             R.id.btn_eye -> {
+                clearInputsFocus()
                 isPasswordVisible = !isPasswordVisible
                 updateAccount(newIsPasswordVisible = isPasswordVisible)
             }
-            R.id.rb_male, R.id.rb_female, R.id.rb_other -> updateAccount()
+            R.id.rb_male, R.id.rb_female, R.id.rb_other -> {
+                clearInputsFocus()
+                updateAccount()
+            }
             R.id.btn_next -> {
-                if (checkInput()) {
+                if (checkInput() && !doInputsHaveFocus()) {
                     val bundle = bundleOf(
                         "name" to name,
                         "email" to email,
@@ -153,6 +152,7 @@ class AccountFragment : Fragment(), OnClickListener {
                     )
                     navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
                 }
+                clearInputsFocus()
             }
             R.id.btn_cancel -> {
                 requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
@@ -257,12 +257,18 @@ class AccountFragment : Fragment(), OnClickListener {
 
     // assigns values to attributes
     private fun getInput() {
-        name = binding.inputName.text.toString()
-        email = binding.inputEmail.text.toString()
-        password = binding.inputPassword.text.toString()
-        location = binding.inputLocation.text.toString()
+        name = binding.inputName.text.toString().trim()
+        email = binding.inputEmail.text.toString().trim()
+        password = binding.inputPassword.text.toString().trim()
+        location = binding.inputLocation.text.toString().trim()
         gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions)
         isPasswordVisible = Util.getVisibilityOfPassword(binding.btnEye, requireContext())
         isRegistering = Util.getIsRegistering(binding.tvSelected, requireActivity())
     }
+
+    // clears focus of all input fields
+    private fun clearInputsFocus() = inputFields.forEach { it.clearFocus() }
+
+    // checks focus of all input fields
+    private fun doInputsHaveFocus(): Boolean = inputFields.any { it.hasFocus() }
 }

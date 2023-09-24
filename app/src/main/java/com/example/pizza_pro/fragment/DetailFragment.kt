@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.pizza_pro.databinding.FragmentDetailBinding
 
 @Suppress("DEPRECATION")
-class DetailFragment : Fragment(){
+class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
     private lateinit var name: String
@@ -39,9 +39,7 @@ class DetailFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnClose.setOnClickListener {
-            requireFragmentManager().popBackStack()
-        }
+        binding.btnClose.setOnClickListener { requireFragmentManager().popBackStack() }
         updateDetail()
     }
 

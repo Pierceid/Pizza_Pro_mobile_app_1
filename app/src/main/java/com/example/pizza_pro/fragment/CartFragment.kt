@@ -61,10 +61,9 @@ class CartFragment : Fragment(), OnClickListener {
         binding.rvOrderedPizzas.adapter = adapter
         calculateCosts()
 
-        val buttons = listOf(
+        listOf(
             binding.btnApply, binding.btnOrder, binding.btnShop, binding.btnFeedback
-        )
-        for (button in buttons) button.setOnClickListener(this)
+        ).forEach { it.setOnClickListener(this) }
     }
 
     @Deprecated("Deprecated in Java")

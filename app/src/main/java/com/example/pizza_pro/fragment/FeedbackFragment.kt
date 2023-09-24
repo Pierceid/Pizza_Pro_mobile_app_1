@@ -45,8 +45,7 @@ class FeedbackFragment : Fragment(), OnClickListener {
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
 
-        val buttons = listOf(binding.btnSend, binding.btnDiscard, binding.btnCart)
-        for (button in buttons) button.setOnClickListener(this)
+        listOf(binding.btnSend, binding.btnDiscard, binding.btnCart).forEach { it.setOnClickListener(this) }
     }
 
     @Deprecated("Deprecated in Java")

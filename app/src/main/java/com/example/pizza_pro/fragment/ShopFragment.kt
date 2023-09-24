@@ -54,8 +54,7 @@ class ShopFragment : Fragment(), OnClickListener {
         navController = Navigation.findNavController(view)
         updateShop()
 
-        val buttons = listOf(binding.btnHome, binding.btnCart)
-        for (button in buttons) button.setOnClickListener(this)
+        listOf(binding.btnHome, binding.btnCart, binding.ivBanner).forEach { it.setOnClickListener(this) }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) updateShop()
@@ -146,6 +145,7 @@ class ShopFragment : Fragment(), OnClickListener {
             R.id.btn_cart -> {
                 navController.navigate(R.id.action_shopFragment_to_cartFragment, bundle)
             }
+            R.id.iv_banner -> binding.etSearchBar.clearFocus()
         }
     }
 

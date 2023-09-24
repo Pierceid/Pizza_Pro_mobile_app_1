@@ -34,8 +34,7 @@ class HistoryFragment : Fragment(), OnClickListener {
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
         updateHistory()
 
-        val buttons = listOf(binding.btnClose, binding.btnClear)
-        for (button in buttons) button.setOnClickListener(this)
+        listOf(binding.btnClose, binding.btnClear).forEach { it.setOnClickListener(this) }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) updateHistory()
