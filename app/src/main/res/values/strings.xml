@@ -27,10 +27,9 @@
     <string name="feedback">Feedback</string>
     <!-- Intro -->
     <string name="title">Title</string>
+    <string name="logo">Logo</string>
     <string name="motto">Motto</string>
     <string name="lets_get_started">Lets get started</string>
-    <string name="hot_fresh_and_always_on_time">Hot, fresh and always on time</string>
-    <string name="logo">Logo</string>
     <!-- Account -->
     <string name="log_in_or_register">Log in or register</string>
     <string name="register">Register</string>
