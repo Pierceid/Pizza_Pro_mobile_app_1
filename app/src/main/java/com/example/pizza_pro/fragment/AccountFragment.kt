@@ -170,8 +170,6 @@ class AccountFragment : Fragment(), OnClickListener {
         outState.putString("password", password)
         outState.putString("location", location)
         outState.putSerializable("gender", gender)
-        outState.putBoolean("isPasswordVisible", isPasswordVisible)
-        outState.putBoolean("isRegistering", isRegistering)
     }
 
     // restores data from the saved state
@@ -183,9 +181,7 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.inputPassword.setText(savedInstanceState.getString("password").toString())
             binding.inputLocation.setText(savedInstanceState.getString("location").toString())
             updateAccount(
-                savedInstanceState.getBoolean("isPasswordVisible"),
-                savedInstanceState.getSerializable("gender") as Gender,
-                savedInstanceState.getBoolean("isRegistering")
+                newGender = savedInstanceState.getSerializable("gender") as Gender,
             )
         }
     }
@@ -193,8 +189,7 @@ class AccountFragment : Fragment(), OnClickListener {
     // updates account fragment
     private fun updateAccount(
         newIsPasswordVisible: Boolean = Util.getVisibilityOfPassword(
-            binding.btnEye,
-            requireContext()
+            binding.btnEye, requireContext()
         ),
         newGender: Gender = Util.getGenderFromRadioGroup(binding.rgGenderOptions),
         newIsRegistering: Boolean = Util.getIsRegistering(binding.tvSelected, requireActivity()),
