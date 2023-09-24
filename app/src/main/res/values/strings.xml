@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Pizza Pro</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="example">example</string>
     <string name="background">background</string>
     <!-- Top app bar -->
@@ -25,11 +26,11 @@
     <string name="cart">Cart</string>
     <string name="feedback">Feedback</string>
     <!-- Intro -->
-    <string name="pizza_pro">Pizza Pro</string>
+    <string name="title">Title</string>
+    <string name="motto">Motto</string>
     <string name="lets_get_started">Lets get started</string>
     <string name="hot_fresh_and_always_on_time">Hot, fresh and always on time</string>
     <string name="logo">Logo</string>
-    <string name="title_activity_main">MainActivity</string>
     <!-- Account -->
     <string name="log_in_or_register">Log in or register</string>
     <string name="register">Register</string>

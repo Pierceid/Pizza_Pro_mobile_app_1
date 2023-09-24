@@ -16,34 +16,36 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <TextView
-            style="@style/Widget.Pizza_Pro.TextView"
-            android:text="@string/pizza_pro"
-            android:textAlignment="center"
-            android:textColor="@color/purple"
-            android:textSize="70sp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/title"
+            android:scaleType="fitXY"
+            app:srcCompat="@raw/title" />
 
         <ImageView
-            android:layout_width="310dp"
-            android:layout_height="290dp"
+            android:layout_width="320dp"
+            android:layout_height="280dp"
             android:layout_marginTop="40dp"
             android:contentDescription="@string/logo"
             android:scaleType="fitXY"
             app:srcCompat="@raw/logo" />
 
-        <TextView
-            style="@style/Widget.Pizza_Pro.TextView"
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="@string/hot_fresh_and_always_on_time"
-            android:textAlignment="center"
-            android:textColor="@color/purple"
-            android:textSize="20sp" />
+            android:contentDescription="@string/motto"
+            android:scaleType="fitXY"
+            app:srcCompat="@raw/motto" />
 
         <LinearLayout
             android:id="@+id/btn_start"
             android:layout_width="225dp"
             android:layout_height="75dp"
             android:layout_marginTop="60dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/white_rectangle"
             android:elevation="10dp">
 
