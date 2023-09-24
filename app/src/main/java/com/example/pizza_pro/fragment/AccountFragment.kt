@@ -180,9 +180,7 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.inputEmail.setText(savedInstanceState.getString("email").toString())
             binding.inputPassword.setText(savedInstanceState.getString("password").toString())
             binding.inputLocation.setText(savedInstanceState.getString("location").toString())
-            updateAccount(
-                newGender = savedInstanceState.getSerializable("gender") as Gender,
-            )
+            updateAccount(newGender = savedInstanceState.getSerializable("gender") as Gender)
         }
     }
 
