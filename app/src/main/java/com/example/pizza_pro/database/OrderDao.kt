@@ -8,9 +8,6 @@ interface OrderDao {
     @Upsert
     suspend fun upsertOrder(order: Order)
 
-    @Delete
-    suspend fun deleteOrder(order: Order)
-
     @Query("DELETE FROM pizza_order_table")
     suspend fun clearAllOrders()
 
