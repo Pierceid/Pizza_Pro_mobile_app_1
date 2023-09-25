@@ -158,35 +158,37 @@ class Util {
             layoutInflater: LayoutInflater? = null,
             parentView: ConstraintLayout? = null
         ) {
-            createToast(activity, true)
-            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+            if (!activity.isFinishing) {
+                createToast(activity, true)
+                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
 
-            val builder = AlertDialog.Builder(activity)
-            val message = when (type) {
-                "order" -> activity.getString(R.string.place_order)
-                "feedback" -> activity.getString(R.string.share_feedback)
-                "history" -> activity.getString(R.string.clear_history)
-                else -> activity.getString(R.string.exit_app)
-            }
-            builder.setMessage(message)
-            builder.setPositiveButton("Yes") { _, _ ->
-                if (type == null) {
-                    createToast(activity, false)
-                    activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    activity.finish()
-                } else {
-                    val text = when (type) {
-                        "order" -> activity.getString(R.string.ordered_successfully)
-                        "feedback" -> activity.getString(R.string.sent_successfully)
-                        "history" -> activity.getString(R.string.history_has_been_cleared)
-                        else -> ""
-                    }
-                    createPopUpWindow(text, layoutInflater, parentView)
-                    runnable.run()
+                val builder = AlertDialog.Builder(activity)
+                val message = when (type) {
+                    "order" -> activity.getString(R.string.place_order)
+                    "feedback" -> activity.getString(R.string.share_feedback)
+                    "history" -> activity.getString(R.string.clear_history)
+                    else -> activity.getString(R.string.exit_app)
                 }
+                builder.setMessage(message)
+                builder.setPositiveButton("Yes") { _, _ ->
+                    if (type == null) {
+                        createToast(activity, false)
+                        activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                        activity.finish()
+                    } else {
+                        val text = when (type) {
+                            "order" -> activity.getString(R.string.ordered_successfully)
+                            "feedback" -> activity.getString(R.string.sent_successfully)
+                            "history" -> activity.getString(R.string.history_has_been_cleared)
+                            else -> ""
+                        }
+                        createPopUpWindow(text, layoutInflater, parentView)
+                        runnable.run()
+                    }
+                }
+                builder.setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
+                builder.show()
             }
-            builder.setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
-            builder.show()
         }
 
         // creates pop up window
