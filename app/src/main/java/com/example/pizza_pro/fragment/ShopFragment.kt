@@ -55,9 +55,7 @@ class ShopFragment : Fragment(), OnClickListener {
         updateShop()
 
         listOf(binding.btnHome, binding.btnCart, binding.ivBanner).forEach {
-            it.setOnClickListener(
-                this
-            )
+            it.setOnClickListener(this)
         }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
