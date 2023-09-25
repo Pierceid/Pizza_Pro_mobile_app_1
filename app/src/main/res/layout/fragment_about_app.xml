@@ -39,57 +39,63 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/white_rectangle"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_version"
-                style="@style/Widget.Pizza_Pro.TextView"
-                android:layout_margin="5dp"
-                android:text='@{version}'
-                android:textColor="@color/black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white_rectangle"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/tv_copyright"
-                style="@style/Widget.Pizza_Pro.TextView"
-                android:layout_margin="5dp"
-                android:text='@{copyright}'
-                android:textColor="@color/black" />
+                <TextView
+                    android:id="@+id/tv_version"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_margin="5dp"
+                    android:text='@{version}'
+                    android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tv_description"
-                style="@style/Widget.Pizza_Pro.TextView"
-                android:layout_margin="5dp"
-                android:text='@{description}'
-                android:textColor="@color/purple" />
+                <TextView
+                    android:id="@+id/tv_copyright"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_margin="5dp"
+                    android:text='@{copyright}'
+                    android:textColor="@color/black" />
 
-            <TextView
-                android:id="@+id/tv_highlights"
-                style="@style/Widget.Pizza_Pro.TextView"
-                android:layout_margin="5dp"
-                android:text='@{highlights}'
-                android:textColor="@color/blue" />
+                <TextView
+                    android:id="@+id/tv_description"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_margin="5dp"
+                    android:text='@{description}'
+                    android:textColor="@color/purple" />
 
-            <TextView
-                android:id="@+id/tv_support"
-                style="@style/Widget.Pizza_Pro.TextView"
-                android:layout_margin="5dp"
-                android:text='@{support}'
-                android:textColor="@color/purple" />
+                <TextView
+                    android:id="@+id/tv_highlights"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_margin="5dp"
+                    android:text='@{highlights}'
+                    android:textColor="@color/blue" />
 
-            <TextView
-                android:id="@+id/tv_thanks"
-                style="@style/Widget.Pizza_Pro.TextView"
-                android:layout_margin="5dp"
-                android:text='@{thanks}'
-                android:textColor="@color/blue" />
+                <TextView
+                    android:id="@+id/tv_support"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_margin="5dp"
+                    android:text='@{support}'
+                    android:textColor="@color/purple" />
+
+                <TextView
+                    android:id="@+id/tv_thanks"
+                    style="@style/Widget.Pizza_Pro.TextView"
+                    android:layout_margin="5dp"
+                    android:text='@{thanks}'
+                    android:textColor="@color/blue" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_close"
                 style="@style/Widget.Pizza_Pro.Button"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/close" />
         </LinearLayout>
     </ScrollView>
