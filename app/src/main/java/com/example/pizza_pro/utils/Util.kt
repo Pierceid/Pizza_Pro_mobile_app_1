@@ -118,9 +118,7 @@ class Util {
         }
 
         // updates main list of pizzas based on some other list of pizzas
-        fun updatePizzas(
-            mainList: MutableList<Pizza>, otherList: MutableList<Pizza>
-        ) {
+        fun updatePizzas(mainList: MutableList<Pizza>, otherList: MutableList<Pizza>) {
             if (otherList.isNotEmpty()) {
                 otherList.forEach { otherPizza ->
                     mainList.find { it.name == otherPizza.name }?.count = otherPizza.count
@@ -187,10 +185,7 @@ class Util {
                     runnable.run()
                 }
             }
-            builder.setNegativeButton("No") { dialog, _ ->
-                createToast(activity, false)
-                dialog.dismiss()
-            }
+            builder.setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
             builder.show()
         }
 
@@ -232,9 +227,8 @@ class Util {
 
         // creates toast message
         fun createToast(activity: Activity, willBeLocked: Boolean) {
-            val message =
-                if (willBeLocked) activity.getString(R.string.locked)
-                else activity.getString(R.string.unlocked)
+            val message = if (willBeLocked) activity.getString(R.string.locked)
+            else activity.getString(R.string.unlocked)
             Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
         }
 

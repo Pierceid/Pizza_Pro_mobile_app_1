@@ -34,7 +34,6 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/topAppBar"
                 style="@style/Widget.Pizza_Pro.Toolbar"
-                app:navigationIcon="@drawable/ic_menu"
                 app:title="@string/check_your_cart" />
         </com.google.android.material.appbar.AppBarLayout>
 

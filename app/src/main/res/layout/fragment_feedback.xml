@@ -17,7 +17,6 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
             style="@style/Widget.Pizza_Pro.Toolbar"
-            app:navigationIcon="@drawable/ic_menu"
             app:title="@string/give_us_feedback" />
     </com.google.android.material.appbar.AppBarLayout>
 

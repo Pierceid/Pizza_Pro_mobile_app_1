@@ -16,7 +16,6 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
             style="@style/Widget.Pizza_Pro.Toolbar"
-            app:navigationIcon="@drawable/ic_menu"
             app:title="@string/log_in_or_register" />
     </com.google.android.material.appbar.AppBarLayout>
 
