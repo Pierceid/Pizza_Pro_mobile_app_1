@@ -16,6 +16,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/topAppBar"
             style="@style/Widget.Pizza_Pro.Toolbar"
+            app:popupTheme="@style/ThemeOverLay.Pizza_Pro.PopupTheme"
             app:title="@string/log_in_or_register" />
     </com.google.android.material.appbar.AppBarLayout>
 

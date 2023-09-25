@@ -19,6 +19,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="ThemeOverLay.Pizza_Pro.PopupTheme" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:colorForeground">@color/black</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
     <style name="Theme.Pizza_Pro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Pizza_Pro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
