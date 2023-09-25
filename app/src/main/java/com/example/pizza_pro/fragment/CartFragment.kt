@@ -97,12 +97,12 @@ class CartFragment : Fragment(), OnClickListener {
                 Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
                 true
             }
-            R.id.mi_aboutApp -> {
-                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
-                true
-            }
             R.id.mi_history -> {
                 Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
+                true
+            }
+            R.id.mi_aboutApp -> {
+                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
                 true
             }
             R.id.mi_logOut -> {
