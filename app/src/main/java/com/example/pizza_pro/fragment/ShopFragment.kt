@@ -152,14 +152,14 @@ class ShopFragment : Fragment(), OnClickListener {
     }
 
     // updates shop fragment
-    private fun updateShop() {
+    private fun updateShop(regex: String = binding.etSearchBar.text.toString()) {
         adapter = PizzaAdapter(childFragmentManager, pizzas)
 
-        val regex = binding.etSearchBar.text.toString()
-        val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
-
-        Util.updatePizzas(pizzas, filteredPizzas)
-        adapter = PizzaAdapter(childFragmentManager, filteredPizzas)
+        if (regex.trim().isNotEmpty()) {
+            val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
+            Util.updatePizzas(pizzas, filteredPizzas)
+            adapter = PizzaAdapter(childFragmentManager, filteredPizzas)
+        }
 
         binding.rvPizzas.adapter = adapter
     }
