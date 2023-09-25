@@ -13,6 +13,7 @@ import com.example.pizza_pro.fragment.DetailFragment
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.utils.Util
 import java.text.NumberFormat
+import java.util.*
 
 class PizzaAdapter(
     private val fragmentManager: FragmentManager, private val pizzas: MutableList<Pizza>
@@ -75,7 +76,8 @@ class PizzaAdapter(
         holder.pizza.setImageResource(pizza.imageSource)
         holder.name.text = pizza.name
         holder.count.text = pizza.count.toString()
-        holder.cost.text = String.format("Cost: %s", NumberFormat.getCurrencyInstance().format(pizza.cost))
+        holder.cost.text =
+            String.format("Cost: %s", NumberFormat.getCurrencyInstance().format(pizza.cost))
     }
 
     // returns number of pizzas
@@ -89,7 +91,9 @@ class PizzaAdapter(
 
     // returns list of filtered pizzas
     fun getFilteredPizzas(regex: String): MutableList<Pizza> =
-        pizzas.filter { it.name!!.contains(regex) } as MutableList<Pizza>
+        pizzas.filter {
+            it.name!!.lowercase(Locale.getDefault()).contains(regex.lowercase(Locale.getDefault()))
+        } as MutableList<Pizza>
 
     // returns list of filtered pizzas
     fun getSelectedPizzas(): MutableList<Pizza> =
