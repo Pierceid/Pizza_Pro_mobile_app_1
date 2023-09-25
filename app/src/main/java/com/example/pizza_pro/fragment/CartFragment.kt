@@ -40,7 +40,7 @@ class CartFragment : Fragment(), OnClickListener {
 
         orderedPizzas =
             requireArguments().getParcelableArrayList<Pizza>("selectedItems") as MutableList<Pizza>
-        adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
+        adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
 
         if (requireArguments().getBoolean("isLocked"))
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
@@ -153,7 +153,7 @@ class CartFragment : Fragment(), OnClickListener {
                 binding.konfettiView
             )
             orderedPizzas.clear()
-            adapter = PizzaAdapter(childFragmentManager, orderedPizzas)
+            adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
             binding.rvOrderedPizzas.adapter = adapter
             updateCart()
         }

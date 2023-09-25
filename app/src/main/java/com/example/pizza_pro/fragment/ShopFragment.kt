@@ -30,7 +30,7 @@ class ShopFragment : Fragment(), OnClickListener {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        adapter = PizzaAdapter(childFragmentManager, DataSource().loadData())
+        adapter = PizzaAdapter(requireFragmentManager(), DataSource().loadData())
         pizzas = adapter.getPizzas()
         val changedPizzas =
             (requireArguments().getParcelableArrayList<Pizza>("orderedItems") as? MutableList<Pizza>)
@@ -153,12 +153,12 @@ class ShopFragment : Fragment(), OnClickListener {
 
     // updates shop fragment
     private fun updateShop(regex: String = binding.etSearchBar.text.toString()) {
-        adapter = PizzaAdapter(childFragmentManager, pizzas)
+        adapter = PizzaAdapter(requireFragmentManager(), pizzas)
 
         if (regex.trim().isNotEmpty()) {
             val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
             Util.updatePizzas(pizzas, filteredPizzas)
-            adapter = PizzaAdapter(childFragmentManager, filteredPizzas)
+            adapter = PizzaAdapter(requireFragmentManager(), filteredPizzas)
         }
 
         binding.rvPizzas.adapter = adapter
