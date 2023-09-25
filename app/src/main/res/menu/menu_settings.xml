@@ -6,7 +6,7 @@
         android:id="@+id/mi_lock"
         android:icon="@drawable/baseline_lock_reset_24"
         android:title=""
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
 
     <item android:title="@string/basic">
         <menu>
