@@ -54,7 +54,11 @@ class ShopFragment : Fragment(), OnClickListener {
         navController = Navigation.findNavController(view)
         updateShop()
 
-        listOf(binding.btnHome, binding.btnCart, binding.ivBanner).forEach { it.setOnClickListener(this) }
+        listOf(binding.btnHome, binding.btnCart, binding.ivBanner).forEach {
+            it.setOnClickListener(
+                this
+            )
+        }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) updateShop()
@@ -154,11 +158,10 @@ class ShopFragment : Fragment(), OnClickListener {
         adapter = PizzaAdapter(childFragmentManager, pizzas)
 
         val regex = binding.etSearchBar.text.toString()
-        if (regex.isNotEmpty()) {
-            val filteredPizzas = adapter.getFilteredPizzas(regex)
-            Util.updatePizzas(pizzas, filteredPizzas)
-            adapter = PizzaAdapter(childFragmentManager, filteredPizzas)
-        }
+        val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
+
+        Util.updatePizzas(pizzas, filteredPizzas)
+        adapter = PizzaAdapter(childFragmentManager, filteredPizzas)
 
         binding.rvPizzas.adapter = adapter
     }

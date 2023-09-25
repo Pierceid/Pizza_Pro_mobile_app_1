@@ -65,7 +65,7 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     // updates history fragment
     private fun updateHistory(regex: String = binding.etSearchBar.text.toString()) {
-        orderViewModel.filterOrders(regex)
+        orderViewModel.filterOrders(regex.trim())
         orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
             adapter.initOrders(newOrders)
         }
