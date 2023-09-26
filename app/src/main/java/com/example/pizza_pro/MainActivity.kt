@@ -24,4 +24,3 @@ class MainActivity : AppCompatActivity() {
         Util.createAlertDialog(this)
     }
 }
-
