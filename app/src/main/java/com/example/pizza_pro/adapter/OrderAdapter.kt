@@ -30,7 +30,7 @@ class OrderAdapter : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
         holder.header.text = String.format("%d. %s", order.id, order.userInfo.name)
         holder.body.text = String.format(
-            "Email: %s\nTime: %s\nPlace: %s\nItems: %d (%s)",
+            "Email: %s\nTime: %s\nPlace: %s\nPurchase: %d (%s)",
             order.userInfo.email,
             order.time,
             order.place,
