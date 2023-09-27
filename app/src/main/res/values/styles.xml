@@ -21,8 +21,10 @@
     <style name="Widget.Pizza_Pro.RadioButton" parent="@style/Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:minHeight">48dp</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Widget.Pizza_Pro.PopUpMenu" parent="@style/Widget.AppCompat.PopupMenu">

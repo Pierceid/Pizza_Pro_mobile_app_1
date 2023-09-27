@@ -116,7 +116,6 @@ class CartFragment : Fragment(), OnClickListener {
     // handles on click methods
     override fun onClick(v: View?) {
         updateCart()
-
         val bundle = bundleOf(
             "name" to requireArguments().getString("name").toString(),
             "email" to requireArguments().getString("email").toString(),

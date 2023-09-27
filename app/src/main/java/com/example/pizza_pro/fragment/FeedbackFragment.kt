@@ -21,9 +21,9 @@ class FeedbackFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentFeedbackBinding
     private lateinit var navController: NavController
-    private lateinit var satisfaction: Satisfaction
-    private lateinit var thoughts: String
-    private var followUp: Boolean = false
+    private var satisfaction: Satisfaction = Satisfaction.GREAT
+    private var thoughts: String = ""
+    private var followUp: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +44,14 @@ class FeedbackFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
+        updateFeedback()
 
-        listOf(binding.btnSend, binding.btnDiscard, binding.btnCart).forEach { it.setOnClickListener(this) }
+        listOf(
+            binding.btnSend,
+            binding.btnDiscard,
+            binding.btnCart,
+            binding.scFollowUp
+        ).forEach { it.setOnClickListener(this) }
     }
 
     @Deprecated("Deprecated in Java")
@@ -108,12 +114,11 @@ class FeedbackFragment : Fragment(), OnClickListener {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            Util.checkSatisfactionRadioButton(
+            updateFeedback(
                 savedInstanceState.getSerializable("satisfaction") as Satisfaction,
-                binding.rgSatisfactionOptions
+                savedInstanceState.getString("thoughts").toString(),
+                savedInstanceState.getBoolean("followUp")
             )
-            binding.etThoughts.setText(savedInstanceState.getString("thoughts").toString())
-            binding.scFollowUp.isChecked = savedInstanceState.getBoolean("followUp")
         }
     }
 
@@ -131,6 +136,10 @@ class FeedbackFragment : Fragment(), OnClickListener {
         when (v!!.id) {
             R.id.btn_send -> createFeedbackAlertDialog()
             R.id.btn_discard -> clearInput()
+            R.id.sc_followUp -> {
+                followUp = !followUp
+                Util.changeSwitchState(requireContext(), followUp, binding.scFollowUp)
+            }
             R.id.btn_cart -> {
                 navController.navigate(R.id.action_feedbackFragment_to_cartFragment, bundle)
             }
@@ -138,10 +147,17 @@ class FeedbackFragment : Fragment(), OnClickListener {
     }
 
     // updates feedback fragment
-    private fun updateFeedback() {
+    private fun updateFeedback(
+        newSatisfaction: Satisfaction = satisfaction,
+        newThoughts: String = thoughts,
+        newFollowUp: Boolean = followUp
+    ) {
+        satisfaction = newSatisfaction
         Util.checkSatisfactionRadioButton(satisfaction, binding.rgSatisfactionOptions)
+        thoughts = newThoughts
         binding.etThoughts.setText(thoughts)
-        binding.scFollowUp.isChecked = followUp
+        followUp = newFollowUp
+        Util.changeSwitchState(requireContext(), followUp, binding.scFollowUp)
     }
 
     // assigns values to attributes
@@ -152,12 +168,7 @@ class FeedbackFragment : Fragment(), OnClickListener {
     }
 
     // resets values to attributes
-    private fun clearInput() {
-        satisfaction = Satisfaction.GREAT
-        thoughts = ""
-        followUp = false
-        updateFeedback()
-    }
+    private fun clearInput() = updateFeedback(Satisfaction.GREAT, "", true)
 
     // creates an alert dialog for sharing feedback
     private fun createFeedbackAlertDialog() {

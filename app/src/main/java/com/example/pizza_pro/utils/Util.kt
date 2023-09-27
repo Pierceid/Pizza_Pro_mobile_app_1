@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.PasswordTransformationMethod
@@ -12,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -115,6 +117,20 @@ class Util {
                 else -> R.id.rb_bad
             }
             radioGroup.check(radioButtonId)
+        }
+
+        // changes colors of switch compat
+        fun changeSwitchState(context: Context, followUp: Boolean, switchCompat: SwitchCompat) {
+            val thumbColor = if (followUp) R.color.teal else R.color.smoke
+            val trackColor = if (followUp) R.color.aqua else R.color.gray
+
+            switchCompat.thumbTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(context, thumbColor)
+            )
+            switchCompat.trackTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(context, trackColor)
+            )
+            switchCompat.isChecked = followUp
         }
 
         // updates main list of pizzas based on some other list of pizzas

@@ -45,11 +45,12 @@
 
                 <TextView
                     android:id="@+id/tv_selected"
-                    style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/register"
                     android:textColor="@color/purple"
                     android:textSize="30sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_swap"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,12 +70,12 @@
 
                 <TextView
                     android:id="@+id/tv_unselected"
-                    style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_width="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:layout_height="wrap_content"
                     android:text="@string/log_in"
                     android:textColor="@color/slate"
                     android:textSize="30sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/btn_swap"
@@ -167,29 +168,30 @@
                 <RadioButton
                     android:id="@+id/rb_male"
                     style="@style/Widget.Pizza_Pro.RadioButton"
-                    android:layout_marginEnd="10dp"
                     android:checked="true"
                     android:text="@string/male"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="VisualLintButtonSize" />
 
                 <RadioButton
                     android:id="@+id/rb_female"
                     style="@style/Widget.Pizza_Pro.RadioButton"
-                    android:layout_marginEnd="10dp"
                     android:text="@string/female"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="VisualLintButtonSize" />
 
                 <RadioButton
                     android:id="@+id/rb_other"
                     style="@style/Widget.Pizza_Pro.RadioButton"
                     android:text="@string/other"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    tools:ignore="VisualLintButtonSize" />
             </RadioGroup>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="20dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_next"
@@ -202,7 +204,7 @@
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="110dp"
                     android:layout_height="60dp"
-                    android:layout_marginEnd="15dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_toStartOf="@id/btn_next"
                     android:text="@string/cancel"
                     android:textSize="15sp" />

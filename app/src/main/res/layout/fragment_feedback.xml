@@ -46,7 +46,7 @@
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
-                    android:padding="3dp"
+                    android:paddingBottom="3dp"
                     android:text="@string/what_do_you_think_of_the_app"
                     android:textColor="@color/purple" />
 
@@ -60,47 +60,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checkedButton="@id/rb_great"
-                    android:orientation="horizontal"
-                    android:padding="3dp">
+                    android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_great"
                         style="@style/Widget.Pizza_Pro.RadioButton"
-                        android:layout_weight="1"
                         android:text="@string/great"
-                        android:textColor="@color/black"
                         tools:ignore="VisualLintButtonSize" />
 
                     <RadioButton
                         android:id="@+id/rb_good"
                         style="@style/Widget.Pizza_Pro.RadioButton"
-                        android:layout_weight="1"
                         android:text="@string/good"
-                        android:textColor="@color/black"
                         tools:ignore="VisualLintButtonSize" />
 
                     <RadioButton
                         android:id="@+id/rb_decent"
                         style="@style/Widget.Pizza_Pro.RadioButton"
-                        android:layout_weight="1"
                         android:text="@string/decent"
-                        android:textColor="@color/black"
                         tools:ignore="VisualLintButtonSize" />
 
                     <RadioButton
                         android:id="@+id/rb_bad"
                         style="@style/Widget.Pizza_Pro.RadioButton"
-                        android:layout_weight="1"
                         android:text="@string/bad"
-                        android:textColor="@color/black"
                         tools:ignore="VisualLintButtonSize" />
                 </RadioGroup>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="3dp">
+                    android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -145,7 +135,7 @@
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
-                    android:padding="3dp"
+                    android:paddingBottom="3dp"
                     android:text="@string/do_you_have_any_thoughts_you_d_like_to_share"
                     android:textColor="@color/purple" />
 
@@ -183,7 +173,7 @@
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
-                    android:padding="3dp"
+                    android:paddingBottom="3dp"
                     android:text="@string/may_we_follow_you_up_on_your_feedback"
                     android:textColor="@color/purple" />
 
@@ -196,28 +186,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="3dp">
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/Widget.Pizza_Pro.TextView"
-                        android:padding="5dp"
                         android:text="@string/yes"
                         android:textColor="@color/black"
                         android:textStyle="normal" />
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_followUp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minWidth="48dp"
-                        android:minHeight="48dp"
-                        android:padding="5dp"
+                        style="@style/Theme.Pizza_Pro.SwitchCompat"
+                        android:checked="true"
+                        android:padding="9dp"
                         android:rotation="180" />
 
                     <TextView
                         style="@style/Widget.Pizza_Pro.TextView"
-                        android:padding="5dp"
                         android:text="@string/no"
                         android:textColor="@color/black"
                         android:textStyle="normal" />
