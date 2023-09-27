@@ -127,6 +127,8 @@ class ShopFragment : Fragment(), OnClickListener {
 
     // handles on click methods
     override fun onClick(v: View?) {
+        updateShop("")
+
         val bundle = bundleOf(
             "name" to requireArguments().getString("name").toString(),
             "email" to requireArguments().getString("email").toString(),
