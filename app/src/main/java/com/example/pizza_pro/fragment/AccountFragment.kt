@@ -83,14 +83,12 @@ class AccountFragment : Fragment(), OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.mi_lock -> {
-                val willBeLocked =
+                val isLocked =
                     (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-
-                Util.createToast(requireActivity(), !willBeLocked)
                 requireActivity().requestedOrientation =
-                    if (willBeLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                     else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-
+                Util.createToast(requireActivity(), !isLocked)
                 true
             }
             R.id.mi_profile -> {
@@ -227,10 +225,8 @@ class AccountFragment : Fragment(), OnClickListener {
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
-        binding.inputPassword.error =
-            if (!validPassword) getString(R.string.short_password) else null
-        binding.inputLocation.error =
-            if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error = if (!validPassword) getString(R.string.short_password) else null
+        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
 
         return validName && validEmail && validPassword && validLocation
     }
@@ -242,10 +238,8 @@ class AccountFragment : Fragment(), OnClickListener {
         val validLocation = location.isNotEmpty()
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
-        binding.inputPassword.error =
-            if (!validPassword) getString(R.string.invalid_password) else null
-        binding.inputLocation.error =
-            if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
+        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
 
         if (order != null) {
             name = order.userInfo.name

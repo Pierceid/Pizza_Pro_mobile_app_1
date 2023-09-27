@@ -228,9 +228,10 @@ class Util {
         }
 
         // creates toast message
-        fun createToast(activity: Activity, willBeLocked: Boolean) {
-            val message = if (willBeLocked) activity.getString(R.string.locked)
-            else activity.getString(R.string.unlocked)
+        fun createToast(activity: Activity, isLocked: Boolean) {
+            val message =
+                if (isLocked) activity.getString(R.string.locked)
+                else activity.getString(R.string.unlocked)
             Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
         }
 

@@ -36,9 +36,7 @@ class HistoryFragment : Fragment(), OnClickListener {
 
         listOf(binding.btnClose, binding.btnClear).forEach { it.setOnClickListener(this) }
 
-        binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) updateHistory()
-        }
+        binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateHistory() }
     }
 
     // saves data in case of rotating screen or exiting app

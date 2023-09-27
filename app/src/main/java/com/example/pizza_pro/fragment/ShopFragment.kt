@@ -58,9 +58,7 @@ class ShopFragment : Fragment(), OnClickListener {
             it.setOnClickListener(this)
         }
 
-        binding.etSearchBar.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) updateShop()
-        }
+        binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateShop() }
     }
 
     @Deprecated("Deprecated in Java")
@@ -73,14 +71,12 @@ class ShopFragment : Fragment(), OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.mi_lock -> {
-                val willBeLocked =
+                val isLocked =
                     (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-
-                Util.createToast(requireActivity(), !willBeLocked)
                 requireActivity().requestedOrientation =
-                    if (willBeLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                     else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-
+                Util.createToast(requireActivity(), !isLocked)
                 true
             }
             R.id.mi_profile -> {

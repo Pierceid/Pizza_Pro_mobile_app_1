@@ -76,14 +76,12 @@ class CartFragment : Fragment(), OnClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.mi_lock -> {
-                val willBeLocked =
+                val isLocked =
                     (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-
-                Util.createToast(requireActivity(), !willBeLocked)
                 requireActivity().requestedOrientation =
-                    if (willBeLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                     else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-
+                Util.createToast(requireActivity(), !isLocked)
                 true
             }
             R.id.mi_profile -> {
@@ -199,9 +197,9 @@ class CartFragment : Fragment(), OnClickListener {
     private fun calculateCosts() {
         var itemsCost = 0.0
         itemCount = 0
-        for (pizza in orderedPizzas) {
-            itemsCost += (pizza.cost * pizza.count)
-            itemCount += pizza.count
+        orderedPizzas.forEach {
+            itemsCost += it.cost * it.count
+            itemCount += it.count
         }
         val deliveryCost = orderedPizzas.takeIf { it.isEmpty() }?.let { 0.0 } ?: 5.0
         totalCost = itemsCost + deliveryCost
