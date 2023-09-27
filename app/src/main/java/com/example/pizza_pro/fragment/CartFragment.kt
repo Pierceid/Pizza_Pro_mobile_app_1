@@ -115,6 +115,8 @@ class CartFragment : Fragment(), OnClickListener {
 
     // handles on click methods
     override fun onClick(v: View?) {
+        updateCart()
+
         val bundle = bundleOf(
             "name" to requireArguments().getString("name").toString(),
             "email" to requireArguments().getString("email").toString(),
@@ -125,9 +127,7 @@ class CartFragment : Fragment(), OnClickListener {
             "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {
-            R.id.btn_apply -> updateCart()
             R.id.btn_order -> {
-                updateCart()
                 if (orderedPizzas.size == 0) return
                 createOrderAlertDialog()
             }
