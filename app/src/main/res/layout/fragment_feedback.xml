@@ -41,12 +41,12 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_rectangle"
                 android:orientation="vertical"
-                android:padding="6dp">
+                android:padding="5dp">
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
-                    android:paddingBottom="3dp"
+                    android:paddingBottom="5dp"
                     android:text="@string/what_do_you_think_of_the_app"
                     android:textColor="@color/purple" />
 
@@ -130,12 +130,12 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/white_rectangle"
                 android:orientation="vertical"
-                android:padding="6dp">
+                android:padding="5dp">
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
-                    android:paddingBottom="3dp"
+                    android:paddingBottom="5dp"
                     android:text="@string/do_you_have_any_thoughts_you_d_like_to_share"
                     android:textColor="@color/purple" />
 
@@ -155,11 +155,16 @@
                     android:hint="@string/write_your_thoughts"
                     android:inputType="textMultiLine"
                     android:minHeight="120dp"
-                    android:padding="6dp"
+                    android:padding="5dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/slate"
                     android:textSize="20sp"
                     tools:ignore="VisualLintTextFieldSize" />
+
+                <nl.dionsegijn.konfetti.xml.KonfettiView
+                    android:id="@+id/konfettiView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout
@@ -168,12 +173,12 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/white_rectangle"
                 android:orientation="vertical"
-                android:padding="6dp">
+                android:padding="5dp">
 
                 <TextView
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:gravity="center"
-                    android:paddingBottom="3dp"
+                    android:paddingBottom="5dp"
                     android:text="@string/may_we_follow_you_up_on_your_feedback"
                     android:textColor="@color/purple" />
 
@@ -198,7 +203,7 @@
                         android:id="@+id/sc_followUp"
                         style="@style/Theme.Pizza_Pro.SwitchCompat"
                         android:checked="true"
-                        android:padding="9dp"
+                        android:padding="10dp"
                         android:rotation="180" />
 
                     <TextView
@@ -309,8 +314,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topAppBarLayout" />
 
-    <nl.dionsegijn.konfetti.xml.KonfettiView
-        android:id="@+id/konfettiView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
