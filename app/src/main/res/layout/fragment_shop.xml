@@ -115,15 +115,15 @@
                     <ImageView
                         style="@style/Theme.Pizza_Pro.ImageView"
                         android:layout_weight="1"
-                        android:contentDescription="@string/home"
+                        android:contentDescription="@string/account"
                         android:paddingEnd="20dp"
-                        app:srcCompat="@drawable/ic_home"
+                        app:srcCompat="@drawable/ic_account"
                         tools:ignore="NestedWeights" />
 
                     <TextView
                         style="@style/Theme.Pizza_Pro.TextView"
                         android:paddingEnd="20dp"
-                        android:text="@string/home" />
+                        android:text="@string/account" />
                 </LinearLayout>
 
                 <LinearLayout
