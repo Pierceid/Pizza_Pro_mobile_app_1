@@ -47,7 +47,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_rectangle"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:paddingHorizontal="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:id="@+id/tv_version"
