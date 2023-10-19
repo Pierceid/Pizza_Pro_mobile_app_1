@@ -160,11 +160,6 @@
                     android:textColorHint="@color/slate"
                     android:textSize="20sp"
                     tools:ignore="VisualLintTextFieldSize" />
-
-                <nl.dionsegijn.konfetti.xml.KonfettiView
-                    android:id="@+id/konfettiView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout
@@ -314,4 +309,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topAppBarLayout" />
 
+    <nl.dionsegijn.konfetti.xml.KonfettiView
+        android:id="@+id/konfettiView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
