@@ -8,6 +8,8 @@ class OrderRepository(private val dao: OrderDao) {
 
     suspend fun addOrder(order: Order) = dao.upsertOrder(order)
 
+    suspend fun removeOrder(order: Order) = dao.deleteOrder(order)
+
     suspend fun clearAllOrders() = dao.clearAllOrders()
 
     suspend fun getOrder(email: String) = dao.getOrder(email)

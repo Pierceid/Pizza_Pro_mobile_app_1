@@ -142,7 +142,7 @@ class CartFragment : Fragment(), OnClickListener {
     // creates an alert dialog for placing an order
     private fun createOrderAlertDialog() {
         val runnable = {
-            insertDataIntoDatabase()
+            insertOrderIntoDatabase()
             Util.createPopUpWindow(
                 getString(R.string.ordered_successfully),
                 layoutInflater,
@@ -159,7 +159,7 @@ class CartFragment : Fragment(), OnClickListener {
 
     // inserts order into database
     @SuppressLint("SimpleDateFormat")
-    private fun insertDataIntoDatabase() {
+    private fun insertOrderIntoDatabase() {
         val order = Order(
             userInfo = UserInfo(
                 requireArguments().getString("name").toString(),

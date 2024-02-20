@@ -12,6 +12,7 @@ import com.example.pizza_pro.adapter.OrderAdapter
 import com.example.pizza_pro.database.OrderViewModel
 import com.example.pizza_pro.databinding.FragmentHistoryBinding
 import com.example.pizza_pro.utils.Util
+import java.util.*
 
 @Suppress("DEPRECATION")
 class HistoryFragment : Fragment(), OnClickListener {
@@ -29,9 +30,9 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = OrderAdapter()
-        binding.rvOrders.adapter = adapter
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        adapter = OrderAdapter(orderViewModel)
+        binding.rvOrders.adapter = adapter
         updateHistory()
 
         listOf(binding.btnClose, binding.btnClear).forEach { it.setOnClickListener(this) }
@@ -61,14 +62,6 @@ class HistoryFragment : Fragment(), OnClickListener {
         }
     }
 
-    // updates history fragment
-    private fun updateHistory(regex: String = binding.etSearchBar.text.toString()) {
-        orderViewModel.filterOrders(regex.trim())
-        orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
-            adapter.initOrders(newOrders)
-        }
-    }
-
     // creates an alert dialog for placing an order
     private fun createHistoryAlertDialog() {
         val runnable = {
@@ -80,5 +73,13 @@ class HistoryFragment : Fragment(), OnClickListener {
             orderViewModel.clearAllOrders()
         }
         Util.createAlertDialog(requireActivity(), "history", runnable)
+    }
+
+    // updates history fragment
+    private fun updateHistory(regex: String = binding.etSearchBar.text.toString()) {
+        orderViewModel.filterOrders(regex.trim())
+        orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
+            adapter.initOrders(newOrders)
+        }
     }
 }

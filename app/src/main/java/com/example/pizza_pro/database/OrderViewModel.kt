@@ -26,6 +26,12 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun removeOrder(order: Order) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.removeOrder(order)
+        }
+    }
+
     fun clearAllOrders() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearAllOrders()
@@ -39,7 +45,6 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun filterOrders(regex: String) {
-        orders = if (regex.isNotEmpty()) repository.getFilteredOrders(regex)
-        else repository.allOrders
+        orders = if (regex.isNotEmpty()) repository.getFilteredOrders(regex) else repository.allOrders
     }
 }

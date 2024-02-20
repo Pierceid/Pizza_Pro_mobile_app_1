@@ -146,6 +146,7 @@ class Util {
         fun removeAdditionalFragment(fragmentManager: FragmentManager) {
             val lastTag = fragmentManager.fragments[fragmentManager.fragments.size - 1].tag
             val containerTag = fragmentManager.findFragmentById(R.id.fragmentContainer)?.tag
+
             if (lastTag == containerTag) fragmentManager.popBackStack()
         }
 

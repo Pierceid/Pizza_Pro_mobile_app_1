@@ -60,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checkedButton="@id/rb_great"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <RadioButton

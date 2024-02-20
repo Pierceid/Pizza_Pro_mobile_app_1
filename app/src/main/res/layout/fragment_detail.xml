@@ -50,7 +50,9 @@
                     android:id="@+id/iv_picture"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
+                    android:background="@drawable/black_rectangle"
                     android:contentDescription="@string/pizza_picture"
+                    android:padding="1dp"
                     android:scaleType="fitXY"
                     app:srcCompat="@raw/neapolitan_pizza" />
             </LinearLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
@@ -14,8 +13,10 @@
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
+        android:padding="1dp"
         android:contentDescription="@string/pizza_picture"
         android:scaleType="fitXY"
+        android:background="@drawable/black_rectangle"
         app:srcCompat="@raw/neapolitan_pizza" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,8 +101,7 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/minus"
                 android:padding="12dp"
-                app:srcCompat="@raw/minus"
-                tools:ignore="ImageContrastCheck" />
+                app:srcCompat="@raw/minus" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

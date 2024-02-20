@@ -89,28 +89,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="@string/name">
+                android:hint="@string/name"
+                app:hintTextColor="@color/gray">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:hint="@string/email">
+                android:hint="@string/email"
+                app:hintTextColor="@color/gray">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -124,7 +126,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="@string/password">
+                    android:hint="@string/password"
+                    app:hintTextColor="@color/gray">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_password"
@@ -132,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
                         android:textSize="20sp"
-                        tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
+                        tools:ignore="VisualLintTextFieldSize" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
@@ -149,14 +152,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="@string/location">
+                android:hint="@string/location"
+                app:hintTextColor="@color/gray">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-                    tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <RadioGroup

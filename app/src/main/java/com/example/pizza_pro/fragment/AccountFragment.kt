@@ -2,6 +2,7 @@ package com.example.pizza_pro.fragment
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Patterns
 import android.view.*
 import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
@@ -218,7 +219,7 @@ class AccountFragment : Fragment(), OnClickListener {
 
     // validates input when registering
     private fun validateRegistration(order: Order?): Boolean {
-        val validEmail = (order == null && email.isNotEmpty())
+        val validEmail = (order == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
         val validName = name.isNotEmpty()
         val validPassword = password.length > 5
         val validLocation = location.isNotEmpty()

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.pizza_pro.databinding.ActivityMainBinding
 import com.example.pizza_pro.utils.Util
 
-@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -16,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
         setContentView(binding.root)
     }
+
 
     @Deprecated("Deprecated in Java",
         ReplaceWith("Util.createAlertDialog(this)", "com.example.pizza_pro.utils.Util")
