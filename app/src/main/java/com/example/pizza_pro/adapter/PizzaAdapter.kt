@@ -32,7 +32,7 @@ class PizzaAdapter(
         init {
             plusButton.setOnClickListener {
                 val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION && pizzas[position].count < 10) {
                     pizzas[position].count++
                     notifyItemChanged(position)
                 }
