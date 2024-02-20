@@ -143,18 +143,19 @@ class CartFragment : Fragment(), OnClickListener {
     private fun createOrderAlertDialog() {
         val runnable = {
             insertOrderIntoDatabase()
-            Util.createPopUpWindow(
-                getString(R.string.ordered_successfully),
-                layoutInflater,
-                binding.clCart,
-                binding.konfettiView
-            )
             orderedPizzas.clear()
             adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
             binding.rvOrderedPizzas.adapter = adapter
             updateCart()
         }
-        Util.createAlertDialog(requireActivity(), "order", runnable)
+        Util.createAlertDialog(
+            requireActivity(),
+            "place_order",
+            runnable,
+            layoutInflater,
+            binding.clCart,
+            binding.konfettiView
+        )
     }
 
     // inserts order into database

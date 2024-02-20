@@ -88,15 +88,16 @@
     <string name="minus">-</string>
     <!-- Pop up window -->
     <string name="processing">Processing…</string>
-    <string name="ordered_successfully">Ordered successfully!</string>
-    <string name="sent_successfully">Sent successfully!</string>
-    <string name="history_has_been_cleared">History has been cleared!</string>
+    <string name="ordered_successfully">Order has been\n placed successfully!</string>
+    <string name="removed_successfully">Order has been\n removed successfully!</string>
+    <string name="sent_successfully">Feedback has been\n sent successfully!</string>
+    <string name="cleared_successfully">History has been\n cleared successfully!</string>
     <string name="check">Check</string>
-    <string name="menu_icon">menu icon</string>
     <!-- Alert Dialog -->
-    <string name="place_order">Would you like to place your order now?</string>
+    <string name="place_order">Would you like to place your order?</string>
+    <string name="remove_order">Would you like to remove this order?</string>
     <string name="share_feedback">Would you like to share your feedback?</string>
-    <string name="clear_history">Are you sure you want to clear the history?</string>
+    <string name="clear_history">Would you like to clear the history?</string>
     <string name="exit_app">Are you sure you want to exit?</string>
     <!-- Toast -->
     <string name="locked">Screen rotation is locked.</string>

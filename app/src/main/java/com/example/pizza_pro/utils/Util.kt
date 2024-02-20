@@ -166,6 +166,13 @@ class Util {
                 .addToBackStack(null).commit()
         }
 
+        // creates toast message
+        fun createToast(activity: Activity, isLocked: Boolean) {
+            val message =
+                if (isLocked) activity.getString(R.string.locked)
+                else activity.getString(R.string.unlocked)
+            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
+        }
 
         // creates an alert dialog
         fun createAlertDialog(
@@ -173,7 +180,8 @@ class Util {
             type: String? = null,
             runnable: Runnable = Runnable { },
             layoutInflater: LayoutInflater? = null,
-            parentView: ConstraintLayout? = null
+            parentView: ConstraintLayout? = null,
+            konfettiView: KonfettiView? = null
         ) {
             if (!activity.isFinishing) {
                 createToast(activity, true)
@@ -181,9 +189,10 @@ class Util {
 
                 val builder = AlertDialog.Builder(activity)
                 val message = when (type) {
-                    "order" -> activity.getString(R.string.place_order)
-                    "feedback" -> activity.getString(R.string.share_feedback)
-                    "history" -> activity.getString(R.string.clear_history)
+                    "place_order" -> activity.getString(R.string.place_order)
+                    "remove_order" -> activity.getString(R.string.remove_order)
+                    "send_feedback" -> activity.getString(R.string.share_feedback)
+                    "clear_history" -> activity.getString(R.string.clear_history)
                     else -> activity.getString(R.string.exit_app)
                 }
                 builder.setMessage(message)
@@ -194,13 +203,14 @@ class Util {
                         activity.finish()
                     } else {
                         val text = when (type) {
-                            "order" -> activity.getString(R.string.ordered_successfully)
-                            "feedback" -> activity.getString(R.string.sent_successfully)
-                            "history" -> activity.getString(R.string.history_has_been_cleared)
+                            "place_order" -> activity.getString(R.string.ordered_successfully)
+                            "remove_order" -> activity.getString(R.string.removed_successfully)
+                            "send_feedback" -> activity.getString(R.string.sent_successfully)
+                            "clear_history" -> activity.getString(R.string.cleared_successfully)
                             else -> ""
                         }
-                        createPopUpWindow(text, layoutInflater, parentView)
-                        runnable.run()
+                        createPopUpWindow(text, layoutInflater, parentView, konfettiView)
+                        getHandler(runnable)
                     }
                 }
                 builder.setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
@@ -209,7 +219,7 @@ class Util {
         }
 
         // creates pop up window
-        fun createPopUpWindow(
+        private fun createPopUpWindow(
             text: String,
             layoutInflater: LayoutInflater?,
             parentView: ConstraintLayout?,
@@ -242,14 +252,6 @@ class Util {
                 konfettiView?.start(party)
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
-        }
-
-        // creates toast message
-        fun createToast(activity: Activity, isLocked: Boolean) {
-            val message =
-                if (isLocked) activity.getString(R.string.locked)
-                else activity.getString(R.string.unlocked)
-            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
         }
 
         // delays tasks by some time

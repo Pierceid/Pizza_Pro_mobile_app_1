@@ -172,15 +172,14 @@ class FeedbackFragment : Fragment(), OnClickListener {
 
     // creates an alert dialog for sharing feedback
     private fun createFeedbackAlertDialog() {
-        val runnable = {
-            Util.createPopUpWindow(
-                getString(R.string.sent_successfully),
-                layoutInflater,
-                binding.clFeedback,
-                binding.konfettiView
-            )
-            clearInput()
-        }
-        Util.createAlertDialog(requireActivity(), "feedback", runnable)
+        val runnable = { clearInput() }
+        Util.createAlertDialog(
+            requireActivity(),
+            "send_feedback",
+            runnable,
+            layoutInflater,
+            binding.clFeedback,
+            binding.konfettiView
+        )
     }
 }

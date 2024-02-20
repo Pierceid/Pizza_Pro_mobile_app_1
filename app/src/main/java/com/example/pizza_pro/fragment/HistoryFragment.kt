@@ -11,6 +11,7 @@ import com.example.pizza_pro.R
 import com.example.pizza_pro.adapter.OrderAdapter
 import com.example.pizza_pro.database.OrderViewModel
 import com.example.pizza_pro.databinding.FragmentHistoryBinding
+import com.example.pizza_pro.item.OrderContext
 import com.example.pizza_pro.utils.Util
 import java.util.*
 
@@ -31,7 +32,8 @@ class HistoryFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        adapter = OrderAdapter(orderViewModel)
+        val orderContext = OrderContext(orderViewModel, requireActivity(), layoutInflater, binding.clHistory)
+        adapter = OrderAdapter(orderContext)
         binding.rvOrders.adapter = adapter
         updateHistory()
 
@@ -64,15 +66,14 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     // creates an alert dialog for placing an order
     private fun createHistoryAlertDialog() {
-        val runnable = {
-            Util.createPopUpWindow(
-                getString(R.string.history_has_been_cleared),
-                layoutInflater,
-                binding.clHistory
-            )
-            orderViewModel.clearAllOrders()
-        }
-        Util.createAlertDialog(requireActivity(), "history", runnable)
+        val runnable = { orderViewModel.clearAllOrders() }
+        Util.createAlertDialog(
+            requireActivity(),
+            "clear_history",
+            runnable,
+            layoutInflater,
+            binding.clHistory
+        )
     }
 
     // updates history fragment

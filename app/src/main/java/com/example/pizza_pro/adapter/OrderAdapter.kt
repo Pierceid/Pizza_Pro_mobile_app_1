@@ -8,9 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pizza_pro.R
 import com.example.pizza_pro.database.Order
-import com.example.pizza_pro.database.OrderViewModel
+import com.example.pizza_pro.item.OrderContext
+import com.example.pizza_pro.utils.Util
 
-class OrderAdapter(private val orderViewModel: OrderViewModel) : RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
+class OrderAdapter(private val orderContext: OrderContext) :
+    RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
     private val orders: MutableList<Order> = mutableListOf()
 
@@ -22,10 +24,19 @@ class OrderAdapter(private val orderViewModel: OrderViewModel) : RecyclerView.Ad
 
         init {
             xButton.setOnClickListener {
-                val position = adapterPosition
-                val order = orders[position]
-                orderViewModel.removeOrder(order)
-                notifyItemRemoved(position)
+                val runnable = {
+                    val position = adapterPosition
+                    val order = orders[position]
+                    orderContext.orderViewModel.removeOrder(order)
+                    notifyItemRemoved(position)
+                }
+                Util.createAlertDialog(
+                    orderContext.activity,
+                    "remove_order",
+                    runnable,
+                    orderContext.layoutInflater,
+                    orderContext.parentView
+                )
             }
         }
     }
