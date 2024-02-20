@@ -220,9 +220,9 @@ class AccountFragment : Fragment(), OnClickListener {
     // validates input when registering
     private fun validateRegistration(order: Order?): Boolean {
         val validEmail = (order == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
-        val validName = name.isNotEmpty() && name.length < 100
-        val validPassword = password.length > 5 && name.length < 100
-        val validLocation = location.isNotEmpty() && name.length < 200
+        val validName = name.length in  1..100
+        val validPassword = password.length in 6..100
+        val validLocation = location.length in 1..100
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
@@ -236,7 +236,7 @@ class AccountFragment : Fragment(), OnClickListener {
     private fun validateLogin(order: Order?): Boolean {
         val validEmail = (order != null && email == order.userInfo.email)
         val validPassword = (order != null && password == order.userInfo.password)
-        val validLocation = location.isNotEmpty() && name.length < 200
+        val validLocation = location.length in 1..100
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputPassword.error = if (!validPassword) getString(R.string.incorrect_password) else null

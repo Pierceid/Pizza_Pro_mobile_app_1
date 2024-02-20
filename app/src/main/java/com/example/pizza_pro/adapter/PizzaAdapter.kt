@@ -102,6 +102,7 @@ class PizzaAdapter(
         pizzas.addAll(newList)
     }
 
+    // opens detail fragment of the selected pizza
     fun openDetailFragment(pizza: Pizza) {
         val bundle = bundleOf(
             "imageSource" to pizza.imageSource,
