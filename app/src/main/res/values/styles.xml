@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="NoUnderlineEditText">
         <item name="android:background">@android:color/transparent</item>
@@ -52,5 +52,11 @@
         <item name="android:background">@color/blue</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="Theme.Pizza_Pro.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorForeground">@color/aqua</item>
+        <item name="android:backgroundTint">@color/sea</item>
+        <item name="android:textFontWeight" tools:targetApi="p">1000</item>
     </style>
 </resources>

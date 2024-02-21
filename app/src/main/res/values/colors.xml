@@ -2,8 +2,9 @@
 <resources>
     <color name="purple">#FF600060</color>
     <color name="blue">#FF0000A0</color>
-    <color name="aqua">#FF99CCCC</color>
+    <color name="aqua">#FFB6E6E6</color>
     <color name="teal">#FF008080</color>
+    <color name="sea">#FF003030</color>
     <color name="green">#FF009000</color>
     <color name="yellow">#FFFFBB00</color>
     <color name="orange">#FFFF6600</color>

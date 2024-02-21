@@ -184,7 +184,7 @@ class Util {
                 createToast(activity, true)
                 activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
 
-                val builder = AlertDialog.Builder(activity)
+                val builder = AlertDialog.Builder(activity, R.style.Theme_Pizza_Pro_AlertDialog)
                 val message = when (type) {
                     "place_order" -> activity.getString(R.string.place_order)
                     "remove_order" -> activity.getString(R.string.remove_order)
