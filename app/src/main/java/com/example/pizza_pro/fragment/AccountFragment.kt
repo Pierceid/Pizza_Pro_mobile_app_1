@@ -7,6 +7,7 @@ import android.view.*
 import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -16,6 +17,7 @@ import com.example.pizza_pro.database.Order
 import com.example.pizza_pro.database.OrderViewModel
 import com.example.pizza_pro.databinding.FragmentAccountBinding
 import com.example.pizza_pro.options.Gender
+import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.runBlocking
@@ -35,6 +37,7 @@ class AccountFragment : Fragment(), OnClickListener {
     private var isPasswordVisible = false
     private var isRegistering = true
     private var inputFields = listOf<TextInputEditText>()
+    private var menuProvider: MenuProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,54 +75,14 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.inputName, binding.inputEmail, binding.inputPassword, binding.inputLocation
         )
         inputFields.forEach { it.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) checkInput() } }
+
+        menuProvider = MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_settings, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.mi_lock -> {
-                val isLocked =
-                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-                requireActivity().requestedOrientation =
-                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-                Util.createToast(requireActivity(), !isLocked)
-                true
-            }
-            R.id.mi_profile -> {
-                getInput()
-                val bundle = bundleOf(
-                    "name" to name,
-                    "email" to email,
-                    "password" to password,
-                    "location" to location,
-                    "gender" to gender
-                )
-                Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
-                true
-            }
-            R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
-                true
-            }
-            R.id.mi_aboutApp -> {
-                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
-                true
-            }
-            R.id.mi_logOut -> {
-                Util.removeAdditionalFragment(requireFragmentManager())
-                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                navController.navigate(R.id.action_accountFragment_to_introFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().removeMenuProvider(menuProvider!!)
     }
 
     // handles on click methods

@@ -8,10 +8,7 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.PasswordTransformationMethod
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.pizza_pro.R
+import com.example.pizza_pro.fragment.*
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.options.Satisfaction
@@ -32,6 +30,29 @@ import java.util.concurrent.TimeUnit
 @Suppress("DEPRECATION")
 class Util {
     companion object {
+        // removes the last fragment from backstack if its an additional fragment
+        fun removeAdditionalFragment(fragmentManager: FragmentManager) {
+            val lastTag = fragmentManager.fragments[fragmentManager.fragments.size - 1].tag
+            val containerTag = fragmentManager.findFragmentById(R.id.fragmentContainer)?.tag
+
+            if (lastTag == containerTag) fragmentManager.popBackStack()
+        }
+
+        // navigates to an additional fragment
+        fun navigateToFragment(
+            fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null
+        ) {
+            val size = fragmentManager.fragments.size
+            if (size > 1) {
+                val currentTag = fragmentManager.fragments[size - 1].tag
+                val previousTags = fragmentManager.fragments.subList(size - 2, size).map { it.tag }
+
+                if (previousTags.contains(currentTag)) fragmentManager.popBackStack()
+            }
+            fragment.arguments = bundle
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null).commit()
+        }
 
         // returns whether the user is registering or not
         fun getIsRegistering(textView: TextView, activity: Activity): Boolean {
@@ -140,30 +161,6 @@ class Util {
                     mainList.find { it.name == otherPizza.name }?.count = otherPizza.count
                 }
             }
-        }
-
-        // removes the last fragment from backstack if its an additional fragment
-        fun removeAdditionalFragment(fragmentManager: FragmentManager) {
-            val lastTag = fragmentManager.fragments[fragmentManager.fragments.size - 1].tag
-            val containerTag = fragmentManager.findFragmentById(R.id.fragmentContainer)?.tag
-
-            if (lastTag == containerTag) fragmentManager.popBackStack()
-        }
-
-        // navigates to an additional fragment
-        fun navigateToFragment(
-            fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null
-        ) {
-            val size = fragmentManager.fragments.size
-            if (size > 1) {
-                val currentTag = fragmentManager.fragments[size - 1].tag
-                val previousTags = fragmentManager.fragments.subList(size - 2, size).map { it.tag }
-
-                if (previousTags.contains(currentTag)) fragmentManager.popBackStack()
-            }
-            fragment.arguments = bundle
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null).commit()
         }
 
         // creates toast message
