@@ -68,7 +68,10 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.rbFemale,
             binding.rbOther,
             binding.btnCancel,
-            binding.btnNext
+            binding.btnNext,
+            binding.scrollView,
+            binding.linearLayout,
+            binding.topAppBar
         ).forEach { it.setOnClickListener(this) }
 
         inputFields = listOf(
@@ -120,6 +123,7 @@ class AccountFragment : Fragment(), OnClickListener {
                 requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 navController.navigate(R.id.action_accountFragment_to_introFragment)
             }
+            R.id.scrollView, R.id.linearLayout, R.id.topAppBar -> clearInputsFocus()
         }
     }
 
