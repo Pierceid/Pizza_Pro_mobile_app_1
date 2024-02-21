@@ -69,7 +69,6 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.rbOther,
             binding.btnCancel,
             binding.btnNext,
-            binding.scrollView,
             binding.linearLayout,
             binding.topAppBar
         ).forEach { it.setOnClickListener(this) }
@@ -123,7 +122,7 @@ class AccountFragment : Fragment(), OnClickListener {
                 requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 navController.navigate(R.id.action_accountFragment_to_introFragment)
             }
-            R.id.scrollView, R.id.linearLayout, R.id.topAppBar -> clearInputsFocus()
+            R.id.linearLayout, R.id.topAppBar -> clearInputsFocus()
         }
     }
 

@@ -11,6 +11,14 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="Widget.Pizza_Pro.TextInputLayout" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/black_frame</item>
+        <item name="android:padding">1dp</item>
+    </style>
+
     <style name="Widget.Pizza_Pro.TextView" parent="@style/Widget.MaterialComponents.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -55,8 +63,8 @@
     </style>
 
     <style name="Theme.Pizza_Pro.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:colorForeground">@color/aqua</item>
-        <item name="android:backgroundTint">@color/sea</item>
+        <item name="android:colorForeground">@color/sea</item>
+        <item name="android:backgroundTint">@color/teal</item>
         <item name="android:textFontWeight" tools:targetApi="p">1000</item>
     </style>
 </resources>

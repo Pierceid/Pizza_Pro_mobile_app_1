@@ -32,12 +32,18 @@ class HistoryFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        val orderContext = OrderContext(orderViewModel, requireActivity(), layoutInflater, binding.clHistory)
+        val orderContext =
+            OrderContext(orderViewModel, requireActivity(), layoutInflater, binding.clHistory)
         adapter = OrderAdapter(orderContext)
         binding.rvOrders.adapter = adapter
         updateHistory()
 
-        listOf(binding.btnClose, binding.btnClear).forEach { it.setOnClickListener(this) }
+        listOf(
+            binding.ivSearch,
+            binding.ivCross,
+            binding.btnClose,
+            binding.btnClear
+        ).forEach { it.setOnClickListener(this) }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateHistory() }
     }
@@ -52,7 +58,8 @@ class HistoryFragment : Fragment(), OnClickListener {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            updateHistory(savedInstanceState.getString("regex").toString())
+            binding.etSearchBar.setText(savedInstanceState.getString("regex").toString())
+            updateHistory()
         }
     }
 
@@ -61,6 +68,11 @@ class HistoryFragment : Fragment(), OnClickListener {
         when (v!!.id) {
             R.id.btn_close -> requireFragmentManager().popBackStack()
             R.id.btn_clear -> createHistoryAlertDialog()
+            R.id.iv_search -> updateHistory()
+            R.id.iv_cross -> {
+                binding.etSearchBar.setText("")
+                updateHistory()
+            }
         }
     }
 
@@ -77,10 +89,12 @@ class HistoryFragment : Fragment(), OnClickListener {
     }
 
     // updates history fragment
-    private fun updateHistory(regex: String = binding.etSearchBar.text.toString()) {
+    private fun updateHistory() {
+        val regex = binding.etSearchBar.text.toString()
         orderViewModel.filterOrders(regex.trim())
         orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
             adapter.initOrders(newOrders)
         }
+        binding.etSearchBar.clearFocus()
     }
 }

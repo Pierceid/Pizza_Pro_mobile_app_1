@@ -20,26 +20,44 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/iv_search"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="4dp"
             android:contentDescription="@string/search"
-            android:padding="7dp"
+            android:padding="6dp"
             app:srcCompat="@drawable/ic_search" />
 
-        <EditText
-            android:id="@+id/et_searchBar"
-            style="@style/NoUnderlineEditText"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:autofillHints="orderName"
-            android:ems="10"
-            android:hint="@string/search_order_by_name"
-            android:inputType="textPersonName"
-            android:textColor="@color/black"
-            android:textColorHint="@color/slate"
-            android:textSize="20sp"
-            tools:ignore="VisualLintTextFieldSize" />
+            android:layout_weight="1"
+            android:background="@drawable/black_frame">
+
+            <EditText
+                android:id="@+id/et_searchBar"
+                style="@style/NoUnderlineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autofillHints="pizzaName"
+                android:ems="10"
+                android:hint="@string/search_order_by_name"
+                android:inputType="textPersonName"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/slate"
+                android:textColorHint="@color/slate"
+                android:textSize="20sp"
+                tools:ignore="VisualLintTextFieldSize" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_cross"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:contentDescription="@string/cross"
+            android:rotation="45"
+            app:srcCompat="@drawable/ic_cross" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

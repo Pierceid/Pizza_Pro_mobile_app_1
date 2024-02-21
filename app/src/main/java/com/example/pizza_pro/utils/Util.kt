@@ -142,8 +142,8 @@ class Util {
 
         // changes colors of switch compat
         fun changeSwitchState(context: Context, followUp: Boolean, switchCompat: SwitchCompat) {
-            val thumbColor = if (followUp) R.color.teal else R.color.smoke
-            val trackColor = if (followUp) R.color.aqua else R.color.gray
+            val thumbColor = if (followUp) R.color.sea else R.color.smoke
+            val trackColor = if (followUp) R.color.teal else R.color.gray
 
             switchCompat.thumbTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(context, thumbColor)

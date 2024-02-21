@@ -57,13 +57,19 @@ class ShopFragment : Fragment(), OnClickListener {
         navController = Navigation.findNavController(view)
         updateShop()
 
-        listOf(binding.btnHome, binding.btnCart, binding.ivBanner).forEach {
-            it.setOnClickListener(this)
-        }
+        listOf(
+            binding.btnHome,
+            binding.btnCart,
+            binding.ivSearch,
+            binding.ivCross,
+            binding.ivBanner,
+            binding.topAppBar
+        ).forEach { it.setOnClickListener(this) }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateShop() }
 
-        menuProvider = MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
         requireActivity().addMenuProvider(menuProvider!!)
     }
 
@@ -91,7 +97,6 @@ class ShopFragment : Fragment(), OnClickListener {
 
     // handles on click methods
     override fun onClick(v: View?) {
-        updateShop("")
         val bundle = bundleOf(
             "name" to requireArguments().getString("name").toString(),
             "email" to requireArguments().getString("email").toString(),
@@ -108,12 +113,17 @@ class ShopFragment : Fragment(), OnClickListener {
             R.id.btn_cart -> {
                 navController.navigate(R.id.action_shopFragment_to_cartFragment, bundle)
             }
-            R.id.iv_banner -> binding.etSearchBar.clearFocus()
+            R.id.iv_search, R.id.iv_banner, R.id.topAppBar -> updateShop()
+            R.id.iv_cross -> {
+                binding.etSearchBar.setText("")
+                updateShop()
+            }
         }
     }
 
     // updates shop fragment
-    private fun updateShop(regex: String = binding.etSearchBar.text.toString()) {
+    private fun updateShop() {
+        val regex = binding.etSearchBar.text.toString()
         adapter = PizzaAdapter(requireFragmentManager(), pizzas)
 
         if (regex.trim().isNotEmpty()) {
@@ -123,5 +133,6 @@ class ShopFragment : Fragment(), OnClickListener {
         }
 
         binding.rvPizzas.adapter = adapter
+        binding.etSearchBar.clearFocus()
     }
 }

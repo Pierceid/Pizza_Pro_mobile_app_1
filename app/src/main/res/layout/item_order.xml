@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/white_rectangle"
+        android:background="@drawable/ashen_rectangle"
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
         android:paddingTop="5dp"
@@ -42,10 +42,11 @@
                 android:id="@+id/btn_x"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:contentDescription="@string/example"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
-                app:srcCompat="@raw/cross" />
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/example"
+                app:srcCompat="@raw/cross"
+                tools:ignore="ImageContrastCheck" />
         </LinearLayout>
 
         <TextView

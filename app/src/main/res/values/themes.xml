@@ -10,8 +10,8 @@
         <item name="colorSecondaryVariant">@color/green</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">@color/black</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
     </style>
 
     <style name="Theme.Pizza_Pro.NoActionBar">
@@ -21,7 +21,7 @@
 
     <style name="ThemeOverLay.Pizza_Pro.PopupTheme" parent="Theme.AppCompat.Light">
         <item name="android:textSize">20sp</item>
-        <item name="android:colorForeground">@color/smoke</item>
+        <item name="android:colorForeground">@color/slate</item>
         <item name="android:colorBackground">@color/white</item>
     </style>
 
@@ -49,7 +49,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minWidth">48dp</item>
         <item name="android:minHeight">48dp</item>
-        <item name="thumbTint">@color/teal</item>
-        <item name="trackTint">@color/aqua</item>
+        <item name="thumbTint">@color/sea</item>
+        <item name="trackTint">@color/teal</item>
     </style>
 </resources>

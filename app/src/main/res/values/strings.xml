@@ -51,8 +51,9 @@
     <string name="change_visibility">Change visibility</string>
     <!-- Shop -->
     <string name="welcome_to_shop">Welcome to shop</string>
-    <string name="search">Search</string>
     <string name="banner">Banner</string>
+    <string name="search">Search</string>
+    <string name="cross">cross</string>
     <string name="search_your_favorite_pizza">Search your favorite pizza</string>
     <!-- Cart -->
     <string name="check_your_cart">Check your cart</string>
