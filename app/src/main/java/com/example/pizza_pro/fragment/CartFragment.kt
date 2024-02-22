@@ -21,6 +21,7 @@ import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
 import java.text.NumberFormat
 import java.util.*
 
@@ -32,6 +33,7 @@ class CartFragment : Fragment(), OnClickListener {
     private lateinit var orderViewModel: OrderViewModel
     private lateinit var orderedPizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
+
     private var itemCount: Int = 0
     private var totalCost: Double = 0.0
     private var menuProvider: MenuProvider? = null
@@ -40,12 +42,16 @@ class CartFragment : Fragment(), OnClickListener {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        orderedPizzas =
-            requireArguments().getParcelableArrayList<Pizza>("selectedItems") as MutableList<Pizza>
+        val isLocked: Boolean
+        requireArguments().let {
+            orderedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
+            isLocked = it.getBoolean("isLocked")
+        }
+
         adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
 
-        if (requireArguments().getBoolean("isLocked"))
-            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        if (isLocked) requireActivity().requestedOrientation =
+            ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 
     override fun onCreateView(
@@ -60,16 +66,16 @@ class CartFragment : Fragment(), OnClickListener {
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        binding.rvOrderedPizzas.adapter = adapter
-        calculateCosts()
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
             binding.btnApply, binding.btnOrder, binding.btnShop, binding.btnFeedback
         ).forEach { it.setOnClickListener(this) }
+        binding.rvOrderedPizzas.adapter = adapter
 
-        menuProvider =
-            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
-        requireActivity().addMenuProvider(menuProvider!!)
+        calculateCosts()
     }
 
     override fun onDestroyView() {
@@ -136,7 +142,7 @@ class CartFragment : Fragment(), OnClickListener {
             items = itemCount,
             cost = NumberFormat.getCurrencyInstance().format(totalCost)
         )
-        orderViewModel.addOrder(order)
+        runBlocking { orderViewModel.addOrder(order) }
     }
 
     // updates cart fragment

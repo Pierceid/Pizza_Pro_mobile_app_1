@@ -16,6 +16,7 @@ class DetailFragment : Fragment() {
     private lateinit var time: String
     private lateinit var calories: String
     private lateinit var description: String
+
     private var imageSource: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {

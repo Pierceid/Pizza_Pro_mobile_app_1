@@ -27,21 +27,26 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var navController: NavController
     private lateinit var pizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
+
     private var menuProvider: MenuProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
+        val locked: Boolean
+        val changedPizzas: MutableList<Pizza>
+
+        requireArguments().let {
+            changedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
+            locked = it.getBoolean("isLocked")
+        }
+
         adapter = PizzaAdapter(requireFragmentManager(), DataSource().loadData())
         pizzas = adapter.getPizzas()
-        val changedPizzas =
-            (requireArguments().getParcelableArrayList<Pizza>("orderedItems") as? MutableList<Pizza>)
-                ?: mutableListOf()
         Util.updatePizzas(pizzas, changedPizzas)
 
-        if (requireArguments().getBoolean("isLocked"))
-            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        if (locked) requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 
     override fun onCreateView(
@@ -55,7 +60,9 @@ class ShopFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        updateShop()
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
             binding.btnHome,
@@ -65,12 +72,9 @@ class ShopFragment : Fragment(), OnClickListener {
             binding.ivBanner,
             binding.topAppBar
         ).forEach { it.setOnClickListener(this) }
-
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateShop() }
 
-        menuProvider =
-            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
-        requireActivity().addMenuProvider(menuProvider!!)
+        updateShop()
     }
 
     override fun onDestroyView() {
@@ -103,7 +107,7 @@ class ShopFragment : Fragment(), OnClickListener {
             "password" to requireArguments().getString("password").toString(),
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
-            "selectedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>,
+            "orderedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>,
             "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {

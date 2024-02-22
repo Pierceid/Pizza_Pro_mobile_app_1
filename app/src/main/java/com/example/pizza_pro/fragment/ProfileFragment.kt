@@ -22,10 +22,10 @@ class ProfileFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireArguments().let {
-            name = it.getString("name") ?: ""
-            email = it.getString("email") ?: ""
-            password = it.getString("password") ?: ""
-            location = it.getString("location") ?: ""
+            name = it.getString("name").toString()
+            email = it.getString("email").toString()
+            password = it.getString("password").toString()
+            location = it.getString("location").toString()
             gender = it.getSerializable("gender") as? Gender ?: Gender.OTHER
         }
     }

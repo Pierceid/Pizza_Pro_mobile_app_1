@@ -13,6 +13,7 @@ import com.example.pizza_pro.database.OrderViewModel
 import com.example.pizza_pro.databinding.FragmentHistoryBinding
 import com.example.pizza_pro.item.OrderContext
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -36,7 +37,6 @@ class HistoryFragment : Fragment(), OnClickListener {
             OrderContext(orderViewModel, requireActivity(), layoutInflater, binding.clHistory)
         adapter = OrderAdapter(orderContext)
         binding.rvOrders.adapter = adapter
-        updateHistory()
 
         listOf(
             binding.ivSearch,
@@ -46,6 +46,8 @@ class HistoryFragment : Fragment(), OnClickListener {
         ).forEach { it.setOnClickListener(this) }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateHistory() }
+
+        updateHistory()
     }
 
     // saves data in case of rotating screen or exiting app
@@ -78,7 +80,7 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     // creates an alert dialog for placing an order
     private fun createHistoryAlertDialog() {
-        val runnable = { orderViewModel.clearAllOrders() }
+        val runnable = { runBlocking { orderViewModel.clearAllOrders() } }
         Util.createAlertDialog(
             requireActivity(),
             "clear_history",

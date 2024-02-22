@@ -29,12 +29,11 @@ class MyMenuProvider(
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.mi_lock -> {
-                val isLocked =
-                    (activity.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+                val locked = (activity.requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
                 activity.requestedOrientation =
-                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                    if (locked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                     else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-                Util.createToast(activity, !isLocked)
+                Util.createToast(activity, !locked)
                 true
             }
             R.id.mi_profile -> {

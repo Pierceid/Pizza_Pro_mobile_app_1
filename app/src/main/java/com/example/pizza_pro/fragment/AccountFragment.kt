@@ -16,6 +16,7 @@ import com.example.pizza_pro.R
 import com.example.pizza_pro.database.Order
 import com.example.pizza_pro.database.OrderViewModel
 import com.example.pizza_pro.databinding.FragmentAccountBinding
+import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
@@ -34,6 +35,7 @@ class AccountFragment : Fragment(), OnClickListener {
     private lateinit var password: String
     private lateinit var location: String
     private lateinit var gender: Gender
+
     private var isPasswordVisible = false
     private var isRegistering = true
     private var inputFields = listOf<TextInputEditText>()
@@ -43,9 +45,8 @@ class AccountFragment : Fragment(), OnClickListener {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        val isLocked = arguments?.getBoolean("isLocked")
-        if (isLocked == true)
-            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        val locked: Boolean = requireArguments().getBoolean("isLocked")
+        if (locked) requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 
     override fun onCreateView(
@@ -60,6 +61,9 @@ class AccountFragment : Fragment(), OnClickListener {
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
             binding.btnSwap,
@@ -77,9 +81,6 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.inputName, binding.inputEmail, binding.inputPassword, binding.inputLocation
         )
         inputFields.forEach { it.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) checkInput() } }
-
-        menuProvider = MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
-        requireActivity().addMenuProvider(menuProvider!!)
     }
 
     override fun onDestroyView() {
@@ -100,10 +101,6 @@ class AccountFragment : Fragment(), OnClickListener {
                 isPasswordVisible = !isPasswordVisible
                 updateAccount(newIsPasswordVisible = isPasswordVisible)
             }
-            R.id.rb_male, R.id.rb_female, R.id.rb_other -> {
-                clearInputsFocus()
-                updateAccount()
-            }
             R.id.btn_next -> {
                 if (checkInput() && !doInputsHaveFocus()) {
                     val bundle = bundleOf(
@@ -112,6 +109,7 @@ class AccountFragment : Fragment(), OnClickListener {
                         "password" to password,
                         "location" to location,
                         "gender" to gender,
+                        "orderedItems" to mutableListOf<Pizza>(),
                         "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
                     )
                     navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
@@ -122,7 +120,7 @@ class AccountFragment : Fragment(), OnClickListener {
                 requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 navController.navigate(R.id.action_accountFragment_to_introFragment)
             }
-            R.id.linearLayout, R.id.topAppBar -> clearInputsFocus()
+            R.id.rb_male, R.id.rb_female, R.id.rb_other, R.id.linearLayout, R.id.topAppBar -> clearInputsFocus()
         }
     }
 
@@ -185,13 +183,13 @@ class AccountFragment : Fragment(), OnClickListener {
 
     // validates input when registering
     private fun validateRegistration(order: Order?): Boolean {
-        val validEmail = (order == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
         val validName = name.length in  1..100
+        val validEmail = (order == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
         val validPassword = password.length in 6..100
         val validLocation = location.length in 1..100
 
-        binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
+        binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
         binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
 
