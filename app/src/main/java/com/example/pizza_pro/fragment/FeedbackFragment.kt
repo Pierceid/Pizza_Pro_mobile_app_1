@@ -34,13 +34,15 @@ class FeedbackFragment : Fragment(), OnClickListener {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        val locked: Boolean
+        val isLocked: Boolean
         requireArguments().let {
             orderedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
-            locked = it.getBoolean("isLocked")
+            isLocked = it.getBoolean("isLocked")
         }
 
-        if (locked) requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        if (isLocked) {
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(

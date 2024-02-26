@@ -50,8 +50,9 @@ class CartFragment : Fragment(), OnClickListener {
 
         adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
 
-        if (isLocked) requireActivity().requestedOrientation =
-            ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        if (isLocked) {
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(

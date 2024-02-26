@@ -45,8 +45,10 @@ class AccountFragment : Fragment(), OnClickListener {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        val locked: Boolean = requireArguments().getBoolean("isLocked")
-        if (locked) requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        val isLocked: Boolean = requireArguments().getBoolean("isLocked")
+        if (isLocked) {
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(

@@ -35,7 +35,9 @@ class Util {
             val lastTag = fragmentManager.fragments[fragmentManager.fragments.size - 1].tag
             val containerTag = fragmentManager.findFragmentById(R.id.fragmentContainer)?.tag
 
-            if (lastTag == containerTag) fragmentManager.popBackStack()
+            if (lastTag == containerTag) {
+                fragmentManager.popBackStack()
+            }
         }
 
         // navigates to an additional fragment
@@ -47,7 +49,9 @@ class Util {
                 val currentTag = fragmentManager.fragments[size - 1].tag
                 val previousTags = fragmentManager.fragments.subList(size - 2, size).map { it.tag }
 
-                if (previousTags.contains(currentTag)) fragmentManager.popBackStack()
+                if (previousTags.contains(currentTag)) {
+                    fragmentManager.popBackStack()
+                }
             }
             fragment.arguments = bundle
             fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
@@ -222,7 +226,9 @@ class Util {
             parentView: ConstraintLayout?,
             konfettiView: KonfettiView? = null
         ) {
-            if (layoutInflater == null || parentView == null) return
+            if (layoutInflater == null || parentView == null) {
+                return
+            }
 
             val popupView = layoutInflater.inflate(R.layout.pop_up_window, parentView, false)
             val message = popupView.findViewById<TextView>(R.id.tv_message)

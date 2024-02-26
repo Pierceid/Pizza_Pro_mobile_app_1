@@ -48,7 +48,9 @@ class ShopFragment : Fragment(), OnClickListener {
         pizzas = adapter.getPizzas()
         Util.updatePizzas(pizzas, changedPizzas)
 
-        if (isLocked) requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        if (isLocked) {
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(
