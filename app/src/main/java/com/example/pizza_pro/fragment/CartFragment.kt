@@ -30,7 +30,7 @@ class CartFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var navController: NavController
-    private lateinit var orderViewModel: OrderViewModel
+    private lateinit var myViewModel: MyViewModel
     private lateinit var orderedPizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
 
@@ -65,7 +65,7 @@ class CartFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
         menuProvider =
             MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
         requireActivity().addMenuProvider(menuProvider!!)
@@ -130,19 +130,21 @@ class CartFragment : Fragment(), OnClickListener {
 
     // inserts order into database
     private fun insertOrderIntoDatabase() {
-        val order = Order(
-            userInfo = UserInfo(
-                requireArguments().getString("name").toString(),
-                requireArguments().getString("email").toString(),
-                requireArguments().getString("password").toString(),
-                requireArguments().getSerializable("gender") as Gender
-            ),
-            time = DateFormat.format("d.M.yyyy (h:mm a)", System.currentTimeMillis()).toString(),
-            place = requireArguments().getString("location").toString(),
-            items = itemCount,
-            cost = NumberFormat.getCurrencyInstance().format(totalCost)
-        )
-        runBlocking { orderViewModel.addOrder(order) }
+        myViewModel.getUser(requireArguments().getString("email").toString())
+        val existingUser = myViewModel.user
+
+        // TODO fix get method in myDao (I guess)
+        if (existingUser != null) {
+            val order = Order(
+                0,
+                user = existingUser,
+                time = DateFormat.format("d.M.yyyy (h:mm a)", System.currentTimeMillis())
+                    .toString(),
+                items = itemCount,
+                cost = NumberFormat.getCurrencyInstance().format(totalCost)
+            )
+            runBlocking { myViewModel.addOrder(order) }
+        }
     }
 
     // updates cart fragment

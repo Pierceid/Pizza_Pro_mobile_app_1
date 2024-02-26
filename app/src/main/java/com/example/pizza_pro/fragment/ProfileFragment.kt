@@ -26,7 +26,7 @@ class ProfileFragment : Fragment() {
             email = it.getString("email").toString()
             password = it.getString("password").toString()
             location = it.getString("location").toString()
-            gender = it.getSerializable("gender") as? Gender ?: Gender.OTHER
+            gender = it.getSerializable("gender") as Gender
         }
     }
 

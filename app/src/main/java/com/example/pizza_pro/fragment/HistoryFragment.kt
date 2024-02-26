@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pizza_pro.R
 import com.example.pizza_pro.adapter.OrderAdapter
-import com.example.pizza_pro.database.OrderViewModel
+import com.example.pizza_pro.database.MyViewModel
 import com.example.pizza_pro.databinding.FragmentHistoryBinding
 import com.example.pizza_pro.item.OrderContext
 import com.example.pizza_pro.utils.Util
@@ -20,7 +20,7 @@ import java.util.*
 class HistoryFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentHistoryBinding
-    private lateinit var orderViewModel: OrderViewModel
+    private lateinit var myViewModel: MyViewModel
     private lateinit var adapter: OrderAdapter
 
     override fun onCreateView(
@@ -32,9 +32,9 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
         val orderContext =
-            OrderContext(orderViewModel, requireActivity(), layoutInflater, binding.clHistory)
+            OrderContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory)
         adapter = OrderAdapter(orderContext)
         binding.rvOrders.adapter = adapter
 
@@ -80,7 +80,7 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     // creates an alert dialog for placing an order
     private fun createHistoryAlertDialog() {
-        val runnable = { runBlocking { orderViewModel.clearAllOrders() } }
+        val runnable = { runBlocking { myViewModel.clearAllOrders() } }
         Util.createAlertDialog(
             requireActivity(),
             "clear_history",
@@ -93,8 +93,8 @@ class HistoryFragment : Fragment(), OnClickListener {
     // updates history fragment
     private fun updateHistory() {
         val regex = binding.etSearchBar.text.toString()
-        orderViewModel.filterOrders(regex.trim())
-        orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
+        myViewModel.getFilteredOrders(regex.trim())
+        myViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
             adapter.initOrders(newOrders)
         }
         binding.etSearchBar.clearFocus()

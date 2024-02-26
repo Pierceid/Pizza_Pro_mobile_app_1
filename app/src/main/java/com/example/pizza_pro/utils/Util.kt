@@ -245,7 +245,7 @@ class Util {
 
             btnOk.setOnClickListener {
                 popupWindow.dismiss()
-                val party = Party(emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(50))
+                val party = Party(emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(30))
                 konfettiView?.start(party)
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)

@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
-import com.example.pizza_pro.database.Order
-import com.example.pizza_pro.database.OrderViewModel
+import com.example.pizza_pro.database.MyViewModel
+import com.example.pizza_pro.database.User
 import com.example.pizza_pro.databinding.FragmentAccountBinding
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
@@ -29,7 +29,7 @@ class AccountFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentAccountBinding
     private lateinit var navController: NavController
-    private lateinit var orderViewModel: OrderViewModel
+    private lateinit var myViewModel: MyViewModel
     private lateinit var name: String
     private lateinit var email: String
     private lateinit var password: String
@@ -60,7 +60,7 @@ class AccountFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
         menuProvider =
             MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
         requireActivity().addMenuProvider(menuProvider!!)
@@ -103,6 +103,7 @@ class AccountFragment : Fragment(), OnClickListener {
             }
             R.id.btn_next -> {
                 if (checkInput() && !doInputsHaveFocus()) {
+                    insertUserIntoDatabase()
                     val bundle = bundleOf(
                         "name" to name,
                         "email" to email,
@@ -147,6 +148,19 @@ class AccountFragment : Fragment(), OnClickListener {
         }
     }
 
+    // inserts user into database
+    private fun insertUserIntoDatabase() {
+        val user = User(
+            0,
+            name = name,
+            email = email,
+            password = password,
+            location = location,
+            gender = gender
+        )
+        runBlocking { myViewModel.addUser(user) }
+    }
+
     // updates account fragment
     private fun updateAccount(
         newIsPasswordVisible: Boolean = Util.getVisibilityOfPassword(
@@ -173,42 +187,49 @@ class AccountFragment : Fragment(), OnClickListener {
     // validates user's input
     private fun checkInput(): Boolean {
         getInput()
-        if (email.isNotEmpty()) {
-            runBlocking { orderViewModel.getUserOrder(email) }
-        }
-        val order = orderViewModel.userOrder
 
-        return if (isRegistering) validateRegistration(order) else validateLogin(order)
+        if (email.isNotEmpty()) {
+            runBlocking { myViewModel.getUser(email) }
+        }
+
+        val existingUser = myViewModel.user
+
+        return if (isRegistering) validateRegistration(existingUser) else validateLogin(existingUser)
     }
 
     // validates input when registering
-    private fun validateRegistration(order: Order?): Boolean {
-        val validName = name.length in  1..100
-        val validEmail = (order == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
+    private fun validateRegistration(user: User?): Boolean {
+        val validName = name.length in 1..100
+        val validEmail =
+            (user == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
         val validPassword = password.length in 6..100
         val validLocation = location.length in 1..100
 
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.invalid_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
 
         return validName && validEmail && validPassword && validLocation
     }
 
     // validates input when logging in
-    private fun validateLogin(order: Order?): Boolean {
-        val validEmail = (order != null && email == order.userInfo.email)
-        val validPassword = (order != null && password == order.userInfo.password)
+    private fun validateLogin(user: User?): Boolean {
+        val validEmail = (user != null && email == user.email)
+        val validPassword = (user != null && password == user.password)
         val validLocation = location.length in 1..100
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.incorrect_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.incorrect_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
 
-        if (order != null) {
-            name = order.userInfo.name
-            gender = order.userInfo.gender
+        if (user != null) {
+            name = user.name
+            gender = user.gender
         }
 
         return validEmail && validPassword && validLocation

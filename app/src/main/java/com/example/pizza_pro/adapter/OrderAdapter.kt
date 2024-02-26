@@ -10,11 +10,12 @@ import com.example.pizza_pro.R
 import com.example.pizza_pro.database.Order
 import com.example.pizza_pro.item.OrderContext
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
 
 class OrderAdapter(private val orderContext: OrderContext) :
     RecyclerView.Adapter<OrderAdapter.OrderViewHolder>() {
 
-    private val orders: MutableList<Order> = mutableListOf()
+    private val users: MutableList<Order> = mutableListOf()
 
     inner class OrderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val header: TextView = itemView.findViewById(R.id.tv_header)
@@ -26,8 +27,8 @@ class OrderAdapter(private val orderContext: OrderContext) :
             xButton.setOnClickListener {
                 val runnable = {
                     val position = adapterPosition
-                    val order = orders[position]
-                    orderContext.orderViewModel.removeOrder(order)
+                    val order = users[position]
+                    runBlocking { orderContext.myViewModel.removeOrder(order) }
                     notifyItemRemoved(position)
                 }
                 Util.createAlertDialog(
@@ -50,29 +51,25 @@ class OrderAdapter(private val orderContext: OrderContext) :
 
     // binds data from orders to views
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        val order = orders[position]
+        val order = users[position]
 
-        holder.header.text = String.format("%d. %s", order.id, order.userInfo.name)
+        holder.header.text = String.format("%d. %s", order.orderID, order.user.name)
         holder.body.text = String.format(
-            "Email: %s\nTime: %s\nPlace: %s\nPurchase: %d (%s)",
-            order.userInfo.email,
-            order.time,
-            order.place,
-            order.items,
-            order.cost
+            "Email: %s\nPlace: %s\nPurchase: %d (%d)",
+            order.user.email, order.user.location, order.items, order.cost
         )
     }
 
     // returns number of orders
-    override fun getItemCount(): Int = orders.size
+    override fun getItemCount(): Int = users.size
 
     // updates the list of orders
     fun initOrders(newList: MutableList<Order>) {
-        val removedItems = orders.size
+        val removedItems = users.size
         val insertedItems = newList.size
 
-        orders.clear()
-        orders.addAll(newList)
+        users.clear()
+        users.addAll(newList)
 
         if (removedItems > 0) notifyItemRangeRemoved(0, removedItems)
         if (insertedItems > 0) notifyItemRangeInserted(0, insertedItems)

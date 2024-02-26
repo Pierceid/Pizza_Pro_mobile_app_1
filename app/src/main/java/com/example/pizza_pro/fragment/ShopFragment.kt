@@ -28,25 +28,27 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var pizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
 
+    private var userID: Long = -1
     private var menuProvider: MenuProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        val locked: Boolean
+        val isLocked: Boolean
         val changedPizzas: MutableList<Pizza>
 
         requireArguments().let {
+            userID = it.getLong("userID")
             changedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
-            locked = it.getBoolean("isLocked")
+            isLocked = it.getBoolean("isLocked")
         }
 
         adapter = PizzaAdapter(requireFragmentManager(), DataSource().loadData())
         pizzas = adapter.getPizzas()
         Util.updatePizzas(pizzas, changedPizzas)
 
-        if (locked) requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        if (isLocked) requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
     }
 
     override fun onCreateView(
