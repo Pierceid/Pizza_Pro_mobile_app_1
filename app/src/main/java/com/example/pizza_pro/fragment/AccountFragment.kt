@@ -105,7 +105,6 @@ class AccountFragment : Fragment(), OnClickListener {
             }
             R.id.btn_next -> {
                 if (checkInput() && !doInputsHaveFocus()) {
-                    insertUserIntoDatabase()
                     val bundle = bundleOf(
                         "name" to name,
                         "email" to email,
@@ -213,6 +212,10 @@ class AccountFragment : Fragment(), OnClickListener {
             if (!validPassword) getString(R.string.invalid_password) else null
         binding.inputLocation.error =
             if (!validLocation) getString(R.string.invalid_location) else null
+
+        if (validName && validEmail && validPassword && validLocation) {
+            insertUserIntoDatabase()
+        }
 
         return validName && validEmail && validPassword && validLocation
     }
