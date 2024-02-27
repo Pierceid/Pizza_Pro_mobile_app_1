@@ -53,6 +53,6 @@
             android:id="@+id/tv_body"
             style="@style/Widget.Pizza_Pro.TextView"
             android:text='@{body}'
-            android:textColor="@color/blue" />
+            android:textColor="@color/black" />
     </LinearLayout>
 </layout>

@@ -31,7 +31,7 @@
         android:id="@+id/cl_profile"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@raw/gray_background"
+        android:background="@raw/blue_background"
         android:padding="20dp">
 
         <ScrollView
@@ -83,7 +83,7 @@
                         android:layout_weight="3"
                         android:gravity="end"
                         android:text='@{name}'
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,7 +106,7 @@
                         android:layout_weight="3"
                         android:gravity="end"
                         android:text='@{email}'
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -129,7 +129,7 @@
                         android:layout_weight="3"
                         android:gravity="end"
                         android:text='@{password}'
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -152,7 +152,7 @@
                         android:layout_weight="3"
                         android:gravity="end"
                         android:text='@{location}'
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -175,7 +175,7 @@
                         android:layout_weight="3"
                         android:gravity="end"
                         android:text='@{gender}'
-                        android:textColor="@color/blue" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <RelativeLayout

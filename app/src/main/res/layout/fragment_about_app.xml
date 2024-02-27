@@ -33,7 +33,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@raw/gray_background"
+        android:background="@raw/blue_background"
         android:padding="20dp"
         android:scrollbars="none">
 
@@ -56,42 +56,42 @@
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_margin="5dp"
                     android:text='@{version}'
-                    android:textColor="@color/black" />
+                    android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_copyright"
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_margin="5dp"
                     android:text='@{copyright}'
-                    android:textColor="@color/black" />
+                    android:textColor="@color/purple" />
 
                 <TextView
                     android:id="@+id/tv_description"
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_margin="5dp"
                     android:text='@{description}'
-                    android:textColor="@color/purple" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_highlights"
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_margin="5dp"
                     android:text='@{highlights}'
-                    android:textColor="@color/blue" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_support"
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_margin="5dp"
                     android:text='@{support}'
-                    android:textColor="@color/purple" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_thanks"
                     style="@style/Widget.Pizza_Pro.TextView"
                     android:layout_margin="5dp"
                     android:text='@{thanks}'
-                    android:textColor="@color/blue" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <Button
