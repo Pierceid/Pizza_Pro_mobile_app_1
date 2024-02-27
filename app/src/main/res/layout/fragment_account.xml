@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/register"
                     android:textColor="@color/purple"
-                    android:textSize="35sp"
+                    android:textSize="32sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_swap"
@@ -61,8 +61,8 @@
 
                 <ImageView
                     android:id="@+id/btn_swap"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:contentDescription="@string/swap_icon"
                     android:src="@drawable/ic_swap"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/log_in"
                     android:textColor="@color/slate"
-                    android:textSize="35sp"
+                    android:textSize="32sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

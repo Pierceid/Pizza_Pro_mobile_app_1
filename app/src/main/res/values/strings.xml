@@ -29,6 +29,7 @@
     <string name="title">Title</string>
     <string name="logo">Logo</string>
     <string name="motto">Motto</string>
+    <string name="social_icon">Social icon</string>
     <string name="lets_get_started">Lets get started</string>
     <!-- Account -->
     <string name="log_in_or_register">Log in or register</string>
