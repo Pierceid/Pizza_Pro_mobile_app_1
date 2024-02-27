@@ -29,6 +29,7 @@
     <string name="title">Title</string>
     <string name="logo">Logo</string>
     <string name="motto">Motto</string>
+    <string name="social_icon">Social icon</string>
     <string name="lets_get_started">Lets get started</string>
     <!-- Account -->
     <string name="log_in_or_register">Log in or register</string>
@@ -43,16 +44,17 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_email">Not a valid email</string>
-    <string name="short_password">Password must be >5 characters</string>
-    <string name="invalid_password">Not a valid password</string>
-    <string name="invalid_location">Not a valid location</string>
+    <string name="invalid_username">Invalid username. Username must be 1–100 characters long.</string>
+    <string name="invalid_email">Invalid email. Provide a valid email address.</string>
+    <string name="invalid_password">Invalid password. Password must be 6–100 characters long.</string>
+    <string name="incorrect_password">Incorrect password. Check your password and try again.</string>
+    <string name="invalid_location">Invalid location. Location must be 1–100 characters long.</string>
     <string name="change_visibility">Change visibility</string>
     <!-- Shop -->
     <string name="welcome_to_shop">Welcome to shop</string>
-    <string name="search">Search</string>
     <string name="banner">Banner</string>
+    <string name="search">Search</string>
+    <string name="cross">cross</string>
     <string name="search_your_favorite_pizza">Search your favorite pizza</string>
     <!-- Cart -->
     <string name="check_your_cart">Check your cart</string>
@@ -80,7 +82,11 @@
     <string name="profile_picture">Profile picture</string>
     <string name="gender">Gender</string>
     <!-- History -->
-    <string name="search_order_by_name">Search order by name</string>
+    <string name="search_by_name">Search by name</string>
+    <string name="database_tables">Database tables</string>
+    <string name="users">Users</string>
+    <string name="orders">Orders</string>
+    <string name="delete">Delete</string>
     <!-- Item pizza -->
     <string name="pizza_picture">Pizza picture</string>
     <string name="plus">+</string>
@@ -88,15 +94,18 @@
     <string name="minus">-</string>
     <!-- Pop up window -->
     <string name="processing">Processing…</string>
-    <string name="ordered_successfully">Ordered successfully!</string>
-    <string name="sent_successfully">Sent successfully!</string>
-    <string name="history_has_been_cleared">History has been cleared!</string>
+    <string name="ordered_successfully">Order has been\n placed successfully!</string>
+    <string name="cancelled_successfully">Order has been\n cancelled successfully!</string>
+    <string name="removed_successfully">User has been\n removed successfully!</string>
+    <string name="sent_successfully">Feedback has been\n sent successfully!</string>
+    <string name="cleared_successfully">History has been\n cleared successfully!</string>
     <string name="check">Check</string>
-    <string name="menu_icon">menu icon</string>
     <!-- Alert Dialog -->
-    <string name="place_order">Would you like to place your order now?</string>
+    <string name="place_order">Would you like to place your order?</string>
+    <string name="cancel_order">Would you like to cancel this order?</string>
+    <string name="remove_user">Would you like to remove this user?</string>
     <string name="share_feedback">Would you like to share your feedback?</string>
-    <string name="clear_history">Are you sure you want to clear the history?</string>
+    <string name="clear_history">Would you like to clear the history?</string>
     <string name="exit_app">Are you sure you want to exit?</string>
     <!-- Toast -->
     <string name="locked">Screen rotation is locked.</string>

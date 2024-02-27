@@ -2,19 +2,23 @@ package com.example.pizza_pro.fragment
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Patterns
 import android.view.*
 import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
-import com.example.pizza_pro.database.Order
-import com.example.pizza_pro.database.OrderViewModel
+import com.example.pizza_pro.database.MyViewModel
+import com.example.pizza_pro.database.User
 import com.example.pizza_pro.databinding.FragmentAccountBinding
+import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
+import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.runBlocking
@@ -25,23 +29,26 @@ class AccountFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentAccountBinding
     private lateinit var navController: NavController
-    private lateinit var orderViewModel: OrderViewModel
+    private lateinit var myViewModel: MyViewModel
     private lateinit var name: String
     private lateinit var email: String
     private lateinit var password: String
     private lateinit var location: String
     private lateinit var gender: Gender
+
     private var isPasswordVisible = false
     private var isRegistering = true
     private var inputFields = listOf<TextInputEditText>()
+    private var menuProvider: MenuProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        val isLocked = arguments?.getBoolean("isLocked")
-        if (isLocked == true)
+        val isLocked: Boolean = requireArguments().getBoolean("isLocked")
+        if (isLocked) {
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(
@@ -55,7 +62,10 @@ class AccountFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
             binding.btnSwap,
@@ -64,7 +74,9 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.rbFemale,
             binding.rbOther,
             binding.btnCancel,
-            binding.btnNext
+            binding.btnNext,
+            binding.linearLayout,
+            binding.topAppBar
         ).forEach { it.setOnClickListener(this) }
 
         inputFields = listOf(
@@ -73,52 +85,9 @@ class AccountFragment : Fragment(), OnClickListener {
         inputFields.forEach { it.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) checkInput() } }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_settings, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.mi_lock -> {
-                val isLocked =
-                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-                requireActivity().requestedOrientation =
-                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-                Util.createToast(requireActivity(), !isLocked)
-                true
-            }
-            R.id.mi_profile -> {
-                getInput()
-                val bundle = bundleOf(
-                    "name" to name,
-                    "email" to email,
-                    "password" to password,
-                    "location" to location,
-                    "gender" to gender
-                )
-                Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
-                true
-            }
-            R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
-                true
-            }
-            R.id.mi_aboutApp -> {
-                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
-                true
-            }
-            R.id.mi_logOut -> {
-                Util.removeAdditionalFragment(requireFragmentManager())
-                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                navController.navigate(R.id.action_accountFragment_to_introFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().removeMenuProvider(menuProvider!!)
     }
 
     // handles on click methods
@@ -134,10 +103,6 @@ class AccountFragment : Fragment(), OnClickListener {
                 isPasswordVisible = !isPasswordVisible
                 updateAccount(newIsPasswordVisible = isPasswordVisible)
             }
-            R.id.rb_male, R.id.rb_female, R.id.rb_other -> {
-                clearInputsFocus()
-                updateAccount()
-            }
             R.id.btn_next -> {
                 if (checkInput() && !doInputsHaveFocus()) {
                     val bundle = bundleOf(
@@ -146,6 +111,7 @@ class AccountFragment : Fragment(), OnClickListener {
                         "password" to password,
                         "location" to location,
                         "gender" to gender,
+                        "orderedItems" to mutableListOf<Pizza>(),
                         "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
                     )
                     navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
@@ -156,6 +122,7 @@ class AccountFragment : Fragment(), OnClickListener {
                 requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 navController.navigate(R.id.action_accountFragment_to_introFragment)
             }
+            R.id.rb_male, R.id.rb_female, R.id.rb_other, R.id.linearLayout, R.id.topAppBar -> clearInputsFocus()
         }
     }
 
@@ -180,6 +147,19 @@ class AccountFragment : Fragment(), OnClickListener {
             binding.inputLocation.setText(savedInstanceState.getString("location").toString())
             updateAccount(newGender = savedInstanceState.getSerializable("gender") as Gender)
         }
+    }
+
+    // inserts user into database
+    private fun insertUserIntoDatabase() {
+        val user = User(
+            userID = 0,
+            name = name,
+            email = email,
+            password = password,
+            location = location,
+            gender = gender
+        )
+        runBlocking { myViewModel.addUser(user) }
     }
 
     // updates account fragment
@@ -208,42 +188,53 @@ class AccountFragment : Fragment(), OnClickListener {
     // validates user's input
     private fun checkInput(): Boolean {
         getInput()
-        if (email.isNotEmpty()) {
-            runBlocking { orderViewModel.getUserOrder(email) }
-        }
-        val order = orderViewModel.userOrder
 
-        return if (isRegistering) validateRegistration(order) else validateLogin(order)
+        if (email.isNotEmpty()) {
+            runBlocking { myViewModel.getUser(email) }
+        }
+
+        val existingUser = myViewModel.user
+
+        return if (isRegistering) validateRegistration(existingUser) else validateLogin(existingUser)
     }
 
     // validates input when registering
-    private fun validateRegistration(order: Order?): Boolean {
-        val validEmail = (order == null && email.isNotEmpty())
-        val validName = name.isNotEmpty()
-        val validPassword = password.length > 5
-        val validLocation = location.isNotEmpty()
+    private fun validateRegistration(user: User?): Boolean {
+        val validName = name.length in 1..100
+        val validEmail =
+            (user == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        val validPassword = password.length in 6..100
+        val validLocation = location.length in 1..100
 
-        binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
         binding.inputName.error = if (!validName) getString(R.string.invalid_username) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.short_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.invalid_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
+
+        if (validName && validEmail && validPassword && validLocation) {
+            insertUserIntoDatabase()
+        }
 
         return validName && validEmail && validPassword && validLocation
     }
 
     // validates input when logging in
-    private fun validateLogin(order: Order?): Boolean {
-        val validEmail = (order != null && email == order.userInfo.email)
-        val validPassword = (order != null && password == order.userInfo.password)
-        val validLocation = location.isNotEmpty()
+    private fun validateLogin(user: User?): Boolean {
+        val validEmail = (user != null && email == user.email)
+        val validPassword = (user != null && password == user.password)
+        val validLocation = location.length in 1..100
 
         binding.inputEmail.error = if (!validEmail) getString(R.string.invalid_email) else null
-        binding.inputPassword.error = if (!validPassword) getString(R.string.invalid_password) else null
-        binding.inputLocation.error = if (!validLocation) getString(R.string.invalid_location) else null
+        binding.inputPassword.error =
+            if (!validPassword) getString(R.string.incorrect_password) else null
+        binding.inputLocation.error =
+            if (!validLocation) getString(R.string.invalid_location) else null
 
-        if (order != null) {
-            name = order.userInfo.name
-            gender = order.userInfo.gender
+        if (user != null) {
+            name = user.name
+            gender = user.gender
         }
 
         return validEmail && validPassword && validLocation

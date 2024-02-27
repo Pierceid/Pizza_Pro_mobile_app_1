@@ -31,6 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/topAppBarLayout">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/ashen_rectangle"
@@ -51,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/register"
                     android:textColor="@color/purple"
-                    android:textSize="30sp"
+                    android:textSize="32sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_swap"
@@ -60,9 +61,8 @@
 
                 <ImageView
                     android:id="@+id/btn_swap"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="15dp"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:contentDescription="@string/swap_icon"
                     android:src="@drawable/ic_swap"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/log_in"
                     android:textColor="@color/slate"
-                    android:textSize="30sp"
+                    android:textSize="32sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -86,10 +86,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputNameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/name">
+                style="@style/Widget.Pizza_Pro.TextInputLayout"
+                android:hint="@string/name"
+                app:boxCornerRadiusTopEnd="0dp"
+                app:boxCornerRadiusTopStart="0dp"
+                app:hintTextColor="@color/smoke">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_name"
@@ -100,10 +101,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:hint="@string/email">
+                android:id="@+id/inputEmailLayout"
+                style="@style/Widget.Pizza_Pro.TextInputLayout"
+                android:hint="@string/email"
+                app:boxCornerRadiusTopEnd="0dp"
+                app:boxCornerRadiusTopStart="0dp"
+                app:hintTextColor="@color/smoke">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_email"
@@ -121,10 +124,14 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputPasswordLayout"
+                    style="@style/Widget.Pizza_Pro.TextInputLayout"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
                     android:layout_weight="1"
-                    android:hint="@string/password">
+                    android:hint="@string/password"
+                    app:boxCornerRadiusTopEnd="0dp"
+                    app:boxCornerRadiusTopStart="0dp"
+                    app:hintTextColor="@color/smoke">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/input_password"
@@ -137,8 +144,8 @@
 
                 <ImageView
                     android:id="@+id/btn_eye"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:contentDescription="@string/change_visibility"
@@ -146,10 +153,12 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/location">
+                android:id="@+id/inputLocationLayout"
+                style="@style/Widget.Pizza_Pro.TextInputLayout"
+                android:hint="@string/location"
+                app:boxCornerRadiusTopEnd="0dp"
+                app:boxCornerRadiusTopStart="0dp"
+                app:hintTextColor="@color/smoke">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_location"

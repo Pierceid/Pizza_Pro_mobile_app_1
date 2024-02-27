@@ -1,13 +1,14 @@
 package com.example.pizza_pro.fragment
 
-import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.format.DateFormat
 import android.view.*
 import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -18,9 +19,10 @@ import com.example.pizza_pro.database.*
 import com.example.pizza_pro.databinding.FragmentCartBinding
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
+import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -28,22 +30,29 @@ class CartFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var navController: NavController
-    private lateinit var orderViewModel: OrderViewModel
+    private lateinit var myViewModel: MyViewModel
     private lateinit var orderedPizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
+
     private var itemCount: Int = 0
     private var totalCost: Double = 0.0
+    private var menuProvider: MenuProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        orderedPizzas =
-            requireArguments().getParcelableArrayList<Pizza>("selectedItems") as MutableList<Pizza>
+        val isLocked: Boolean
+        requireArguments().let {
+            orderedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
+            isLocked = it.getBoolean("isLocked")
+        }
+
         adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
 
-        if (requireArguments().getBoolean("isLocked"))
+        if (isLocked) {
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(
@@ -57,60 +66,22 @@ class CartFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        binding.rvOrderedPizzas.adapter = adapter
-        calculateCosts()
+        myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
             binding.btnApply, binding.btnOrder, binding.btnShop, binding.btnFeedback
         ).forEach { it.setOnClickListener(this) }
+        binding.rvOrderedPizzas.adapter = adapter
+
+        calculateCosts()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_settings, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.mi_lock -> {
-                val isLocked =
-                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-                requireActivity().requestedOrientation =
-                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-                Util.createToast(requireActivity(), !isLocked)
-                true
-            }
-            R.id.mi_profile -> {
-                val bundle = bundleOf(
-                    "name" to requireArguments().getString("name").toString(),
-                    "email" to requireArguments().getString("email").toString(),
-                    "password" to requireArguments().getString("password").toString(),
-                    "location" to requireArguments().getString("location").toString(),
-                    "gender" to requireArguments().getSerializable("gender") as Gender
-                )
-                Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
-                true
-            }
-            R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
-                true
-            }
-            R.id.mi_aboutApp -> {
-                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
-                true
-            }
-            R.id.mi_logOut -> {
-                Util.removeAdditionalFragment(requireFragmentManager())
-                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                navController.navigate(R.id.action_cartFragment_to_introFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().removeMenuProvider(menuProvider!!)
     }
 
     // handles on click methods
@@ -142,37 +113,34 @@ class CartFragment : Fragment(), OnClickListener {
     // creates an alert dialog for placing an order
     private fun createOrderAlertDialog() {
         val runnable = {
-            insertDataIntoDatabase()
-            Util.createPopUpWindow(
-                getString(R.string.ordered_successfully),
-                layoutInflater,
-                binding.clCart,
-                binding.konfettiView
-            )
+            insertOrderIntoDatabase()
             orderedPizzas.clear()
             adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
             binding.rvOrderedPizzas.adapter = adapter
             updateCart()
         }
-        Util.createAlertDialog(requireActivity(), "order", runnable)
+        Util.createAlertDialog(
+            requireActivity(),
+            "place_order",
+            runnable,
+            layoutInflater,
+            binding.clCart,
+            binding.konfettiView
+        )
     }
 
     // inserts order into database
-    @SuppressLint("SimpleDateFormat")
-    private fun insertDataIntoDatabase() {
+    private fun insertOrderIntoDatabase() {
         val order = Order(
-            userInfo = UserInfo(
-                requireArguments().getString("name").toString(),
-                requireArguments().getString("email").toString(),
-                requireArguments().getString("password").toString(),
-                requireArguments().getSerializable("gender") as Gender
-            ),
-            time = SimpleDateFormat("d.M.yyyy (h:mm a)").format(Date()),
+            orderID = 0,
+            name = requireArguments().getString("name").toString(),
+            time = DateFormat.format("d.M.yyyy (h:mm a)", System.currentTimeMillis())
+                .toString(),
             place = requireArguments().getString("location").toString(),
             items = itemCount,
             cost = NumberFormat.getCurrencyInstance().format(totalCost)
         )
-        orderViewModel.addOrder(order)
+        runBlocking { myViewModel.addOrder(order) }
     }
 
     // updates cart fragment

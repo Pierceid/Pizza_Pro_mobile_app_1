@@ -60,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:checkedButton="@id/rb_great"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -215,16 +216,16 @@
                 android:layout_marginTop="10dp">
 
                 <Button
-                    android:id="@+id/btn_send"
-                    style="@style/Widget.Pizza_Pro.Button"
-                    android:layout_alignParentStart="true"
-                    android:text="@string/send" />
-
-                <Button
                     android:id="@+id/btn_discard"
                     style="@style/Widget.Pizza_Pro.Button"
-                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentStart="true"
                     android:text="@string/discard" />
+
+                <Button
+                    android:id="@+id/btn_send"
+                    style="@style/Widget.Pizza_Pro.Button"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/send" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

@@ -21,19 +21,18 @@ class PizzaAdapter(
 
     // for recycle view behaviour
     inner class PizzaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val pizza: ImageView = itemView.findViewById(R.id.iv_pizza)
+        val image: ImageView = itemView.findViewById(R.id.iv_pizza)
         val name: TextView = itemView.findViewById(R.id.tv_name)
         val count: TextView = itemView.findViewById(R.id.tv_itemCount)
         val cost: TextView = itemView.findViewById(R.id.tv_cost)
 
         private val plusButton: ImageView = itemView.findViewById(R.id.iv_plus)
         private val minusButton: ImageView = itemView.findViewById(R.id.iv_minus)
-        private val pizzaName: TextView = itemView.findViewById(R.id.tv_name)
 
         init {
             plusButton.setOnClickListener {
                 val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
+                if (position != RecyclerView.NO_POSITION && pizzas[position].count < 10) {
                     pizzas[position].count++
                     notifyItemChanged(position)
                 }
@@ -47,17 +46,16 @@ class PizzaAdapter(
                 }
             }
 
-            pizzaName.setOnClickListener {
-                val pizza = getPizza(pizzaName)
-                val bundle = bundleOf(
-                    "imageSource" to pizza?.imageSource,
-                    "name" to pizza?.name,
-                    "rating" to pizza?.rating,
-                    "time" to pizza?.time,
-                    "calories" to pizza?.calories,
-                    "description" to pizza?.description,
-                )
-                Util.navigateToFragment(fragmentManager, DetailFragment(), bundle)
+            image.setOnClickListener {
+                val position = adapterPosition
+                val pizza = pizzas[position]
+                openDetailFragment(pizza)
+            }
+
+            name.setOnClickListener {
+                val position = adapterPosition
+                val pizza = pizzas[position]
+                openDetailFragment(pizza)
             }
         }
     }
@@ -73,7 +71,7 @@ class PizzaAdapter(
     override fun onBindViewHolder(holder: PizzaViewHolder, position: Int) {
         val pizza = pizzas[position]
 
-        holder.pizza.setImageResource(pizza.imageSource)
+        holder.image.setImageResource(pizza.imageSource)
         holder.name.text = pizza.name
         holder.count.text = pizza.count.toString()
         holder.cost.text =
@@ -86,22 +84,34 @@ class PizzaAdapter(
     // returns list of all pizzas
     fun getPizzas(): MutableList<Pizza> = pizzas
 
-    // returns a pizza
-    fun getPizza(textView: TextView): Pizza? = pizzas.find { it.name == textView.text.toString() }
-
     // returns list of filtered pizzas
-    fun getFilteredPizzas(regex: String): MutableList<Pizza> =
-        pizzas.filter {
+    fun getFilteredPizzas(regex: String): MutableList<Pizza> {
+        return pizzas.filter {
             it.name!!.lowercase(Locale.getDefault()).contains(regex.lowercase(Locale.getDefault()))
         } as MutableList<Pizza>
+    }
 
     // returns list of filtered pizzas
-    fun getSelectedPizzas(): MutableList<Pizza> =
-        pizzas.filter { it.count > 0 } as MutableList<Pizza>
+    fun getSelectedPizzas(): MutableList<Pizza> {
+        return pizzas.filter { it.count > 0 } as MutableList<Pizza>
+    }
 
     // updates the list of pizzas
     fun initPizzas(newList: MutableList<Pizza>) {
         pizzas.clear()
         pizzas.addAll(newList)
+    }
+
+    // opens detail fragment of the selected pizza
+    fun openDetailFragment(pizza: Pizza) {
+        val bundle = bundleOf(
+            "imageSource" to pizza.imageSource,
+            "name" to pizza.name,
+            "rating" to pizza.rating,
+            "time" to pizza.time,
+            "calories" to pizza.calories,
+            "description" to pizza.description,
+        )
+        Util.navigateToFragment(fragmentManager, DetailFragment(), bundle)
     }
 }

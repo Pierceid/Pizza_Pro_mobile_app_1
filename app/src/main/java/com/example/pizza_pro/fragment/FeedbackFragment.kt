@@ -6,6 +6,7 @@ import android.view.*
 import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -14,6 +15,7 @@ import com.example.pizza_pro.databinding.FragmentFeedbackBinding
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.options.Satisfaction
+import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
 
 @Suppress("DEPRECATION")
@@ -21,16 +23,26 @@ class FeedbackFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentFeedbackBinding
     private lateinit var navController: NavController
+    private lateinit var orderedPizzas: MutableList<Pizza>
+
     private var satisfaction: Satisfaction = Satisfaction.GREAT
     private var thoughts: String = ""
     private var followUp: Boolean = true
+    private var menuProvider: MenuProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        if (requireArguments().getBoolean("isLocked"))
+        val isLocked: Boolean
+        requireArguments().let {
+            orderedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
+            isLocked = it.getBoolean("isLocked")
+        }
+
+        if (isLocked) {
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(
@@ -44,7 +56,8 @@ class FeedbackFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        updateFeedback()
+        menuProvider = MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
             binding.btnSend,
@@ -52,53 +65,13 @@ class FeedbackFragment : Fragment(), OnClickListener {
             binding.btnCart,
             binding.scFollowUp
         ).forEach { it.setOnClickListener(this) }
+
+        updateFeedback()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_settings, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.mi_lock -> {
-                val isLocked =
-                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-                requireActivity().requestedOrientation =
-                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-                Util.createToast(requireActivity(), !isLocked)
-                true
-            }
-            R.id.mi_profile -> {
-                val bundle = bundleOf(
-                    "name" to requireArguments().getString("name").toString(),
-                    "email" to requireArguments().getString("email").toString(),
-                    "password" to requireArguments().getString("password").toString(),
-                    "location" to requireArguments().getString("location").toString(),
-                    "gender" to requireArguments().getSerializable("gender") as Gender
-                )
-                Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
-                true
-            }
-            R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
-                true
-            }
-            R.id.mi_aboutApp -> {
-                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
-                true
-            }
-            R.id.mi_logOut -> {
-                Util.removeAdditionalFragment(requireFragmentManager())
-                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                navController.navigate(R.id.action_feedbackFragment_to_introFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().removeMenuProvider(menuProvider!!)
     }
 
     // saves data in case of rotating screen or exiting app
@@ -130,7 +103,7 @@ class FeedbackFragment : Fragment(), OnClickListener {
             "password" to requireArguments().getString("password").toString(),
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
-            "selectedItems" to requireArguments().getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>,
+            "orderedItems" to requireArguments().getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>,
             "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {
@@ -172,15 +145,14 @@ class FeedbackFragment : Fragment(), OnClickListener {
 
     // creates an alert dialog for sharing feedback
     private fun createFeedbackAlertDialog() {
-        val runnable = {
-            Util.createPopUpWindow(
-                getString(R.string.sent_successfully),
-                layoutInflater,
-                binding.clFeedback,
-                binding.konfettiView
-            )
-            clearInput()
-        }
-        Util.createAlertDialog(requireActivity(), "feedback", runnable)
+        val runnable = { clearInput() }
+        Util.createAlertDialog(
+            requireActivity(),
+            "send_feedback",
+            runnable,
+            layoutInflater,
+            binding.clFeedback,
+            binding.konfettiView
+        )
     }
 }

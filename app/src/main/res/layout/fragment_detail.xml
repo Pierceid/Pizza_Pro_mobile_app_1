@@ -30,7 +30,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@raw/gray_background"
+        android:background="@raw/blue_background"
         android:padding="20dp"
         android:scrollbars="none">
 
@@ -50,7 +50,9 @@
                     android:id="@+id/iv_picture"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"
+                    android:background="@drawable/black_frame"
                     android:contentDescription="@string/pizza_picture"
+                    android:padding="1dp"
                     android:scaleType="fitXY"
                     app:srcCompat="@raw/neapolitan_pizza" />
             </LinearLayout>

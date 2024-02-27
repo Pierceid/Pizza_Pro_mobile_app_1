@@ -7,6 +7,7 @@ import android.view.*
 import android.view.View.OnClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -16,7 +17,9 @@ import com.example.pizza_pro.data.DataSource
 import com.example.pizza_pro.databinding.FragmentShopBinding
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
+import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
 
 @Suppress("DEPRECATION")
 class ShopFragment : Fragment(), OnClickListener {
@@ -26,19 +29,27 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var pizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
 
+    private var menuProvider: MenuProvider? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
+        val isLocked: Boolean
+        val changedPizzas: MutableList<Pizza>
+
+        requireArguments().let {
+            changedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
+            isLocked = it.getBoolean("isLocked")
+        }
+
         adapter = PizzaAdapter(requireFragmentManager(), DataSource().loadData())
         pizzas = adapter.getPizzas()
-        val changedPizzas =
-            (requireArguments().getParcelableArrayList<Pizza>("orderedItems") as? MutableList<Pizza>)
-                ?: mutableListOf()
         Util.updatePizzas(pizzas, changedPizzas)
 
-        if (requireArguments().getBoolean("isLocked"))
+        if (isLocked) {
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+        }
     }
 
     override fun onCreateView(
@@ -52,60 +63,26 @@ class ShopFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        updateShop()
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        requireActivity().addMenuProvider(menuProvider!!)
 
-        listOf(binding.btnHome, binding.btnCart, binding.ivBanner).forEach {
-            it.setOnClickListener(this)
-        }
-
+        listOf(
+            binding.btnHome,
+            binding.btnCart,
+            binding.ivSearch,
+            binding.ivCross,
+            binding.ivBanner,
+            binding.topAppBar
+        ).forEach { it.setOnClickListener(this) }
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateShop() }
+
+        updateShop()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_settings, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.mi_lock -> {
-                val isLocked =
-                    (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-                requireActivity().requestedOrientation =
-                    if (isLocked) ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                    else ActivityInfo.SCREEN_ORIENTATION_LOCKED
-                Util.createToast(requireActivity(), !isLocked)
-                true
-            }
-            R.id.mi_profile -> {
-                val bundle = bundleOf(
-                    "name" to requireArguments().getString("name").toString(),
-                    "email" to requireArguments().getString("email").toString(),
-                    "password" to requireArguments().getString("password").toString(),
-                    "location" to requireArguments().getString("location").toString(),
-                    "gender" to requireArguments().getSerializable("gender") as Gender
-                )
-                Util.navigateToFragment(requireFragmentManager(), ProfileFragment(), bundle)
-                true
-            }
-            R.id.mi_history -> {
-                Util.navigateToFragment(requireFragmentManager(), HistoryFragment())
-                true
-            }
-            R.id.mi_aboutApp -> {
-                Util.navigateToFragment(requireFragmentManager(), AboutAppFragment())
-                true
-            }
-            R.id.mi_logOut -> {
-                Util.removeAdditionalFragment(requireFragmentManager())
-                requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                navController.navigate(R.id.action_shopFragment_to_introFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().removeMenuProvider(menuProvider!!)
     }
 
     // saves data in case of rotating screen or exiting app
@@ -127,14 +104,13 @@ class ShopFragment : Fragment(), OnClickListener {
 
     // handles on click methods
     override fun onClick(v: View?) {
-        updateShop("")
         val bundle = bundleOf(
             "name" to requireArguments().getString("name").toString(),
             "email" to requireArguments().getString("email").toString(),
             "password" to requireArguments().getString("password").toString(),
             "location" to requireArguments().getString("location").toString(),
             "gender" to requireArguments().getSerializable("gender") as Gender,
-            "selectedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>,
+            "orderedItems" to adapter.getSelectedPizzas() as ArrayList<out Parcelable>,
             "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {
@@ -144,20 +120,28 @@ class ShopFragment : Fragment(), OnClickListener {
             R.id.btn_cart -> {
                 navController.navigate(R.id.action_shopFragment_to_cartFragment, bundle)
             }
-            R.id.iv_banner -> binding.etSearchBar.clearFocus()
+            R.id.iv_search, R.id.iv_banner, R.id.topAppBar -> updateShop()
+            R.id.iv_cross -> {
+                binding.etSearchBar.setText("")
+                updateShop()
+            }
         }
     }
 
     // updates shop fragment
-    private fun updateShop(regex: String = binding.etSearchBar.text.toString()) {
+    private fun updateShop() {
+        val regex = binding.etSearchBar.text.toString()
         adapter = PizzaAdapter(requireFragmentManager(), pizzas)
 
-        if (regex.trim().isNotEmpty()) {
-            val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
-            Util.updatePizzas(pizzas, filteredPizzas)
-            adapter = PizzaAdapter(requireFragmentManager(), filteredPizzas)
+        runBlocking {
+            if (regex.trim().isNotEmpty()) {
+                val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
+                Util.updatePizzas(pizzas, filteredPizzas)
+                adapter = PizzaAdapter(requireFragmentManager(), filteredPizzas)
+            }
+            binding.rvPizzas.adapter = adapter
         }
 
-        binding.rvPizzas.adapter = adapter
+        binding.etSearchBar.clearFocus()
     }
 }

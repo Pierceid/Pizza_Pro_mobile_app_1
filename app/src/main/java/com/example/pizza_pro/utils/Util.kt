@@ -8,10 +8,7 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.PasswordTransformationMethod
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.pizza_pro.R
+import com.example.pizza_pro.fragment.*
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.options.Satisfaction
@@ -32,6 +30,33 @@ import java.util.concurrent.TimeUnit
 @Suppress("DEPRECATION")
 class Util {
     companion object {
+        // removes the last fragment from backstack if its an additional fragment
+        fun removeAdditionalFragment(fragmentManager: FragmentManager) {
+            val lastTag = fragmentManager.fragments[fragmentManager.fragments.size - 1].tag
+            val containerTag = fragmentManager.findFragmentById(R.id.fragmentContainer)?.tag
+
+            if (lastTag == containerTag) {
+                fragmentManager.popBackStack()
+            }
+        }
+
+        // navigates to an additional fragment
+        fun navigateToFragment(
+            fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null
+        ) {
+            val size = fragmentManager.fragments.size
+            if (size > 1) {
+                val currentTag = fragmentManager.fragments[size - 1].tag
+                val previousTags = fragmentManager.fragments.subList(size - 2, size).map { it.tag }
+
+                if (previousTags.contains(currentTag)) {
+                    fragmentManager.popBackStack()
+                }
+            }
+            fragment.arguments = bundle
+            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null).commit()
+        }
 
         // returns whether the user is registering or not
         fun getIsRegistering(textView: TextView, activity: Activity): Boolean {
@@ -121,8 +146,8 @@ class Util {
 
         // changes colors of switch compat
         fun changeSwitchState(context: Context, followUp: Boolean, switchCompat: SwitchCompat) {
-            val thumbColor = if (followUp) R.color.teal else R.color.smoke
-            val trackColor = if (followUp) R.color.aqua else R.color.gray
+            val thumbColor = if (followUp) R.color.sea else R.color.smoke
+            val trackColor = if (followUp) R.color.teal else R.color.gray
 
             switchCompat.thumbTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(context, thumbColor)
@@ -142,29 +167,13 @@ class Util {
             }
         }
 
-        // removes the last fragment from backstack if its an additional fragment
-        fun removeAdditionalFragment(fragmentManager: FragmentManager) {
-            val lastTag = fragmentManager.fragments[fragmentManager.fragments.size - 1].tag
-            val containerTag = fragmentManager.findFragmentById(R.id.fragmentContainer)?.tag
-            if (lastTag == containerTag) fragmentManager.popBackStack()
+        // creates toast message
+        fun createToast(activity: Activity, isLocked: Boolean) {
+            val message =
+                if (isLocked) activity.getString(R.string.locked)
+                else activity.getString(R.string.unlocked)
+            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
         }
-
-        // navigates to an additional fragment
-        fun navigateToFragment(
-            fragmentManager: FragmentManager, fragment: Fragment, bundle: Bundle? = null
-        ) {
-            val size = fragmentManager.fragments.size
-            if (size > 1) {
-                val currentTag = fragmentManager.fragments[size - 1].tag
-                val previousTags = fragmentManager.fragments.subList(size - 2, size).map { it.tag }
-
-                if (previousTags.contains(currentTag)) fragmentManager.popBackStack()
-            }
-            fragment.arguments = bundle
-            fragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null).commit()
-        }
-
 
         // creates an alert dialog
         fun createAlertDialog(
@@ -172,17 +181,20 @@ class Util {
             type: String? = null,
             runnable: Runnable = Runnable { },
             layoutInflater: LayoutInflater? = null,
-            parentView: ConstraintLayout? = null
+            parentView: ConstraintLayout? = null,
+            konfettiView: KonfettiView? = null
         ) {
             if (!activity.isFinishing) {
                 createToast(activity, true)
                 activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
 
-                val builder = AlertDialog.Builder(activity)
+                val builder = AlertDialog.Builder(activity, R.style.Theme_Pizza_Pro_AlertDialog)
                 val message = when (type) {
-                    "order" -> activity.getString(R.string.place_order)
-                    "feedback" -> activity.getString(R.string.share_feedback)
-                    "history" -> activity.getString(R.string.clear_history)
+                    "place_order" -> activity.getString(R.string.place_order)
+                    "cancel_order" -> activity.getString(R.string.cancel_order)
+                    "remove_user" -> activity.getString(R.string.remove_user)
+                    "send_feedback" -> activity.getString(R.string.share_feedback)
+                    "clear_history" -> activity.getString(R.string.clear_history)
                     else -> activity.getString(R.string.exit_app)
                 }
                 builder.setMessage(message)
@@ -193,13 +205,15 @@ class Util {
                         activity.finish()
                     } else {
                         val text = when (type) {
-                            "order" -> activity.getString(R.string.ordered_successfully)
-                            "feedback" -> activity.getString(R.string.sent_successfully)
-                            "history" -> activity.getString(R.string.history_has_been_cleared)
+                            "place_order" -> activity.getString(R.string.ordered_successfully)
+                            "cancel_order" -> activity.getString(R.string.cancelled_successfully)
+                            "remove_user" -> activity.getString(R.string.removed_successfully)
+                            "send_feedback" -> activity.getString(R.string.sent_successfully)
+                            "clear_history" -> activity.getString(R.string.cleared_successfully)
                             else -> ""
                         }
-                        createPopUpWindow(text, layoutInflater, parentView)
-                        runnable.run()
+                        createPopUpWindow(text, layoutInflater, parentView, konfettiView)
+                        getHandler(runnable)
                     }
                 }
                 builder.setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
@@ -208,13 +222,15 @@ class Util {
         }
 
         // creates pop up window
-        fun createPopUpWindow(
+        private fun createPopUpWindow(
             text: String,
             layoutInflater: LayoutInflater?,
             parentView: ConstraintLayout?,
             konfettiView: KonfettiView? = null
         ) {
-            if (layoutInflater == null || parentView == null) return
+            if (layoutInflater == null || parentView == null) {
+                return
+            }
 
             val popupView = layoutInflater.inflate(R.layout.pop_up_window, parentView, false)
             val message = popupView.findViewById<TextView>(R.id.tv_message)
@@ -237,18 +253,10 @@ class Util {
 
             btnOk.setOnClickListener {
                 popupWindow.dismiss()
-                val party = Party(emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(50))
+                val party = Party(emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(30))
                 konfettiView?.start(party)
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
-        }
-
-        // creates toast message
-        fun createToast(activity: Activity, isLocked: Boolean) {
-            val message =
-                if (isLocked) activity.getString(R.string.locked)
-                else activity.getString(R.string.unlocked)
-            Toast.makeText(activity.applicationContext, message, Toast.LENGTH_SHORT).show()
         }
 
         // delays tasks by some time

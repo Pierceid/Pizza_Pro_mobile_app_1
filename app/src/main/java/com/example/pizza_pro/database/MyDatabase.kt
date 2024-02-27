@@ -5,24 +5,24 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Order::class], version = 1, exportSchema = false)
-abstract class OrderDatabase : RoomDatabase() {
+@Database(entities = [User::class, Order::class], version = 1, exportSchema = false)
+abstract class MyDatabase : RoomDatabase() {
 
-    abstract val dao: OrderDao
+    abstract val dao: MyDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: OrderDatabase? = null
+        private var INSTANCE: MyDatabase? = null
 
-        fun getDatabase(context: Context): OrderDatabase {
+        fun getDatabase(context: Context): MyDatabase {
             synchronized(this) {
                 var instance = INSTANCE
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        OrderDatabase::class.java,
-                        "pizza_order_history_database"
+                        MyDatabase::class.java,
+                        "my_database"
                     ).fallbackToDestructiveMigration().build()
                     INSTANCE = instance
                 }

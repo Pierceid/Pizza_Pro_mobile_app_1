@@ -8,17 +8,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pizza_pro.R
-import com.example.pizza_pro.adapter.OrderAdapter
-import com.example.pizza_pro.database.OrderViewModel
+import com.example.pizza_pro.adapter.HistoryAdapter
+import com.example.pizza_pro.database.MyViewModel
 import com.example.pizza_pro.databinding.FragmentHistoryBinding
+import com.example.pizza_pro.item.MyContext
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
+import java.util.*
 
 @Suppress("DEPRECATION")
 class HistoryFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentHistoryBinding
-    private lateinit var orderViewModel: OrderViewModel
-    private lateinit var adapter: OrderAdapter
+    private lateinit var myViewModel: MyViewModel
+    private lateinit var historyAdapter: HistoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,14 +32,23 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = OrderAdapter()
-        binding.rvOrders.adapter = adapter
-        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
-        updateHistory()
+        myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
+        val myContext =
+            MyContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory, "users")
+        historyAdapter = HistoryAdapter(myContext)
+        binding.rvOrders.adapter = historyAdapter
 
-        listOf(binding.btnClose, binding.btnClear).forEach { it.setOnClickListener(this) }
+        listOf(
+            binding.btnClose,
+            binding.btnClear,
+            binding.btnSwap,
+            binding.ivSearch,
+            binding.ivCross
+        ).forEach { it.setOnClickListener(this) }
 
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateHistory() }
+
+        updateHistory()
     }
 
     // saves data in case of rotating screen or exiting app
@@ -49,7 +61,8 @@ class HistoryFragment : Fragment(), OnClickListener {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            updateHistory(savedInstanceState.getString("regex").toString())
+            binding.etSearchBar.setText(savedInstanceState.getString("regex").toString())
+            updateHistory()
         }
     }
 
@@ -58,27 +71,64 @@ class HistoryFragment : Fragment(), OnClickListener {
         when (v!!.id) {
             R.id.btn_close -> requireFragmentManager().popBackStack()
             R.id.btn_clear -> createHistoryAlertDialog()
-        }
-    }
-
-    // updates history fragment
-    private fun updateHistory(regex: String = binding.etSearchBar.text.toString()) {
-        orderViewModel.filterOrders(regex.trim())
-        orderViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
-            adapter.initOrders(newOrders)
+            R.id.btn_swap -> {
+                Util.swapTextViews(binding.tvSelected, binding.tvUnselected)
+                updateHistory()
+            }
+            R.id.iv_search -> updateHistory()
+            R.id.iv_cross -> {
+                binding.etSearchBar.setText("")
+                updateHistory()
+            }
         }
     }
 
     // creates an alert dialog for placing an order
     private fun createHistoryAlertDialog() {
-        val runnable = {
-            Util.createPopUpWindow(
-                getString(R.string.history_has_been_cleared),
-                layoutInflater,
-                binding.clHistory
-            )
-            orderViewModel.clearAllOrders()
+        var runnable = { }
+        val type = binding.tvSelected.text.toString().toLowerCase(Locale.ROOT)
+
+        if (type == "users") {
+            runnable = { runBlocking { myViewModel.clearAllUsers() } }
+        } else if (type == "orders") {
+            runnable = { runBlocking { myViewModel.clearAllOrders() } }
         }
-        Util.createAlertDialog(requireActivity(), "history", runnable)
+
+        Util.createAlertDialog(
+            requireActivity(),
+            "clear_history",
+            runnable,
+            layoutInflater,
+            binding.clHistory
+        )
+    }
+
+    // updates history fragment
+    private fun updateHistory() {
+        val type = binding.tvSelected.text.toString().toLowerCase(Locale.ROOT)
+        val regex = binding.etSearchBar.text.toString()
+
+        val myContext =
+            MyContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory, type)
+        historyAdapter = HistoryAdapter(myContext)
+        binding.rvOrders.adapter = historyAdapter
+
+        runBlocking {
+            if (type == "users") {
+                myViewModel.getFilteredUsers(regex.trim())
+                myViewModel.users.observe(viewLifecycleOwner) { newUsers ->
+                    val filteredUsers: MutableList<Any> = newUsers.toMutableList()
+                    historyAdapter.initItems(filteredUsers)
+                }
+            } else if (type == "orders") {
+                myViewModel.getFilteredOrders(regex.trim())
+                myViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
+                    val filteredOrders: MutableList<Any> = newOrders.toMutableList()
+                    historyAdapter.initItems(filteredOrders)
+                }
+            }
+        }
+
+        binding.etSearchBar.clearFocus()
     }
 }
