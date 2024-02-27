@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [User::class, Order::class], version = 2, exportSchema = false)
+@Database(entities = [User::class, Order::class], version = 1, exportSchema = false)
 abstract class MyDatabase : RoomDatabase() {
 
     abstract val dao: MyDao

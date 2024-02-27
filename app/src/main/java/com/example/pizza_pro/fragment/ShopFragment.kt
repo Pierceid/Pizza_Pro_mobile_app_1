@@ -19,6 +19,7 @@ import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.MyMenuProvider
 import com.example.pizza_pro.utils.Util
+import kotlinx.coroutines.runBlocking
 
 @Suppress("DEPRECATION")
 class ShopFragment : Fragment(), OnClickListener {
@@ -28,7 +29,6 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var pizzas: MutableList<Pizza>
     private lateinit var adapter: PizzaAdapter
 
-    private var userID: Long = -1
     private var menuProvider: MenuProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,6 @@ class ShopFragment : Fragment(), OnClickListener {
         val changedPizzas: MutableList<Pizza>
 
         requireArguments().let {
-            userID = it.getLong("userID")
             changedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
             isLocked = it.getBoolean("isLocked")
         }
@@ -134,13 +133,15 @@ class ShopFragment : Fragment(), OnClickListener {
         val regex = binding.etSearchBar.text.toString()
         adapter = PizzaAdapter(requireFragmentManager(), pizzas)
 
-        if (regex.trim().isNotEmpty()) {
-            val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
-            Util.updatePizzas(pizzas, filteredPizzas)
-            adapter = PizzaAdapter(requireFragmentManager(), filteredPizzas)
+        runBlocking {
+            if (regex.trim().isNotEmpty()) {
+                val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
+                Util.updatePizzas(pizzas, filteredPizzas)
+                adapter = PizzaAdapter(requireFragmentManager(), filteredPizzas)
+            }
+            binding.rvPizzas.adapter = adapter
         }
 
-        binding.rvPizzas.adapter = adapter
         binding.etSearchBar.clearFocus()
     }
 }

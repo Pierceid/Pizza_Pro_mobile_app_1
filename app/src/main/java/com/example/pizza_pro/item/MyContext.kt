@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.pizza_pro.database.MyViewModel
 
-data class OrderContext (
+data class MyContext (
     val myViewModel: MyViewModel,
     val activity: Activity,
     val layoutInflater: LayoutInflater,
-    val parentView: ConstraintLayout
+    val parentView: ConstraintLayout,
+    val type: String
 )

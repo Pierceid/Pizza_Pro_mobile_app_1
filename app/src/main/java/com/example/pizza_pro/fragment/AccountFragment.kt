@@ -153,7 +153,7 @@ class AccountFragment : Fragment(), OnClickListener {
     // inserts user into database
     private fun insertUserIntoDatabase() {
         val user = User(
-            0,
+            userID = 0,
             name = name,
             email = email,
             password = password,

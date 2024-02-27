@@ -191,7 +191,8 @@ class Util {
                 val builder = AlertDialog.Builder(activity, R.style.Theme_Pizza_Pro_AlertDialog)
                 val message = when (type) {
                     "place_order" -> activity.getString(R.string.place_order)
-                    "remove_order" -> activity.getString(R.string.remove_order)
+                    "cancel_order" -> activity.getString(R.string.cancel_order)
+                    "remove_user" -> activity.getString(R.string.remove_user)
                     "send_feedback" -> activity.getString(R.string.share_feedback)
                     "clear_history" -> activity.getString(R.string.clear_history)
                     else -> activity.getString(R.string.exit_app)
@@ -205,7 +206,8 @@ class Util {
                     } else {
                         val text = when (type) {
                             "place_order" -> activity.getString(R.string.ordered_successfully)
-                            "remove_order" -> activity.getString(R.string.removed_successfully)
+                            "cancel_order" -> activity.getString(R.string.cancelled_successfully)
+                            "remove_user" -> activity.getString(R.string.removed_successfully)
                             "send_feedback" -> activity.getString(R.string.sent_successfully)
                             "clear_history" -> activity.getString(R.string.cleared_successfully)
                             else -> ""

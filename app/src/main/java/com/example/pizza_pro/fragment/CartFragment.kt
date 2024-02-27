@@ -131,21 +131,16 @@ class CartFragment : Fragment(), OnClickListener {
 
     // inserts order into database
     private fun insertOrderIntoDatabase() {
-        myViewModel.getUser(requireArguments().getString("email").toString())
-        val existingUser = myViewModel.user
-
-        // TODO fix get method in myDao (I guess)
-        if (existingUser != null) {
-            val order = Order(
-                0,
-                user = existingUser,
-                time = DateFormat.format("d.M.yyyy (h:mm a)", System.currentTimeMillis())
-                    .toString(),
-                items = itemCount,
-                cost = NumberFormat.getCurrencyInstance().format(totalCost)
-            )
-            runBlocking { myViewModel.addOrder(order) }
-        }
+        val order = Order(
+            orderID = 0,
+            name = requireArguments().getString("name").toString(),
+            time = DateFormat.format("d.M.yyyy (h:mm a)", System.currentTimeMillis())
+                .toString(),
+            place = requireArguments().getString("location").toString(),
+            items = itemCount,
+            cost = NumberFormat.getCurrencyInstance().format(totalCost)
+        )
+        runBlocking { myViewModel.addOrder(order) }
     }
 
     // updates cart fragment

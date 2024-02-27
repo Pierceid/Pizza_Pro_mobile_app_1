@@ -1,7 +1,6 @@
 package com.example.pizza_pro.database
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.pizza_pro.options.Gender
@@ -19,8 +18,9 @@ data class User(
 @Entity(tableName = "order_table")
 data class Order(
     @PrimaryKey(autoGenerate = true) var orderID: Long = 0L,
-    @Embedded("user") var user: User = User(),
+    @ColumnInfo(name = "name") var name: String = "",
     @ColumnInfo(name = "time") var time: String = "",
+    @ColumnInfo(name = "place") var place: String = "",
     @ColumnInfo(name = "items") var items: Int = 0,
     @ColumnInfo(name = "cost") var cost: String = ""
 )
