@@ -104,20 +104,20 @@ class AccountFragment : Fragment(), OnClickListener {
                 updateAccount(newIsPasswordVisible = isPasswordVisible)
             }
             R.id.btn_next -> {
-                if (!doInputsHaveFocus()) {
-                    if (checkInput()) {
+                if (checkInput()) {
+                    if (isRegistering) {
                         insertUserIntoDatabase()
-                        val bundle = bundleOf(
-                            "name" to name,
-                            "email" to email,
-                            "password" to password,
-                            "location" to location,
-                            "gender" to gender,
-                            "orderedItems" to mutableListOf<Pizza>(),
-                            "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-                        )
-                        navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
                     }
+                    val bundle = bundleOf(
+                        "name" to name,
+                        "email" to email,
+                        "password" to password,
+                        "location" to location,
+                        "gender" to gender,
+                        "orderedItems" to mutableListOf<Pizza>(),
+                        "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
+                    )
+                    navController.navigate(R.id.action_accountFragment_to_shopFragment, bundle)
                 }
                 clearInputsFocus()
             }
@@ -155,7 +155,7 @@ class AccountFragment : Fragment(), OnClickListener {
     // inserts user into database
     private fun insertUserIntoDatabase() {
         val user = User(
-            userID = 0,
+            id = 0,
             name = name,
             email = email,
             password = password,
@@ -192,10 +192,9 @@ class AccountFragment : Fragment(), OnClickListener {
     private fun checkInput(): Boolean {
         getInput()
 
-        if (email.isNotEmpty()) {
-            runBlocking { myViewModel.getUser(name, email) }
+        if (name.isNotEmpty() || email.isNotEmpty()) {
+            myViewModel.getUser(name, email)
         }
-
         val existingUser = myViewModel.user
 
         return if (isRegistering) validateRegistration(existingUser) else validateLogin(existingUser)
@@ -203,9 +202,8 @@ class AccountFragment : Fragment(), OnClickListener {
 
     // validates input when registering
     private fun validateRegistration(user: User?): Boolean {
-        val validName = (user == null && name.length in 1..100)
-        val validEmail =
-            (user == null && email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches())
+        val validName = (user?.name != name && name.length in 1..100)
+        val validEmail = (user?.email != email && Patterns.EMAIL_ADDRESS.matcher(email).matches())
         val validPassword = password.length in 6..100
         val validLocation = location.length in 1..100
 
@@ -252,7 +250,4 @@ class AccountFragment : Fragment(), OnClickListener {
 
     // clears focus of all input fields
     private fun clearInputsFocus() = inputFields.forEach { it.clearFocus() }
-
-    // checks focus of all input fields
-    private fun doInputsHaveFocus(): Boolean = inputFields.any { it.hasFocus() }
 }

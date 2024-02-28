@@ -13,7 +13,7 @@ class MyRepository(private val dao: MyDao) {
     suspend fun removeOrder(order: Order) = dao.deleteOrder(order)
     suspend fun clearAllUsers() = dao.clearAllUsers()
     suspend fun clearAllOrders() = dao.clearAllOrders()
-    suspend fun getUser(name: String, email: String) = dao.getUser(name, email)
+    fun getUser(name: String, email: String) = dao.getUser(name, email)
     fun getFilteredOrders(regex: String) = dao.getFilteredOrders(regex)
     fun getFilteredUsers(regex: String) = dao.getFilteredUsers(regex)
 }

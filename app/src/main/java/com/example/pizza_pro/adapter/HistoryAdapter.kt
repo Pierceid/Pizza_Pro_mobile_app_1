@@ -16,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 class HistoryAdapter(private val myContext: MyContext) :
     RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
-    private val items: MutableList<Any> = mutableListOf()
+    private var items: MutableList<Any> = mutableListOf()
 
     inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val header: TextView = itemView.findViewById(R.id.tv_header)
@@ -74,7 +74,7 @@ class HistoryAdapter(private val myContext: MyContext) :
         if (myContext.type == "users") {
             val user = items[position] as User
 
-            holder.header.text = String.format("%d. %s", user.userID, user.name)
+            holder.header.text = String.format("%d. %s", user.id, user.name)
             holder.body.text = String.format(
                 "Email: %s\nPassword: %s\nGender %s",
                 user.email, user.password.map { '*' }.joinToString(""), user.gender
@@ -82,7 +82,7 @@ class HistoryAdapter(private val myContext: MyContext) :
         } else if (myContext.type == "orders") {
             val order = items[position] as Order
 
-            holder.header.text = String.format("%d. %s", order.orderID, order.name)
+            holder.header.text = String.format("%d. %s", order.id, order.name)
             holder.body.text = String.format(
                 "Time: %s\nPlace: %s\nPurchase: %d (%s)",
                 order.time, order.place, order.items, order.cost

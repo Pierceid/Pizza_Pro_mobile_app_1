@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.pizza_pro.R
 import com.example.pizza_pro.fragment.*
-import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.options.Satisfaction
 import com.google.android.material.textfield.TextInputEditText
@@ -158,15 +157,6 @@ class Util {
             switchCompat.isChecked = followUp
         }
 
-        // updates main list of pizzas based on some other list of pizzas
-        fun updatePizzas(mainList: MutableList<Pizza>, otherList: MutableList<Pizza>) {
-            if (otherList.isNotEmpty()) {
-                otherList.forEach { otherPizza ->
-                    mainList.find { it.name == otherPizza.name }?.count = otherPizza.count
-                }
-            }
-        }
-
         // creates toast message
         fun createToast(activity: Activity, isLocked: Boolean) {
             val message =
@@ -253,7 +243,7 @@ class Util {
 
             btnOk.setOnClickListener {
                 popupWindow.dismiss()
-                val party = Party(emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(30))
+                val party = Party(emitter = Emitter(duration = 5, TimeUnit.SECONDS).perSecond(20))
                 konfettiView?.start(party)
             }
             popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0)
