@@ -93,7 +93,7 @@
                 app:hintTextColor="@color/smoke">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_name"
+                    android:id="@+id/inputName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -109,7 +109,7 @@
                 app:hintTextColor="@color/smoke">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_email"
+                    android:id="@+id/inputEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -134,7 +134,7 @@
                     app:hintTextColor="@color/smoke">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/input_password"
+                        android:id="@+id/inputPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
@@ -161,7 +161,7 @@
                 app:hintTextColor="@color/smoke">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_location"
+                    android:id="@+id/inputLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"

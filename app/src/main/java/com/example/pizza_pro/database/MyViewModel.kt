@@ -21,47 +21,60 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         users = repository.allUsers
         user = null
     }
+
     fun addUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addUser(user)
         }
     }
+
     fun addOrder(order: Order) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.addOrder(order)
         }
     }
+
     fun removeUser(user: User) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.removeUser(user)
         }
     }
+
     fun removeOrder(order: Order) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.removeOrder(order)
         }
     }
+
     fun clearAllUsers() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearAllUsers()
         }
     }
+
     fun clearAllOrders() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.clearAllOrders()
         }
     }
-    fun getUser(email: String) {
+
+    fun getUser(name: String, email: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            user = if (email.isNotEmpty()) repository.getUser(email) else null
+            user = repository.getUser(name, email)
         }
     }
+
     fun getFilteredUsers(regex: String) {
-        users =
-            if (regex.isNotEmpty()) repository.getFilteredUsers(regex) else repository.allUsers
+        viewModelScope.launch(Dispatchers.IO) {
+            users =
+                if (regex.isNotEmpty()) repository.getFilteredUsers(regex) else repository.allUsers
+        }
     }
+
     fun getFilteredOrders(regex: String) {
-        orders =
-            if (regex.isNotEmpty()) repository.getFilteredOrders(regex) else repository.allOrders
+        viewModelScope.launch(Dispatchers.IO) {
+            orders =
+                if (regex.isNotEmpty()) repository.getFilteredOrders(regex) else repository.allOrders
+        }
     }
 }

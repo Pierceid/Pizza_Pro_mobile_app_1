@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Pizza Pro</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="example">example</string>
     <string name="background">background</string>
     <!-- Top app bar -->
@@ -21,21 +20,17 @@
     <string name="ok">OK</string>
     <string name="clear">Clear</string>
     <!-- Bottom app bar -->
-    <string name="home">Home</string>
     <string name="shop">Shop</string>
     <string name="cart">Cart</string>
     <string name="feedback">Feedback</string>
     <!-- Intro -->
-    <string name="title">Title</string>
     <string name="logo">Logo</string>
     <string name="motto">Motto</string>
-    <string name="social_icon">Social icon</string>
     <string name="lets_get_started">Lets get started</string>
     <!-- Account -->
     <string name="log_in_or_register">Log in or register</string>
     <string name="register">Register</string>
     <string name="log_in">Log in</string>
-    <string name="swap_button">swap button</string>
     <string name="swap_icon">swap icon</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
@@ -44,8 +39,8 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="other">Other</string>
-    <string name="invalid_username">Invalid username. Username must be 1–100 characters long.</string>
-    <string name="invalid_email">Invalid email. Provide a valid email address.</string>
+    <string name="invalid_username">Invalid username. Username must be unique and 1–100 characters long.</string>
+    <string name="invalid_email">Invalid email. Email address must be unique and in valid form.</string>
     <string name="invalid_password">Invalid password. Password must be 6–100 characters long.</string>
     <string name="incorrect_password">Incorrect password. Check your password and try again.</string>
     <string name="invalid_location">Invalid location. Location must be 1–100 characters long.</string>

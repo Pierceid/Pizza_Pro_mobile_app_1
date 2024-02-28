@@ -7,6 +7,8 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.pizza_pro.R
 import com.example.pizza_pro.adapter.HistoryAdapter
 import com.example.pizza_pro.database.MyViewModel
@@ -20,8 +22,16 @@ import java.util.*
 class HistoryFragment : Fragment(), OnClickListener {
 
     private lateinit var binding: FragmentHistoryBinding
+    private lateinit var navController: NavController
     private lateinit var myViewModel: MyViewModel
     private lateinit var historyAdapter: HistoryAdapter
+
+    private var action: Int = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        action = requireArguments().getInt("action")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -32,6 +42,7 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
         myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
         val myContext =
             MyContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory, "users")
@@ -87,10 +98,31 @@ class HistoryFragment : Fragment(), OnClickListener {
     private fun createHistoryAlertDialog() {
         var runnable = { }
         val type = binding.tvSelected.text.toString().toLowerCase(Locale.ROOT)
+        var isEmptyList = false
 
         if (type == "users") {
-            runnable = { runBlocking { myViewModel.clearAllUsers() } }
+            myViewModel.users.observe(viewLifecycleOwner) { newUsers ->
+                if (newUsers.isEmpty()) {
+                    isEmptyList = true
+                }
+            }
+            if (isEmptyList) {
+                return
+            }
+            runnable = {
+                runBlocking { myViewModel.clearAllUsers() }
+                Util.removeAdditionalFragment(requireFragmentManager())
+                navController.navigate(action)
+            }
         } else if (type == "orders") {
+            myViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
+                if (newOrders.isEmpty()) {
+                    isEmptyList = true
+                }
+            }
+            if (isEmptyList) {
+                return
+            }
             runnable = { runBlocking { myViewModel.clearAllOrders() } }
         }
 

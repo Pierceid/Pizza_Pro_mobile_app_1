@@ -17,8 +17,8 @@ interface MyDao {
     suspend fun clearAllUsers()
     @Query("DELETE FROM order_table")
     suspend fun clearAllOrders()
-    @Query("SELECT * FROM user_table WHERE email = :email LIMIT 1")
-    suspend fun getUser(email: String): User?
+    @Query("SELECT * FROM user_table WHERE name = :name AND email = :email LIMIT 1")
+    suspend fun getUser(name: String, email: String): User?
     @Query("SELECT * FROM user_table WHERE name LIKE '%' || :regex || '%' ORDER BY userID DESC")
     fun getFilteredUsers(regex: String): LiveData<MutableList<User>>
     @Query("SELECT * FROM order_table WHERE name LIKE '%' || :regex || '%' ORDER BY orderID DESC")

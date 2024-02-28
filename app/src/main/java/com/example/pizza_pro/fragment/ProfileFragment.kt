@@ -52,6 +52,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
+        myViewModel.getUser(name, email)
 
         binding.btnDelete.setOnClickListener { createProfileAlertDialog() }
         binding.btnClose.setOnClickListener { requireFragmentManager().popBackStack() }
@@ -60,7 +61,9 @@ class ProfileFragment : Fragment() {
 
     // creates an alert dialog for placing an order
     private fun createProfileAlertDialog() {
-        myViewModel.getUser(email)
+        if (myViewModel.user == null) {
+            return
+        }
         val runnable = {
             myViewModel.user?.let { user ->
                 runBlocking { myViewModel.removeUser(user) }

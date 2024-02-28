@@ -14,20 +14,11 @@
         <item name="android:navigationBarColor">@color/black</item>
     </style>
 
-    <style name="Theme.Pizza_Pro.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="ThemeOverLay.Pizza_Pro.PopupTheme" parent="Theme.AppCompat.Light">
         <item name="android:textSize">20sp</item>
         <item name="android:colorForeground">@color/silver</item>
         <item name="android:colorBackground">@color/black</item>
     </style>
-
-    <style name="Theme.Pizza_Pro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.Pizza_Pro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Theme.Pizza_Pro.TextView">
         <item name="android:textColor">@color/ashen</item>
