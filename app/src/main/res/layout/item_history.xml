@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/ashen_rectangle"
+        android:background="@drawable/iron_rectangle"
         android:orientation="vertical"
         android:paddingHorizontal="10dp"
         android:paddingTop="5dp"

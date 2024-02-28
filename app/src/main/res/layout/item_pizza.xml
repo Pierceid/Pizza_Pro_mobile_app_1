@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
-    android:background="@drawable/ashen_rectangle"
+    android:background="@drawable/gray_rectangle"
     android:minHeight="140dp"
     android:orientation="horizontal">
 
@@ -13,10 +14,10 @@
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
-        android:padding="1dp"
-        android:contentDescription="@string/pizza_picture"
-        android:scaleType="fitXY"
         android:background="@drawable/black_frame"
+        android:contentDescription="@string/pizza_picture"
+        android:padding="1dp"
+        android:scaleType="fitXY"
         app:srcCompat="@raw/neapolitan_pizza" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,18 +34,27 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
             android:text="@string/example"
             android:textColor="@color/red"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/tv_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
+            android:shadowColor="@color/white"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
             android:text="@string/example"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -57,7 +67,7 @@
             android:id="@+id/ll_counter"
             android:layout_width="120dp"
             android:layout_height="40dp"
-            android:background="@drawable/yellow_rectangle"
+            android:background="@drawable/orange_rectangle"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -80,7 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/background"
-                    app:srcCompat="@drawable/white_circle" />
+                    app:srcCompat="@drawable/sun_circle"
+                    android:backgroundTint="@color/white" />
 
                 <TextView
                     android:id="@+id/tv_itemCount"

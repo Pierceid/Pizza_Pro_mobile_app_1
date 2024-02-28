@@ -65,16 +65,10 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun getFilteredUsers(regex: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            users =
-                if (regex.isNotEmpty()) repository.getFilteredUsers(regex) else repository.allUsers
-        }
+        users = repository.getFilteredUsers(regex)
     }
 
     fun getFilteredOrders(regex: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            orders =
-                if (regex.isNotEmpty()) repository.getFilteredOrders(regex) else repository.allOrders
-        }
+        orders = repository.getFilteredOrders(regex)
     }
 }

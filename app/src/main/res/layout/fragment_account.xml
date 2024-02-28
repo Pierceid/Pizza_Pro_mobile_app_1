@@ -34,7 +34,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ashen_rectangle"
+            android:background="@drawable/gray_rectangle"
             android:orientation="vertical"
             android:paddingHorizontal="10dp"
             android:paddingTop="5dp"

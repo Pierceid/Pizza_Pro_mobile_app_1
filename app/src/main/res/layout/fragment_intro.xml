@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="340dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:contentDescription="@string/logo"
@@ -25,9 +25,9 @@
             app:srcCompat="@raw/logo" />
 
         <ImageView
-            android:layout_width="340dp"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="30dp"
             android:contentDescription="@string/motto"
             android:scaleType="fitXY"
             app:srcCompat="@raw/motto" />
@@ -36,7 +36,7 @@
             android:id="@+id/btn_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="30dp"
+            android:layout_marginVertical="40dp"
             android:background="@drawable/white_rectangle"
             android:elevation="10dp"
             android:padding="20dp">
@@ -46,7 +46,7 @@
                 android:layout_gravity="center"
                 android:text="@string/lets_get_started"
                 android:textAlignment="center"
-                android:textColor="@color/blue"
+                android:textColor="@color/purple"
                 android:textSize="25sp" />
         </LinearLayout>
     </LinearLayout>

@@ -132,7 +132,7 @@ class CartFragment : Fragment(), OnClickListener {
     // inserts order into database
     private fun insertOrderIntoDatabase() {
         val order = Order(
-            orderID = 0,
+            id = 0,
             name = requireArguments().getString("name").toString(),
             time = DateFormat.format("d.M.yyyy (h:mm a)", System.currentTimeMillis())
                 .toString(),

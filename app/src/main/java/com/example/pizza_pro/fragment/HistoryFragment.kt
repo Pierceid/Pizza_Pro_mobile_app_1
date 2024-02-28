@@ -24,7 +24,7 @@ class HistoryFragment : Fragment(), OnClickListener {
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var navController: NavController
     private lateinit var myViewModel: MyViewModel
-    private lateinit var historyAdapter: HistoryAdapter
+    private lateinit var adapter: HistoryAdapter
 
     private var action: Int = -1
 
@@ -46,8 +46,8 @@ class HistoryFragment : Fragment(), OnClickListener {
         myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
         val myContext =
             MyContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory, "users")
-        historyAdapter = HistoryAdapter(myContext)
-        binding.rvOrders.adapter = historyAdapter
+        adapter = HistoryAdapter(myContext)
+        binding.rvOrders.adapter = adapter
 
         listOf(
             binding.btnClose,
@@ -139,28 +139,27 @@ class HistoryFragment : Fragment(), OnClickListener {
     private fun updateHistory() {
         val type = binding.tvSelected.text.toString().toLowerCase(Locale.ROOT)
         val regex = binding.etSearchBar.text.toString()
-
         val myContext =
             MyContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory, type)
-        historyAdapter = HistoryAdapter(myContext)
-        binding.rvOrders.adapter = historyAdapter
+        adapter = HistoryAdapter(myContext)
 
         runBlocking {
             if (type == "users") {
                 myViewModel.getFilteredUsers(regex.trim())
                 myViewModel.users.observe(viewLifecycleOwner) { newUsers ->
                     val filteredUsers: MutableList<Any> = newUsers.toMutableList()
-                    historyAdapter.initItems(filteredUsers)
+                    adapter.initItems(filteredUsers)
                 }
             } else if (type == "orders") {
                 myViewModel.getFilteredOrders(regex.trim())
                 myViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
                     val filteredOrders: MutableList<Any> = newOrders.toMutableList()
-                    historyAdapter.initItems(filteredOrders)
+                    adapter.initItems(filteredOrders)
                 }
             }
         }
 
+        binding.rvOrders.adapter = adapter
         binding.etSearchBar.clearFocus()
     }
 }

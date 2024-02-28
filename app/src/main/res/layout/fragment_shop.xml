@@ -25,7 +25,7 @@
         android:layout_height="0dp"
         android:padding="10dp"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
+        app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topAppBarLayout">
@@ -59,27 +59,22 @@
                     android:padding="6dp"
                     app:srcCompat="@drawable/ic_search" />
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/et_searchBar"
+                    style="@style/NoUnderlineEditText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/black_frame">
-
-                    <EditText
-                        android:id="@+id/et_searchBar"
-                        style="@style/NoUnderlineEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:autofillHints="pizzaName"
-                        android:ems="10"
-                        android:hint="@string/search_your_favorite_pizza"
-                        android:inputType="textPersonName"
-                        android:paddingHorizontal="10dp"
-                        android:textColor="@color/slate"
-                        android:textColorHint="@color/slate"
-                        android:textSize="20sp"
-                        tools:ignore="VisualLintTextFieldSize" />
-                </LinearLayout>
+                    android:autofillHints="pizzaName"
+                    android:background="@drawable/black_frame"
+                    android:ems="10"
+                    android:hint="@string/search_your_favorite_pizza"
+                    android:inputType="textPersonName"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/slate"
+                    android:textColorHint="@color/slate"
+                    android:textSize="20sp"
+                    tools:ignore="VisualLintTextFieldSize" />
 
                 <ImageView
                     android:id="@+id/iv_cross"
@@ -100,96 +95,82 @@
         </LinearLayout>
     </ScrollView>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        tools:ignore="BottomAppBar,RtlSymmetry,VisualLintBottomAppBar">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            tools:ignore="RtlSymmetry,VisualLintBottomAppBar">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/btn_account"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="2dp"
+                tools:ignore="UseCompoundDrawables">
 
-                <LinearLayout
-                    android:id="@+id/btn_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:padding="2dp">
+                <ImageView
+                    style="@style/Theme.Pizza_Pro.ImageView"
+                    android:contentDescription="@string/account"
+                    android:paddingEnd="20dp"
+                    app:srcCompat="@drawable/ic_account" />
 
-                    <ImageView
-                        style="@style/Theme.Pizza_Pro.ImageView"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/account"
-                        android:paddingEnd="20dp"
-                        app:srcCompat="@drawable/ic_account"
-                        tools:ignore="NestedWeights" />
-
-                    <TextView
-                        style="@style/Theme.Pizza_Pro.TextView"
-                        android:paddingEnd="20dp"
-                        android:text="@string/account" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/btn_shop"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:background="@color/gray"
-                    android:orientation="vertical"
-                    android:padding="2dp"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/shop"
-                        app:srcCompat="@drawable/ic_shop"
-                        tools:ignore="NestedWeights" />
-
-                    <TextView
-                        style="@style/Theme.Pizza_Pro.TextView"
-                        android:text="@string/shop"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/btn_cart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.9"
-                    android:orientation="vertical"
-                    android:padding="2dp"
-                    android:visibility="visible">
-
-                    <ImageView
-                        style="@style/Theme.Pizza_Pro.ImageView"
-                        android:layout_weight="1"
-                        android:contentDescription="@string/cart"
-                        app:srcCompat="@drawable/ic_cart"
-                        tools:ignore="NestedWeights" />
-
-                    <TextView
-                        style="@style/Theme.Pizza_Pro.TextView"
-                        android:text="@string/cart" />
-                </LinearLayout>
+                <TextView
+                    style="@style/Theme.Pizza_Pro.TextView"
+                    android:paddingEnd="20dp"
+                    android:text="@string/account" />
             </LinearLayout>
-        </com.google.android.material.bottomappbar.BottomAppBar>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                android:background="@color/silver"
+                android:orientation="vertical"
+                android:padding="2dp"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    style="@style/Theme.Pizza_Pro.ImageView"
+                    android:contentDescription="@string/shop"
+                    app:srcCompat="@drawable/ic_shop"
+                    app:tint="@color/black" />
+
+                <TextView
+                    style="@style/Theme.Pizza_Pro.TextView"
+                    android:text="@string/shop"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btn_cart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                android:orientation="vertical"
+                android:padding="2dp"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    style="@style/Theme.Pizza_Pro.ImageView"
+                    android:contentDescription="@string/cart"
+                    app:srcCompat="@drawable/ic_cart" />
+
+                <TextView
+                    style="@style/Theme.Pizza_Pro.TextView"
+                    android:text="@string/cart" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
     <FrameLayout
         android:id="@+id/fragmentContainer"

@@ -18,7 +18,6 @@ import com.example.pizza_pro.databinding.FragmentShopBinding
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.MyMenuProvider
-import com.example.pizza_pro.utils.Util
 import kotlinx.coroutines.runBlocking
 
 @Suppress("DEPRECATION")
@@ -45,7 +44,7 @@ class ShopFragment : Fragment(), OnClickListener {
 
         adapter = PizzaAdapter(requireFragmentManager(), DataSource().loadData())
         pizzas = adapter.getPizzas()
-        Util.updatePizzas(pizzas, changedPizzas)
+        updatePizzas(pizzas, changedPizzas)
 
         if (isLocked) {
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
@@ -68,7 +67,7 @@ class ShopFragment : Fragment(), OnClickListener {
         requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
-            binding.btnHome,
+            binding.btnAccount,
             binding.btnCart,
             binding.ivSearch,
             binding.ivCross,
@@ -114,7 +113,7 @@ class ShopFragment : Fragment(), OnClickListener {
             "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
         )
         when (v!!.id) {
-            R.id.btn_home -> {
+            R.id.btn_account -> {
                 navController.navigate(R.id.action_shopFragment_to_accountFragment, bundle)
             }
             R.id.btn_cart -> {
@@ -136,12 +135,22 @@ class ShopFragment : Fragment(), OnClickListener {
         runBlocking {
             if (regex.trim().isNotEmpty()) {
                 val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
-                Util.updatePizzas(pizzas, filteredPizzas)
+                updatePizzas(pizzas, filteredPizzas)
                 adapter = PizzaAdapter(requireFragmentManager(), filteredPizzas)
             }
-            binding.rvPizzas.adapter = adapter
         }
 
+        binding.rvPizzas.adapter = adapter
         binding.etSearchBar.clearFocus()
+    }
+
+
+    // updates main list of pizzas based on other list of pizzas
+    private fun updatePizzas(mainList: MutableList<Pizza>, otherList: MutableList<Pizza>) {
+        if (otherList.isNotEmpty()) {
+            otherList.forEach { otherPizza ->
+                mainList.find { it.name == otherPizza.name }?.count = otherPizza.count
+            }
+        }
     }
 }
