@@ -1,5 +1,5 @@
 # Pizza_Pro
-Pizza order android app
+Pizza order mobile app for android.
 
 Pizza Pro - Version 1.0, Copyright © 2023 Erik Mešina. All rights reserved.
 
