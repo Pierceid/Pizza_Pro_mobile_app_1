@@ -12,7 +12,7 @@ data class User(
     @ColumnInfo(name = "email") var email: String = "",
     @ColumnInfo(name = "password") var password: String = "",
     @ColumnInfo(name = "location") var location: String = "",
-    @ColumnInfo(name = "gender") var gender: Gender = Gender.MALE
+    @ColumnInfo(name = "gender") var gender: Gender = Gender.OTHER
 )
 
 @Entity(tableName = "order_table")
