@@ -71,22 +71,24 @@ class HistoryAdapter(private val myContext: MyContext) :
 
     // binds data from users/orders to views
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        if (myContext.type == "users") {
-            val user = items[position] as User
-
-            holder.header.text = String.format("%d. %s", user.id, user.name)
-            holder.body.text = String.format(
-                "Email: %s\nPassword: %s\nGender %s",
-                user.email, user.password.map { '*' }.joinToString(""), user.gender
-            )
-        } else if (myContext.type == "orders") {
-            val order = items[position] as Order
-
-            holder.header.text = String.format("%d. %s", order.id, order.name)
-            holder.body.text = String.format(
-                "Time: %s\nPlace: %s\nPurchase: %d (%s)",
-                order.time, order.place, order.items, order.cost
-            )
+        when (myContext.type) {
+            "users" -> {
+                val user = items[position] as User
+                holder.header.text = String.format("%d. %s", user.id, user.name)
+                holder.body.text = String.format(
+                    "Email: %s\nPassword: %s\nGender %s",
+                    user.email, user.password.map { '*' }.joinToString(""), user.gender
+                )
+            }
+            "orders" -> {
+                val order = items[position] as Order
+                holder.header.text = String.format("%d. %s", order.id, order.name)
+                holder.body.text = String.format(
+                    "Time: %s\nPlace: %s\nPurchase: %d (%s)",
+                    order.time, order.place, order.items, order.cost
+                )
+            }
+            else -> {}
         }
     }
 

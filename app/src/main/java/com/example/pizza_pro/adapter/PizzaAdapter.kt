@@ -86,14 +86,14 @@ class PizzaAdapter(
 
     // returns list of filtered pizzas
     fun getFilteredPizzas(regex: String): MutableList<Pizza> {
-        return pizzas.filter {
+        return pizzas.asSequence().filter {
             it.name!!.lowercase(Locale.getDefault()).contains(regex.lowercase(Locale.getDefault()))
-        } as MutableList<Pizza>
+        }.toMutableList()
     }
 
     // returns list of filtered pizzas
     fun getSelectedPizzas(): MutableList<Pizza> {
-        return pizzas.filter { it.count > 0 } as MutableList<Pizza>
+        return pizzas.asSequence().filter { it.count > 0 }.toMutableList()
     }
 
     // updates the list of pizzas
