@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
-import com.example.pizza_pro.adapter.HistoryAdapter
+import com.example.pizza_pro.adapter.MyAdapter
 import com.example.pizza_pro.database.MyViewModel
 import com.example.pizza_pro.databinding.FragmentHistoryBinding
 import com.example.pizza_pro.item.MyContext
@@ -24,7 +24,7 @@ class HistoryFragment : Fragment(), OnClickListener {
     private lateinit var binding: FragmentHistoryBinding
     private lateinit var navController: NavController
     private lateinit var myViewModel: MyViewModel
-    private lateinit var adapter: HistoryAdapter
+    private lateinit var adapter: MyAdapter<Any>
 
     private var action: Int = -1
 
@@ -44,10 +44,6 @@ class HistoryFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         myViewModel = ViewModelProvider(this)[MyViewModel::class.java]
-        val myContext =
-            MyContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory, "users")
-        adapter = HistoryAdapter(myContext)
-        binding.rvOrders.adapter = adapter
 
         listOf(
             binding.btnClose,
@@ -56,7 +52,6 @@ class HistoryFragment : Fragment(), OnClickListener {
             binding.ivSearch,
             binding.ivCross
         ).forEach { it.setOnClickListener(this) }
-
         binding.etSearchBar.setOnFocusChangeListener { _, hasFocus -> if (!hasFocus) updateHistory() }
 
         updateHistory()
@@ -96,7 +91,7 @@ class HistoryFragment : Fragment(), OnClickListener {
 
     // creates an alert dialog for placing an order
     private fun createHistoryAlertDialog() {
-        var runnable = { }
+        val runnable: Any
         val type = binding.tvSelected.text.toString().toLowerCase(Locale.ROOT)
         var isEmptyList = false
 
@@ -114,7 +109,7 @@ class HistoryFragment : Fragment(), OnClickListener {
                 Util.removeAdditionalFragment(requireFragmentManager())
                 navController.navigate(action)
             }
-        } else if (type == "orders") {
+        } else {
             myViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
                 if (newOrders.isEmpty()) {
                     isEmptyList = true
@@ -127,11 +122,8 @@ class HistoryFragment : Fragment(), OnClickListener {
         }
 
         Util.createAlertDialog(
-            requireActivity(),
-            "clear_history",
-            runnable,
-            layoutInflater,
-            binding.clHistory
+            requireActivity(), "clear_history", runnable,
+            layoutInflater, binding.clHistory
         )
     }
 
@@ -139,9 +131,11 @@ class HistoryFragment : Fragment(), OnClickListener {
     private fun updateHistory() {
         val type = binding.tvSelected.text.toString().toLowerCase(Locale.ROOT)
         val regex = binding.etSearchBar.text.toString()
-        val myContext =
-            MyContext(myViewModel, requireActivity(), layoutInflater, binding.clHistory, type)
-        adapter = HistoryAdapter(myContext)
+        val myContext = MyContext(
+            type, requireActivity(), layoutInflater,
+            myViewModel, requireFragmentManager(), binding.clHistory
+        )
+        adapter = MyAdapter(myContext)
 
         runBlocking {
             if (type == "users") {
@@ -150,7 +144,7 @@ class HistoryFragment : Fragment(), OnClickListener {
                     val filteredUsers: MutableList<Any> = newUsers.toMutableList()
                     adapter.initItems(filteredUsers)
                 }
-            } else if (type == "orders") {
+            } else {
                 myViewModel.getFilteredOrders(regex.trim())
                 myViewModel.orders.observe(viewLifecycleOwner) { newOrders ->
                     val filteredOrders: MutableList<Any> = newOrders.toMutableList()
