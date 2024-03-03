@@ -99,6 +99,7 @@
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
+        android:backgroundTint="@color/silver"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="BottomAppBar,RtlSymmetry,VisualLintBottomAppBar">
 
@@ -109,34 +110,14 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/btn_account"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="2dp"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    style="@style/Theme.Pizza_Pro.ImageView"
-                    android:contentDescription="@string/account"
-                    android:paddingEnd="20dp"
-                    app:srcCompat="@drawable/ic_account" />
-
-                <TextView
-                    style="@style/Theme.Pizza_Pro.TextView"
-                    android:paddingEnd="20dp"
-                    android:text="@string/account" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/btn_shop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.9"
+                android:layout_weight="1"
                 android:background="@color/silver"
                 android:orientation="vertical"
                 android:padding="2dp"
+                android:paddingEnd="20dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
@@ -156,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.9"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="2dp"
                 tools:ignore="UseCompoundDrawables">

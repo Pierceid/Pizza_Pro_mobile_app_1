@@ -67,7 +67,6 @@ class ShopFragment : Fragment(), OnClickListener {
         requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
-            binding.btnAccount,
             binding.btnCart,
             binding.ivSearch,
             binding.ivCross,
@@ -102,12 +101,6 @@ class ShopFragment : Fragment(), OnClickListener {
     // handles on click methods
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.btn_account -> {
-                val bundle = bundleOf(
-                    "isLocked" to (requireActivity().requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LOCKED)
-                )
-                navController.navigate(R.id.action_shopFragment_to_accountFragment, bundle)
-            }
             R.id.btn_cart -> {
                 binding.etSearchBar.setText("")
                 updateShop()

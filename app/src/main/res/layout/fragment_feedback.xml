@@ -248,9 +248,10 @@
                 android:id="@+id/btn_cart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.9"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="2dp"
+                android:paddingEnd="20dp"
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
