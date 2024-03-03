@@ -14,9 +14,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
-import com.example.pizza_pro.adapter.PizzaAdapter
+import com.example.pizza_pro.adapter.MyAdapter
 import com.example.pizza_pro.database.*
 import com.example.pizza_pro.databinding.FragmentCartBinding
+import com.example.pizza_pro.item.MyContext
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.MyMenuProvider
@@ -32,7 +33,7 @@ class CartFragment : Fragment(), OnClickListener {
     private lateinit var navController: NavController
     private lateinit var myViewModel: MyViewModel
     private lateinit var orderedPizzas: MutableList<Pizza>
-    private lateinit var adapter: PizzaAdapter
+    private lateinit var adapter: MyAdapter<Pizza>
 
     private var itemCount: Int = 0
     private var totalCost: Double = 0.0
@@ -47,8 +48,6 @@ class CartFragment : Fragment(), OnClickListener {
             orderedPizzas = it.getParcelableArrayList<Pizza>("orderedItems") as MutableList<Pizza>
             isLocked = it.getBoolean("isLocked")
         }
-
-        adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
 
         if (isLocked) {
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
@@ -74,9 +73,8 @@ class CartFragment : Fragment(), OnClickListener {
         listOf(
             binding.btnApply, binding.btnOrder, binding.btnShop, binding.btnFeedback
         ).forEach { it.setOnClickListener(this) }
-        binding.rvOrderedPizzas.adapter = adapter
 
-        calculateCosts()
+        updateCart()
     }
 
     override fun onDestroyView() {
@@ -115,17 +113,13 @@ class CartFragment : Fragment(), OnClickListener {
         val runnable = {
             insertOrderIntoDatabase()
             orderedPizzas.clear()
-            adapter = PizzaAdapter(requireFragmentManager(), orderedPizzas)
+            adapter.initItems(mutableListOf())
             binding.rvOrderedPizzas.adapter = adapter
             updateCart()
         }
         Util.createAlertDialog(
-            requireActivity(),
-            "place_order",
-            runnable,
-            layoutInflater,
-            binding.clCart,
-            binding.konfettiView
+            requireActivity(), "place_order", runnable,
+            layoutInflater, binding.clCart, binding.konfettiView
         )
     }
 
@@ -157,6 +151,14 @@ class CartFragment : Fragment(), OnClickListener {
                 index++
             }
         }
+
+        val myContext = MyContext(
+            "pizzas", requireActivity(), layoutInflater, fragmentManager = requireFragmentManager()
+        )
+        adapter = MyAdapter(myContext)
+        adapter.initItems(orderedPizzas)
+        binding.rvOrderedPizzas.adapter = adapter
+
         calculateCosts()
     }
 

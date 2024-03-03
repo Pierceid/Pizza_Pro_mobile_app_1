@@ -56,7 +56,8 @@ class FeedbackFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.topAppBar)
         navController = Navigation.findNavController(view)
-        menuProvider = MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
+        menuProvider =
+            MyMenuProvider(requireActivity(), this, requireFragmentManager(), navController)
         requireActivity().addMenuProvider(menuProvider!!)
 
         listOf(
@@ -147,12 +148,8 @@ class FeedbackFragment : Fragment(), OnClickListener {
     private fun createFeedbackAlertDialog() {
         val runnable = { clearInput() }
         Util.createAlertDialog(
-            requireActivity(),
-            "send_feedback",
-            runnable,
-            layoutInflater,
-            binding.clFeedback,
-            binding.konfettiView
+            requireActivity(), "send_feedback", runnable,
+            layoutInflater, binding.clFeedback, binding.konfettiView
         )
     }
 }

@@ -12,9 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.pizza_pro.R
-import com.example.pizza_pro.adapter.PizzaAdapter
+import com.example.pizza_pro.adapter.MyAdapter
 import com.example.pizza_pro.data.DataSource
 import com.example.pizza_pro.databinding.FragmentShopBinding
+import com.example.pizza_pro.item.MyContext
 import com.example.pizza_pro.item.Pizza
 import com.example.pizza_pro.options.Gender
 import com.example.pizza_pro.utils.MyMenuProvider
@@ -26,7 +27,7 @@ class ShopFragment : Fragment(), OnClickListener {
     private lateinit var binding: FragmentShopBinding
     private lateinit var navController: NavController
     private lateinit var pizzas: MutableList<Pizza>
-    private lateinit var adapter: PizzaAdapter
+    private lateinit var adapter: MyAdapter<Pizza>
 
     private var menuProvider: MenuProvider? = null
 
@@ -42,8 +43,7 @@ class ShopFragment : Fragment(), OnClickListener {
             isLocked = it.getBoolean("isLocked")
         }
 
-        adapter = PizzaAdapter(requireFragmentManager(), DataSource().loadData())
-        pizzas = adapter.getPizzas()
+        pizzas = DataSource().loadData()
         updatePizzas(pizzas, changedPizzas)
 
         if (isLocked) {
@@ -94,9 +94,7 @@ class ShopFragment : Fragment(), OnClickListener {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         if (savedInstanceState != null) {
-            val savedPizzas =
-                savedInstanceState.getParcelableArrayList<Pizza>("list") as MutableList<Pizza>
-            adapter.initPizzas(savedPizzas)
+            pizzas = savedInstanceState.getParcelableArrayList<Pizza>("list") as MutableList<Pizza>
             updateShop()
         }
     }
@@ -130,13 +128,18 @@ class ShopFragment : Fragment(), OnClickListener {
     // updates shop fragment
     private fun updateShop() {
         val regex = binding.etSearchBar.text.toString()
-        adapter = PizzaAdapter(requireFragmentManager(), pizzas)
+        val myContext = MyContext(
+            "pizzas", requireActivity(), layoutInflater, fragmentManager = requireFragmentManager()
+        )
+        adapter = MyAdapter(myContext)
 
         runBlocking {
             if (regex.trim().isNotEmpty()) {
                 val filteredPizzas = adapter.getFilteredPizzas(regex.trim())
                 updatePizzas(pizzas, filteredPizzas)
-                adapter = PizzaAdapter(requireFragmentManager(), filteredPizzas)
+                adapter.initItems(filteredPizzas)
+            } else {
+                adapter.initItems(pizzas)
             }
         }
 

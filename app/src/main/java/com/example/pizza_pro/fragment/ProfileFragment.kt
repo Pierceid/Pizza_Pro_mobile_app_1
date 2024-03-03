@@ -73,11 +73,8 @@ class ProfileFragment : Fragment() {
         }
 
         Util.createAlertDialog(
-            requireActivity(),
-            "remove_user",
-            runnable,
-            layoutInflater,
-            binding.clProfile
+            requireActivity(), "remove_user", runnable,
+            layoutInflater, binding.clProfile
         )
     }
 
