@@ -20,20 +20,34 @@
         <item name="android:colorBackground">@color/white</item>
     </style>
 
-    <style name="Theme.Pizza_Pro.TextView">
-        <item name="android:textColor">@color/slate</item>
+    <style name="Theme.Pizza_Pro.CurrentFragment">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:drawableTint">@color/black</item>
+        <item name="android:background">@color/silver</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">3dp</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">center</item>
+        <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="Theme.Pizza_Pro.ImageView">
-        <item name="android:tint">@color/slate</item>
+    <style name="Theme.Pizza_Pro.NextFragment">
+        <item name="android:textColor">@color/slate</item>
+        <item name="android:drawableTint">@color/slate</item>
+        <item name="android:background">@color/white</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">0.5</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:orientation">vertical</item>
     </style>
 
     <style name="Theme.Pizza_Pro.SwitchCompat">

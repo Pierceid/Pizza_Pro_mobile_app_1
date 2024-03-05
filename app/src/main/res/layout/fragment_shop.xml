@@ -95,64 +95,30 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.bottomappbar.BottomAppBar
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:backgroundTint="@color/silver"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="BottomAppBar,RtlSymmetry,VisualLintBottomAppBar">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <TextView
                 android:id="@+id/btn_shop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/silver"
-                android:orientation="vertical"
-                android:padding="2dp"
-                android:paddingEnd="20dp"
-                tools:ignore="UseCompoundDrawables">
+                style="@style/Theme.Pizza_Pro.CurrentFragment"
+                android:text="@string/shop"
+                app:drawableTopCompat="@drawable/baseline_shop_24" />
 
-                <ImageView
-                    style="@style/Theme.Pizza_Pro.ImageView"
-                    android:contentDescription="@string/shop"
-                    app:srcCompat="@drawable/ic_shop"
-                    app:tint="@color/black" />
-
-                <TextView
-                    style="@style/Theme.Pizza_Pro.TextView"
-                    android:text="@string/shop"
-                    android:textColor="@color/black" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:id="@+id/btn_cart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.9"
-                android:background="@color/white"
-                android:orientation="vertical"
-                android:padding="2dp"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    style="@style/Theme.Pizza_Pro.ImageView"
-                    android:contentDescription="@string/cart"
-                    app:srcCompat="@drawable/ic_cart" />
-
-                <TextView
-                    style="@style/Theme.Pizza_Pro.TextView"
-                    android:text="@string/cart" />
-            </LinearLayout>
+                style="@style/Theme.Pizza_Pro.NextFragment"
+                android:text="@string/cart"
+                app:drawableTopCompat="@drawable/baseline_cart_24" />
         </LinearLayout>
-    </com.google.android.material.bottomappbar.BottomAppBar>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
